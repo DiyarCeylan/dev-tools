@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SummariTube Settings</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="options-body">
+  <div id="options-app" class="options-container">
+    <header class="options-header">
+      <h1>SummariTube Settings</h1>
+    </header>
+
+    <section class="options-section">
+      <h2>AI Provider</h2>
+      <div class="option-group">
+        <label class="radio-label">
+          <input type="radio" name="provider" value="gemini" checked />
+          <div class="radio-content">
+            <span class="radio-title">Google Gemini</span>
+            <span class="radio-desc">Free tier: 60 requests/min. Get API key at aistudio.google.com</span>
+          </div>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="provider" value="openai" />
+          <div class="radio-content">
+            <span class="radio-title">OpenAI</span>
+            <span class="radio-desc">Paid usage. Get API key at platform.openai.com</span>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <section class="options-section">
+      <h2>API Key</h2>
+      <div class="option-group">
+        <input type="password" id="api-key" class="input" placeholder="Enter your API key" />
+        <p class="input-hint">Your API key is stored locally and never sent anywhere except the AI provider.</p>
+      </div>
+    </section>
+
+    <section class="options-section">
+      <h2>Summary Language</h2>
+      <div class="option-group">
+        <select id="language" class="input">
+          <option value="en">English</option>
+          <option value="tr">Türkçe</option>
+          <option value="de">Deutsch</option>
+          <option value="fr">Français</option>
+          <option value="es">Español</option>
+          <option value="ar">العربية</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="options-section">
+      <h2>Summary Style</h2>
+      <div class="option-group">
+        <select id="style" class="input">
+          <option value="detailed">Detailed (paragraph + bullet points)</option>
+          <option value="concise">Concise (short bullet points only)</option>
+          <option value="tldr">TL;DR (one sentence)</option>
+        </select>
+      </div>
+    </section>
+
+    <div class="options-actions">
+      <button id="save-btn" class="btn btn-primary">Save Settings</button>
+      <button id="test-btn" class="btn btn-secondary">Test API Key</button>
+    </div>
+
+    <div id="save-status" class="save-status hidden"></div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hava Durumu Uygulaması</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        .search-box {
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            width: 70%;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #667eea;
+        }
+        button {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        #weather-info {
+            margin-top: 30px;
+            display: none;
+        }
+        .weather-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .city-name {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .temp {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        .description {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .detail-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .detail-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .detail-item p {
+            margin: 5px 0;
+            font-weight: bold;
+            color: #333;
+        }
+        .detail-item.sun-time p {
+            background: linear-gradient(to bottom, #FFD700 50%, transparent 50%);
+            border-radius: 50% 50% 0 0;
+            padding: 10px 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        .detail-item.sun-time:nth-child(6) p { /* sunrise */
+            background: linear-gradient(to bottom, #FFD700 50%, transparent 50%);
+        }
+        .detail-item.sun-time:nth-child(7) p { /* sunset */
+            background: linear-gradient(to bottom, #FF4500 50%, transparent 50%);
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-cloud-sun"></i> Hava Durumu</h1>
+        <div class="search-box">
+            <input type="text" id="city-input" placeholder="Şehir adı girin (örneğin: İstanbul)">
+            <br>
+            <button onclick="getWeather()"><i class="fas fa-search"></i> Ara</button>
+        </div>
+        <div id="weather-info">
+            <div class="weather-card">
+                <div class="city-name" id="city-name"></div>
+                <div class="temp" id="temp"></div>
+                <div class="description" id="description"></div>
+                <div class="details">
+                    <div class="detail-item">
+                        <i class="fas fa-thermometer-half"></i>
+                        <p id="feels-like"></p>
+                        <span>Hissedilen</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-tint"></i>
+                        <p id="humidity"></p>
+                        <span>Nem</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-wind"></i>
+                        <p id="wind-speed"></p>
+                        <span>Rüzgar</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-sun"></i>
+                        <p id="uv-index"></p>
+                        <span>UV Endeksi</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-eye"></i>
+                        <p id="visibility"></p>
+                        <span>Görünürlük</span>
+                    </div>
+                    <div class="detail-item sun-time">
+                        <i class="fas fa-sunrise"></i>
+                        <p id="sunrise"></p>
+                        <span>Gün Doğumu</span>
+                    </div>
+                    <div class="detail-item sun-time">
+                        <i class="fas fa-sunset"></i>
+                        <p id="sunset"></p>
+                        <span>Gün Batımı</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function getWeather() {
+            const city = document.getElementById('city-input').value;
+            if (!city) {
+                alert('Lütfen bir şehir adı girin.');
+                return;
+            }
+            const apiKey = 'dfb2f3e3c898443ea3a204656261804';
+            const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=1&aqi=no&alerts=no&lang=tr`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Şehir bulunamadı veya API hatası.');
+                }
+                const data = await response.json();
+                const isDay = data.current.is_day;
+                const body = document.body;
+                if (isDay) {
+                    body.style.background = 'linear-gradient(135deg, #87CEEB 0%, #FFD700 100%)';
+                    body.style.color = '#333';
+                } else {
+                    body.style.background = 'linear-gradient(135deg, #2C3E50 0%, #34495E 100%)';
+                    body.style.color = '#ECF0F1';
+                }
+                document.querySelector('.container').style.backgroundColor = isDay ? 'rgba(255, 255, 255, 0.95)' : 'rgba(0, 0, 0, 0.8)';
+                document.querySelectorAll('.detail-item').forEach(item => {
+                    item.style.backgroundColor = isDay ? 'white' : 'rgba(255, 255, 255, 0.1)';
+                    item.style.color = isDay ? '#333' : '#ECF0F1';
+                });
+                document.querySelector('.weather-card').style.background = isDay ? 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' : 'linear-gradient(135deg, #34495E 0%, #2C3E50 100%)';
+
+                document.getElementById('city-name').textContent = data.location.name;
+                document.getElementById('temp').textContent = `${data.current.temp_c}°C`;
+                document.getElementById('description').textContent = data.current.condition.text;
+                document.getElementById('feels-like').textContent = `${data.current.feelslike_c}°C`;
+                document.getElementById('humidity').textContent = `${data.current.humidity}%`;
+                document.getElementById('wind-speed').textContent = `${data.current.wind_kph} km/s`;
+                document.getElementById('uv-index').textContent = data.current.uv;
+                document.getElementById('visibility').textContent = `${data.current.vis_km} km`;
+                document.getElementById('sunrise').textContent = data.forecast.forecastday[0].astro.sunrise;
+                document.getElementById('sunset').textContent = data.forecast.forecastday[0].astro.sunset;
+                document.getElementById('weather-info').style.display = 'block';
+            } catch (error) {
+                document.getElementById('weather-info').innerHTML = `<p class="error">Hata: ${error.message}</p>`;
+                document.getElementById('weather-info').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hesap Makinesi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a14; --calc: #141425; --calc-border: rgba(255,255,255,0.04);
+  --disp: #0d0d1e; --disp-border: rgba(255,255,255,0.06);
+  --text: #f0f0f8; --dim: #6868a0; --dim-2: #484878;
+  --num-bg: #1e1e38; --num-bg-h: #28284a; --num-t: #d0d0f0;
+  --op-bg: #2a1a3e; --op-bg-h: #3a2a52; --op-t: #b088f0;
+  --fn-bg: #161630; --fn-bg-h: #1e1e42; --fn-t: #7878a8;
+  --accent: #7c3aed; --accent-h: #6d28d9; --accent-t: #fff;
+  --accent-glow: rgba(124,58,237,0.15);
+  --panel-bg: #121222; --panel-border: rgba(255,255,255,0.06);
+  --overlay: rgba(0,0,0,0.7);
+  --shadow: rgba(0,0,0,0.6);
+  --radius-sm: 10px; --radius-md: 16px; --radius-lg: 24px;
+}
+[data-theme="light"] {
+  --bg: #eaeaee; --calc: #ffffff; --calc-border: rgba(0,0,0,0.06);
+  --disp: #f4f4f8; --disp-border: rgba(0,0,0,0.05);
+  --text: #18182a; --dim: #7878a0; --dim-2: #a0a0c0;
+  --num-bg: #eaeaee; --num-bg-h: #dddde4; --num-t: #18182a;
+  --op-bg: #e8e0f0; --op-bg-h: #ddd0e8; --op-t: #7c3aed;
+  --fn-bg: #f0f0f4; --fn-bg-h: #e4e4ea; --fn-t: #686890;
+  --accent: #7c3aed; --accent-h: #6d28d9; --accent-t: #fff;
+  --accent-glow: rgba(124,58,237,0.08);
+  --panel-bg: #ffffff; --panel-border: rgba(0,0,0,0.06);
+  --overlay: rgba(0,0,0,0.15);
+  --shadow: rgba(0,0,0,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  display: flex; justify-content: center; align-items: center;
+  min-height: 100vh; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg); transition: background 0.4s ease;
+  -webkit-font-smoothing: antialiased;
+}
+.calc {
+  background: var(--calc); border-radius: var(--radius-lg);
+  padding: 20px; width: 424px;
+  box-shadow: 0 32px 80px var(--shadow), 0 0 0 1px var(--calc-border);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+.topbar {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 8px;
+}
+.topbar-left, .topbar-right { display: flex; align-items: center; gap: 6px; }
+.topbar-btn {
+  background: none; border: none; color: var(--dim); cursor: pointer;
+  width: 36px; height: 36px; font-size: 18px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s ease;
+}
+.topbar-btn:hover { background: var(--fn-bg); color: var(--text); }
+.topbar-btn:active { transform: scale(0.92); }
+.toggle-group {
+  display: flex; gap: 3px; background: var(--fn-bg); border-radius: var(--radius-sm);
+  padding: 3px;
+}
+.toggle-group button {
+  padding: 5px 13px; font-size: 12px; border-radius: 7px; font-weight: 600;
+  color: var(--fn-t); background: transparent; border: none; cursor: pointer;
+  transition: all 0.2s ease; letter-spacing: 0.3px;
+}
+.toggle-group button.active {
+  background: var(--accent); color: var(--accent-t);
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+/* Display */
+.disp {
+  background: var(--disp); border-radius: var(--radius-md);
+  padding: 18px 20px 14px; margin-bottom: 14px;
+  border: 1px solid var(--disp-border);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+.disp-top {
+  display: flex; align-items: flex-start; gap: 8px; min-height: 32px;
+}
+.disp-top input {
+  flex: 1; background: none; border: none; color: var(--dim); font-size: 18px;
+  font-family: 'SF Mono', 'JetBrains Mono', 'Consolas', monospace; text-align: right;
+  outline: none; width: 100%; min-height: 28px; font-variant-numeric: tabular-nums;
+}
+.disp-top input::placeholder { color: var(--dim-2); }
+.copy-btn {
+  background: none; border: none; color: var(--dim-2); cursor: pointer;
+  width: 28px; height: 28px; font-size: 14px; border-radius: 7px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s ease; opacity: 0;
+}
+.disp:hover .copy-btn, .copy-btn:focus { opacity: 1; }
+.copy-btn:hover { background: var(--fn-bg); color: var(--text); }
+.res {
+  color: var(--text); font-size: 40px; font-weight: 300; text-align: right;
+  font-family: 'SF Mono', 'JetBrains Mono', 'Consolas', monospace;
+  word-break: break-all; margin-top: 2px; line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.4s ease;
+}
+
+/* Section labels */
+.section-label {
+  color: var(--dim-2); font-size: 10px; text-transform: uppercase;
+  letter-spacing: 1.8px; margin: 12px 0 7px; font-weight: 600;
+}
+
+/* Memory row */
+.mem-row {
+  display: flex; gap: 5px; margin-bottom: 10px;
+}
+.mem-row button {
+  flex: 1; padding: 7px 4px; font-size: 12px; font-weight: 600;
+  border: none; border-radius: 8px; cursor: pointer; letter-spacing: 0.5px;
+  background: var(--fn-bg); color: var(--fn-t);
+  transition: all 0.15s ease;
+}
+.mem-row button:hover { background: var(--fn-bg-h); color: var(--text); }
+.mem-row button:active { transform: scale(0.94); }
+
+/* Scientific buttons */
+.sci {
+  background: var(--fn-bg); border-radius: 12px; padding: 7px;
+  margin-bottom: 4px; display: none; flex-wrap: wrap; gap: 4px;
+  border: 1px solid var(--disp-border);
+}
+.sci.show { display: flex; }
+.sci button {
+  flex: 1 0 calc(20% - 4px); padding: 8px 4px; font-size: 12px;
+  border: none; border-radius: 8px; cursor: pointer; font-weight: 600;
+  background: var(--num-bg); color: var(--fn-t); letter-spacing: 0.3px;
+  transition: all 0.15s ease;
+}
+.sci button:hover { background: var(--num-bg-h); color: var(--text); }
+.sci button:active { transform: scale(0.93); }
+
+/* Main grid */
+.grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+}
+.grid button {
+  padding: 15px 8px; font-size: 19px; border: none; border-radius: 12px;
+  cursor: pointer; font-weight: 500; transition: all 0.12s ease;
+  font-family: inherit; font-variant-numeric: tabular-nums;
+  position: relative; overflow: hidden;
+}
+.grid button:active { transform: scale(0.94); }
+.num { background: var(--num-bg); color: var(--num-t); }
+.num:hover { background: var(--num-bg-h); }
+.op { background: var(--op-bg); color: var(--op-t); }
+.op:hover { background: var(--op-bg-h); }
+.fn { background: var(--fn-bg); color: var(--fn-t); }
+.fn:hover { background: var(--fn-bg-h); color: var(--text); }
+.eq {
+  background: var(--accent); color: var(--accent-t);
+  box-shadow: 0 2px 12px var(--accent-glow);
+}
+.eq:hover { background: var(--accent-h); }
+.span2 { grid-column: span 2; }
+
+/* History Panel */
+.hpanel {
+  position: fixed; top: 0; left: -360px; width: 340px; height: 100%;
+  background: var(--panel-bg); z-index: 1000; transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 4px 0 40px var(--shadow); padding: 24px;
+  display: flex; flex-direction: column;
+  border-right: 1px solid var(--panel-border);
+}
+.hpanel.open { left: 0; }
+.hpanel-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+}
+.hpanel-header h3 { color: var(--text); font-size: 17px; font-weight: 600; letter-spacing: -0.2px; }
+.hpanel-header div { display: flex; gap: 4px; }
+.hpanel-header button {
+  background: none; border: none; color: var(--dim); cursor: pointer;
+  width: 32px; height: 32px; font-size: 15px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s ease;
+}
+.hpanel-header button:hover { background: var(--fn-bg); color: var(--text); }
+.hlist {
+  flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 5px;
+  margin: 0 -4px; padding: 0 4px;
+}
+.hlist::-webkit-scrollbar { width: 3px; }
+.hlist::-webkit-scrollbar-thumb { background: var(--dim-2); border-radius: 4px; }
+.hitem {
+  background: var(--disp); border-radius: 10px; padding: 10px 14px;
+  cursor: pointer; transition: all 0.15s ease;
+  display: flex; justify-content: space-between; align-items: center;
+  border: 1px solid transparent;
+}
+.hitem:hover { background: var(--num-bg); border-color: var(--disp-border); }
+.hitem .hexpr { color: var(--dim); font-size: 13px; font-family: 'SF Mono', 'Consolas', monospace; }
+.hitem .hres { color: var(--text); font-size: 18px; font-weight: 600; font-family: 'SF Mono', 'Consolas', monospace; margin-top: 2px; }
+.hit-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.hitem .hcopy {
+  background: none; border: none; color: var(--dim-2); cursor: pointer;
+  width: 28px; height: 28px; font-size: 13px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s ease; opacity: 0;
+}
+.hitem:hover .hcopy { opacity: 1; }
+.hitem .hcopy:hover { color: var(--text); background: var(--fn-bg); }
+.hempty { color: var(--dim-2); text-align: center; padding: 48px 0; font-size: 14px; }
+.overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: var(--overlay); z-index: 999; display: none;
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+.overlay.show { display: block; }
+
+/* Unit Converter Modal */
+.modal {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.92) translateY(8px);
+  background: var(--panel-bg); border-radius: 20px; padding: 28px; width: 380px;
+  z-index: 1001; opacity: 0; pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 40px 100px var(--shadow), 0 0 0 1px var(--panel-border);
+}
+.modal.show { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1) translateY(0); }
+.modal h3 {
+  color: var(--text); font-size: 17px; font-weight: 600; margin-bottom: 20px;
+  display: flex; justify-content: space-between; align-items: center; letter-spacing: -0.2px;
+}
+.modal h3 button {
+  background: none; border: none; color: var(--dim); cursor: pointer;
+  width: 32px; height: 32px; font-size: 17px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s ease;
+}
+.modal h3 button:hover { background: var(--fn-bg); color: var(--text); }
+.modal select, .modal input[type="number"] {
+  width: 100%; padding: 11px 14px; border-radius: 10px;
+  border: 1px solid var(--disp-border);
+  background: var(--disp); color: var(--text);
+  font-size: 15px; outline: none; font-family: inherit;
+  transition: border-color 0.2s ease;
+  -moz-appearance: none; appearance: none;
+}
+.modal select:focus, .modal input[type="number"]:focus { border-color: var(--accent); }
+.modal select { cursor: pointer; }
+.modal .conv-row {
+  display: flex; align-items: center; gap: 12px; margin: 6px 0 14px;
+}
+.modal .conv-row select { flex: 1; }
+.modal .conv-arrow {
+  color: var(--dim-2); font-size: 18px; flex-shrink: 0; font-weight: 300;
+}
+.modal .conv-result-box {
+  background: var(--accent-glow); border-radius: 12px; padding: 16px;
+  text-align: center; border: 1px solid rgba(124,58,237,0.15);
+}
+.modal .conv-result {
+  font-size: 26px; font-weight: 600; color: var(--text);
+  font-family: 'SF Mono', 'Consolas', monospace; font-variant-numeric: tabular-nums;
+}
+.modal .conv-label { color: var(--dim); font-size: 12px; margin-bottom: 5px; font-weight: 500; }
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* Animations */
+@keyframes press { 50% { transform: scale(0.94); } }
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.res-update { animation: fadeSlideIn 0.15s ease; }
+</style>
+</head>
+<body>
+
+<!-- History Panel -->
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+<div class="hpanel" id="hpanel">
+  <div class="hpanel-header">
+    <h3>Geçmiş</h3>
+    <div>
+      <button onclick="clearHistory()" title="Temizle">🗑</button>
+      <button onclick="closePanel()" title="Kapat">✕</button>
+    </div>
+  </div>
+  <div class="hlist" id="hlist">
+    <div class="hempty">Henüz işlem yok</div>
+  </div>
+</div>
+
+<!-- Unit Converter Modal -->
+<div class="modal" id="convModal">
+  <h3>
+    Birim Dönüştürücü
+    <button onclick="closeConv()">✕</button>
+  </h3>
+  <div class="conv-label">Kategori</div>
+  <select id="convCat" onchange="convChangeCat()">
+    <option value="length">Uzunluk</option>
+    <option value="weight">Ağırlık</option>
+    <option value="temp">Sıcaklık</option>
+    <option value="volume">Hacim</option>
+    <option value="speed">Hız</option>
+  </select>
+  <div class="conv-row">
+    <div style="flex:1">
+      <div class="conv-label">Değer</div>
+      <input type="number" id="convVal" value="1" oninput="convConvert()">
+    </div>
+  </div>
+  <div class="conv-row">
+    <select id="convFrom" onchange="convConvert()"></select>
+    <span class="conv-arrow">→</span>
+    <select id="convTo" onchange="convConvert()"></select>
+  </div>
+  <div class="conv-result-box">
+    <div class="conv-result" id="convResult">1</div>
+  </div>
+</div>
+
+<div class="calc">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-btn" onclick="toggleHistory()" title="Geçmiş">☰</button>
+    </div>
+    <div class="toggle-group">
+      <button id="modeBasic" class="active" onclick="setMode('basic')">Temel</button>
+      <button id="modeSci" onclick="setMode('sci')">Bilimsel</button>
+    </div>
+    <div class="topbar-right">
+      <div class="toggle-group">
+        <button id="themeDark" class="active" onclick="setTheme('dark')">🌙</button>
+        <button id="themeLight" onclick="setTheme('light')">☀</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="disp">
+    <div class="disp-top">
+      <input id="expr" autocomplete="off" spellcheck="false" placeholder="0" oninput="onInput()" onkeydown="onKeyDown(event)">
+      <button class="copy-btn" onclick="copyResult()" title="Kopyala">📋</button>
+    </div>
+    <div class="res" id="res">0</div>
+  </div>
+
+  <div class="section-label">Hafıza</div>
+  <div class="mem-row">
+    <button onclick="memClear()">MC</button>
+    <button onclick="memRecall()">MR</button>
+    <button onclick="memAdd()">M+</button>
+    <button onclick="memSub()">M−</button>
+    <button onclick="memStore()">MS</button>
+  </div>
+
+  <div class="section-label" id="sciLabel">Bilimsel</div>
+  <div class="sci" id="sci">
+    <button onclick="fn('sind')">sin</button>
+    <button onclick="fn('cosd')">cos</button>
+    <button onclick="fn('tand')">tan</button>
+    <button onclick="fn('sqrt')">√</button>
+    <button onclick="fn('log10')">log</button>
+    <button onclick="fn('ln')">ln</button>
+    <button onclick="append('π')">π</button>
+    <button onclick="append('e_')">e</button>
+    <button onclick="append('**2')">x²</button>
+    <button onclick="append('**')">x^y</button>
+  </div>
+
+  <div class="section-label">Temel</div>
+  <div class="grid">
+    <button class="fn" onclick="clearAll()">AC</button>
+    <button class="fn" onclick="append('(')">(</button>
+    <button class="fn" onclick="append(')')">)</button>
+    <button class="fn" onclick="deleteLast()">⌫</button>
+
+    <button class="num" onclick="append('7')">7</button>
+    <button class="num" onclick="append('8')">8</button>
+    <button class="num" onclick="append('9')">9</button>
+    <button class="op" onclick="append('/')">÷</button>
+
+    <button class="num" onclick="append('4')">4</button>
+    <button class="num" onclick="append('5')">5</button>
+    <button class="num" onclick="append('6')">6</button>
+    <button class="op" onclick="append('*')">×</button>
+
+    <button class="num" onclick="append('1')">1</button>
+    <button class="num" onclick="append('2')">2</button>
+    <button class="num" onclick="append('3')">3</button>
+    <button class="op" onclick="append('-')">−</button>
+
+    <button class="fn" onclick="negate()">±</button>
+    <button class="num" onclick="append('0')">0</button>
+    <button class="num" onclick="append('.')">.</button>
+    <button class="op" onclick="append('+')">+</button>
+
+    <button class="fn" onclick="append('!')">n!</button>
+    <button class="fn" onclick="append('%')">%</button>
+    <button class="fn" onclick="openConv()">🔄</button>
+    <button class="eq" onclick="calculate()">=</button>
+  </div>
+</div>
+
+<script>
+// ─── State ──────────────────────────────────────────
+let input = '';
+let memory = 0;
+let history = [];
+const DEG = Math.PI / 180;
+const F = {
+  sind: x => Math.sin(x * DEG),
+  cosd: x => Math.cos(x * DEG),
+  tand: x => Math.tan(x * DEG),
+  log10: x => Math.log10(x),
+  ln: x => Math.log(x),
+  sqrt: x => Math.sqrt(x),
+};
+
+// ─── Core Math ──────────────────────────────────────
+function fact(n) {
+  if (n < 0 || n > 170) return NaN;
+  if (n <= 1) return 1;
+  if (!Number.isInteger(n)) return gamma(n + 1);
+  let r = 1;
+  for (let i = 2; i <= n; i++) r *= i;
+  return r;
+}
+function gamma(n) {
+  if (n < 0.5) return Math.PI / (Math.sin(Math.PI * n) * gamma(1 - n));
+  n -= 1;
+  const g = 7, c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+  let x = c[0];
+  for (let i = 1; i < g + 2; i++) x += c[i] / (n + i);
+  const t = n + g + 0.5;
+  return Math.sqrt(2 * Math.PI) * t ** (n + 0.5) * Math.exp(-t) * x;
+}
+function prep(s) {
+  return s.replace(/π/g, `(${Math.PI})`).replace(/e_/g, `(${Math.E})`).replace(/([\d.])!/g, (_, n) => `fact(${n})`).replace(/sqrt\(/g, 'Math.sqrt(');
+}
+function evaluate(expr) {
+  const k = Object.keys(F).map(k => `const ${k}=${F[k]};`).join('');
+  return new Function('fact', `"use strict"; ${k} return (${prep(expr)})`)(fact);
+}
+
+// ─── Expression Input ──────────────────────────────
+function getExpr() { return document.getElementById('expr').value; }
+function setExpr(v) { document.getElementById('expr').value = v; }
+
+function insertAtCursor(val) {
+  const el = document.getElementById('expr');
+  el.focus();
+  const start = el.selectionStart;
+  const end = el.selectionEnd;
+  const text = el.value;
+  el.value = text.substring(0, start) + val + text.substring(end);
+  const pos = start + val.length;
+  el.selectionStart = el.selectionEnd = pos;
+}
+
+function append(val) {
+  if (val === '!') {
+    const el = document.getElementById('expr');
+    el.focus();
+    const pos = el.selectionStart;
+    const before = el.value.substring(0, pos);
+    const match = before.match(/(-?[\d.]+)$/);
+    if (match) {
+      const after = el.value.substring(el.selectionEnd);
+      el.value = before + '!' + after;
+      el.selectionStart = el.selectionEnd = pos + 1;
+    }
+  } else {
+    insertAtCursor(val);
+  }
+  update();
+}
+
+function fn(name) {
+  insertAtCursor(name + '(');
+  update();
+}
+
+function negate() {
+  const el = document.getElementById('expr');
+  el.focus();
+  const pos = el.selectionStart;
+  const before = el.value.substring(0, pos);
+  const m = before.match(/(-?[\d.]+)$/);
+  if (m) {
+    const num = m[1];
+    const start = pos - num.length;
+    const neg = num.startsWith('-') ? num.slice(1) : '-' + num;
+    const after = el.value.substring(el.selectionEnd);
+    el.value = el.value.substring(0, start) + neg + after;
+    el.selectionStart = el.selectionEnd = start + neg.length;
+  } else {
+    insertAtCursor('-');
+  }
+  update();
+}
+
+function deleteLast() {
+  const el = document.getElementById('expr');
+  el.focus();
+  if (el.selectionStart !== el.selectionEnd) {
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    el.value = el.value.substring(0, start) + el.value.substring(end);
+    el.selectionStart = el.selectionEnd = start;
+  } else if (el.selectionStart > 0) {
+    const pos = el.selectionStart;
+    el.value = el.value.substring(0, pos - 1) + el.value.substring(pos);
+    el.selectionStart = el.selectionEnd = pos - 1;
+  }
+  update();
+}
+
+function clearAll() {
+  setExpr('');
+  update();
+}
+
+// ─── Display Update ─────────────────────────────────
+function update() {
+  input = getExpr();
+  const resEl = document.getElementById('res');
+  resEl.textContent = '0';
+  resEl.classList.remove('res-update');
+  if (!input) { resEl.style.color = ''; return; }
+  try {
+    const r = evaluate(input);
+    resEl.textContent = Number.isFinite(r) ? parseFloat(r.toFixed(10)) : '0';
+    resEl.classList.add('res-update');
+  } catch {}
+}
+
+function onInput() {
+  input = getExpr();
+  update();
+}
+
+function onKeyDown(e) {
+  if (e.key === 'Enter') { e.preventDefault(); calculate(); }
+}
+
+function calculate() {
+  input = getExpr();
+  if (!input) return;
+  try {
+    const r = evaluate(input);
+    if (!Number.isFinite(r)) throw 'e';
+    const res = parseFloat(r.toFixed(10));
+    addHistory(input, res);
+    setExpr(String(res));
+    update();
+  } catch {
+    setExpr('');
+    update();
+  }
+}
+
+// ─── Copy ───────────────────────────────────────────
+function copyResult() {
+  const txt = document.getElementById('res').textContent;
+  navigator.clipboard.writeText(txt).catch(() => {});
+}
+
+// ─── Memory ─────────────────────────────────────────
+function memClear() { memory = 0; }
+function memRecall() { setExpr(getExpr() + String(memory)); update(); }
+function memAdd() {
+  const r = document.getElementById('res').textContent;
+  memory += parseFloat(r) || 0;
+}
+function memSub() {
+  const r = document.getElementById('res').textContent;
+  memory -= parseFloat(r) || 0;
+}
+function memStore() {
+  const r = document.getElementById('res').textContent;
+  memory = parseFloat(r) || 0;
+}
+
+// ─── History ────────────────────────────────────────
+function addHistory(expr, res) {
+  history.unshift({ expr, res });
+  if (history.length > 50) history.pop();
+  renderHistory();
+}
+
+function renderHistory() {
+  const el = document.getElementById('hlist');
+  if (!history.length) {
+    el.innerHTML = '<div class="hempty">Henüz işlem yok</div>';
+    return;
+  }
+  el.innerHTML = history.map((h, i) =>
+    `<div class="hitem" onclick="useHistory(${i})">
+      <div>
+        <div class="hexpr">${escHtml(h.expr)}</div>
+        <div class="hres">${escHtml(String(h.res))}</div>
+      </div>
+      <div class="hit-right">
+        <button class="hcopy" onclick="event.stopPropagation();copyText('${escHtml(String(h.res))}')" title="Kopyala">📋</button>
+      </div>
+    </div>`
+  ).join('');
+}
+
+function useHistory(i) {
+  setExpr(String(history[i].res));
+  closePanel();
+  update();
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function copyText(t) { navigator.clipboard.writeText(t).catch(() => {}); }
+
+function toggleHistory() {
+  document.getElementById('hpanel').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+
+function closePanel() {
+  document.getElementById('hpanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function clearHistory() {
+  history = [];
+  renderHistory();
+}
+
+// ─── Modes ──────────────────────────────────────────
+function setMode(mode) {
+  document.getElementById('modeBasic').classList.toggle('active', mode === 'basic');
+  document.getElementById('modeSci').classList.toggle('active', mode === 'sci');
+  document.getElementById('sci').classList.toggle('show', mode === 'sci');
+  document.getElementById('sciLabel').style.display = mode === 'sci' ? 'block' : 'none';
+}
+
+// ─── Theme ──────────────────────────────────────────
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : '');
+  document.getElementById('themeDark').classList.toggle('active', t !== 'light');
+  document.getElementById('themeLight').classList.toggle('active', t === 'light');
+}
+
+// ─── Unit Converter ─────────────────────────────────
+const CONV = {
+  length: { units: ['mm','cm','m','km','in','ft','yd','mi'], rates: [0.001,0.01,1,1000,0.0254,0.3048,0.9144,1609.344] },
+  weight: { units: ['mg','g','kg','ton','oz','lb'], rates: [0.000001,0.001,1,1000,0.0283495,0.453592] },
+  temp: { units: ['°C','°F','K'], custom: true },
+  volume: { units: ['ml','L','gal','qt','cup','fl oz'], rates: [0.001,1,3.78541,0.946353,0.236588,0.0295735] },
+  speed: { units: ['m/s','km/h','mph','knot'], rates: [1,0.277778,0.44704,0.514444] },
+};
+
+function openConv() {
+  document.getElementById('convModal').classList.add('show');
+  document.getElementById('overlay').classList.add('show');
+  convChangeCat();
+}
+
+function closeConv() {
+  document.getElementById('convModal').classList.remove('show');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function convChangeCat() {
+  const cat = document.getElementById('convCat').value;
+  const data = CONV[cat];
+  const fromEl = document.getElementById('convFrom');
+  const toEl = document.getElementById('convTo');
+  fromEl.innerHTML = data.units.map((u, i) => `<option value="${i}">${u}</option>`).join('');
+  toEl.innerHTML = data.units.map((u, i) => `<option value="${i}">${u}</option>`).join('');
+  toEl.value = '1';
+  convConvert();
+}
+
+function convConvert() {
+  const cat = document.getElementById('convCat').value;
+  const data = CONV[cat];
+  const val = parseFloat(document.getElementById('convVal').value) || 0;
+  const fi = parseInt(document.getElementById('convFrom').value);
+  const ti = parseInt(document.getElementById('convTo').value);
+
+  if (cat === 'temp') {
+    const t = tempToC(val, fi);
+    document.getElementById('convResult').textContent = parseFloat((tempFromC(t, ti)).toFixed(6));
+    return;
+  }
+  const base = val * data.rates[fi];
+  const result = base / data.rates[ti];
+  document.getElementById('convResult').textContent = parseFloat(result.toFixed(6));
+}
+
+function tempToC(v, i) {
+  if (i === 0) return v;       // °C
+  if (i === 1) return (v - 32) * 5 / 9;  // °F
+  return v - 273.15;             // K
+}
+function tempFromC(v, i) {
+  if (i === 0) return v;
+  if (i === 1) return v * 9 / 5 + 32;
+  return v + 273.15;
+}
+
+// ─── Keyboard ───────────────────────────────────────
+document.addEventListener('keydown', e => {
+  const el = document.getElementById('expr');
+  const active = document.activeElement === el;
+  if (!active && '0123456789.+-*/%()'.includes(e.key)) { el.focus(); }
+
+  if (e.key === 'Escape') { closePanel(); closeConv(); clearAll(); el.focus(); }
+  if (e.key === 'Backspace' && document.activeElement !== el && !e.ctrlKey && !e.metaKey) {
+    deleteLast();
+  }
+});
+
+// ─── Init ───────────────────────────────────────────
+setMode('basic');
+document.getElementById('expr').focus();
+</script>
+</body>
+</html>

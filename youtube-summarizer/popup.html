@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SummariTube</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <h1 class="logo">SummariTube</h1>
+      <span class="badge">AI</span>
+    </header>
+
+    <div id="not-youtube" class="state-message hidden">
+      <div class="state-icon">🎬</div>
+      <p>Open a YouTube video to summarize</p>
+    </div>
+
+    <div id="loading" class="state-message hidden">
+      <div class="spinner"></div>
+      <p id="loading-text">Processing...</p>
+    </div>
+
+    <div id="error" class="state-message hidden">
+      <div class="state-icon">⚠️</div>
+      <p id="error-text">Something went wrong</p>
+      <button id="retry-btn" class="btn btn-secondary">Retry</button>
+    </div>
+
+    <div id="result" class="hidden">
+      <div class="video-info">
+        <p id="video-title" class="video-title"></p>
+      </div>
+
+      <div class="summary-actions">
+        <button id="summarize-btn" class="btn btn-primary">
+          <span class="btn-icon">✨</span>
+          Summarize
+        </button>
+        <button id="copy-btn" class="btn btn-icon-only" title="Copy summary">
+          📋
+        </button>
+      </div>
+
+      <div id="summary-content" class="summary-content hidden">
+        <div class="summary-section">
+          <h3>One-Sentence Summary</h3>
+          <p id="one-liner" class="summary-text"></p>
+        </div>
+        <div class="summary-section">
+          <h3>Key Points</h3>
+          <ul id="key-points" class="key-points"></ul>
+        </div>
+        <div class="summary-section">
+          <h3>Main Takeaway</h3>
+          <p id="takeaway" class="summary-text"></p>
+        </div>
+      </div>
+
+      <div id="no-transcript" class="state-message hidden">
+        <div class="state-icon">📝</div>
+        <p>No transcript available for this video</p>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <a href="#" id="settings-link" class="footer-link">Settings</a>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
