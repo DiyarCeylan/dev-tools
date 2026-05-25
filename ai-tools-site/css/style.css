@@ -309,6 +309,45 @@ p { color: var(--text-secondary); line-height: 1.8; }
     font-size: 1.05rem;
   }
 
+  /* Tighter paragraph spacing for header summary */
+  .review-header-info p {
+    line-height: 1.45;
+    margin-bottom: 0.25rem;
+    max-width: 720px;
+  }
+
+  /* Share buttons inserted by JS: align right and stack neatly */
+  .review-header .share-buttons {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+    padding-left: 12px;
+  }
+
+  .review-header .share-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .review-header .container {
+      flex-direction: column;
+      text-align: center;
+    }
+    .review-header .share-buttons { margin-left: 0; flex-direction: row; justify-content: center; }
+    .review-header .review-logo { margin-bottom: 12px; }
+  }
+
 .logo-icon {
   width: 36px;
   height: 36px;
