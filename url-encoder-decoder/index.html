@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Encoder / Decoder — DevTools</title>
+  <meta name="description" content="Free online URL encoder and decoder. Encode or decode URLs instantly in your browser. 100% private, no server uploads.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-hue: 265; --brand: oklch(0.55 0.24 var(--brand-hue)); --brand-light: oklch(0.92 0.06 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300));
+      --bg: oklch(0.985 0.002 280); --bg-secondary: oklch(0.96 0.004 280); --bg-card: oklch(0.99 0.002 280 / 0.6);
+      --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
+      --text-on-brand: oklch(1 0 0);
+      --border: oklch(0.88 0.01 280 / 0.5); --border-hover: oklch(0.8 0.04 280);
+      --radius: 14px; --radius-lg: 20px; --radius-sm: 8px;
+      --shadow-xl: 0 4px 24px oklch(0 0 0 / 0.06);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    [data-theme="dark"] {
+      --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270); --bg-card: oklch(0.18 0.02 270 / 0.6);
+      --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
+      --border: oklch(0.25 0.02 280 / 0.5);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6;
+      min-height: 100vh; display: flex; flex-direction: column;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat; background-size: 256px 256px; pointer-events: none;
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(ellipse 600px 400px at 10% 20%, oklch(0.55 0.24 265 / 0.04) 0%, transparent 100%),
+        radial-gradient(ellipse 500px 500px at 90% 80%, oklch(0.5 0.26 300 / 0.03) 0%, transparent 100%);
+    }
+    header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    .inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-links { display: flex; gap: 24px; font-size: 0.9rem; font-weight: 500; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--brand); }
+    main { flex: 1; padding: 40px 24px 60px; }
+    .hero { text-align: center; margin-bottom: 40px; }
+    .hero h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 10px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--text-secondary); font-size: 1.05rem; max-width: 500px; margin: 0 auto; }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .card textarea {
+      width: 100%; min-height: 160px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius);
+      font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 0.9rem; line-height: 1.6; resize: vertical;
+      background: var(--bg); color: var(--text); outline: none; transition: border-color 0.2s;
+    }
+    .card textarea:focus { border-color: var(--brand); }
+
+    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border: none; border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 0.9rem; font-weight: 600; cursor: pointer; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--brand-gradient); color: var(--text-on-brand); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px oklch(0.55 0.24 265 / 0.35); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-secondary { background: var(--bg-secondary); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--border); border-color: var(--border-hover); }
+
+    .result-box {
+      margin-top: 20px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--bg); word-break: break-all; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      font-size: 0.9rem; line-height: 1.6; color: var(--text); min-height: 50px; display: none;
+    }
+    .result-box.visible { display: block; }
+
+    .action-row { display: flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 10px 20px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
+    .toast.show { opacity: 1; }
+
+    .options { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin: 16px 0; }
+    .options label { font-size: 0.85rem; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .options input[type="checkbox"] { accent-color: var(--brand); width: 16px; height: 16px; cursor: pointer; }
+    .char-count { font-size: 0.8rem; color: var(--text-muted); text-align: right; margin-top: 6px; }
+
+    .faq { margin-top: 48px; }
+    .faq h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; text-align: center; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+    .faq-q { width: 100%; padding: 16px 20px; background: none; border: none; font-family: var(--font); font-size: 0.95rem; font-weight: 600; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+    .faq-q:hover { background: var(--bg-secondary); }
+    .faq-q svg { transition: transform 0.25s ease; flex-shrink: 0; }
+    .faq-item.open .faq-q svg { transform: rotate(180deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.open .faq-a { max-height: 300px; }
+    .faq-a-inner { padding: 0 20px 16px; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+
+    footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+    footer .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 8px; flex-wrap: wrap; }
+    footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; font-weight: 500; }
+    footer a:hover { color: var(--brand); }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 1.6rem; }
+      .card { padding: 20px; }
+      .card textarea { min-height: 120px; }
+      .btn { padding: 10px 18px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner header-inner">
+      <a href="../index.html" class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        DevTools
+      </a>
+      <nav class="nav-links">
+        <a href="../index.html">All Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>URL Encoder / Decoder</h1>
+      <p>Encode or decode URL strings instantly. 100% client-side, no data leaves your browser.</p>
+    </div>
+
+    <div class="inner">
+      <div class="card">
+        <textarea id="input" placeholder="Paste your URL or text here..." spellcheck="false"></textarea>
+        <div class="char-count"><span id="char-count">0</span> characters</div>
+
+        <div class="options">
+          <label>
+            <input type="checkbox" id="encode-all"> Encode all special characters
+          </label>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-primary" id="btn-encode">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Encode
+          </button>
+          <button class="btn btn-primary" id="btn-decode">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Decode
+          </button>
+          <button class="btn btn-secondary" id="btn-clear">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Clear
+          </button>
+        </div>
+
+        <div class="result-box" id="result"></div>
+
+        <div class="action-row" id="action-row" style="display:none;">
+          <button class="btn btn-secondary" id="btn-copy">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <div class="faq">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item">
+          <button class="faq-q">
+            What is URL encoding?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">URL encoding (percent encoding) replaces unsafe characters with a % followed by their hexadecimal ASCII value. For example, space becomes %20. This ensures URLs are safely transmitted over the internet.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            What characters are encoded?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">Characters like spaces, &, ?, =, #, %, and non-ASCII characters are encoded. Alphanumeric characters (A-Z, a-z, 0-9) and reserved characters (-, _, ., ~) are typically left as-is.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            Why "Encode all special characters"?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">By default, JavaScript's encodeURIComponent() encodes most special characters. Toggling this option uses encodeURI() instead, which preserves characters that are valid in URLs like /, ?, &, and =.</div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="inner">
+      <div class="footer-links">
+        <a href="../index.html">All Tools</a>
+        <a href="../privacy/index.html">Privacy</a>
+        <a href="../terms/index.html">Terms</a>
+      </div>
+      &copy; 2026 DevTools. Every tool runs 100% client-side.
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const input = document.getElementById('input');
+    const result = document.getElementById('result');
+    const actionRow = document.getElementById('action-row');
+    const btnEncode = document.getElementById('btn-encode');
+    const btnDecode = document.getElementById('btn-decode');
+    const btnClear = document.getElementById('btn-clear');
+    const btnCopy = document.getElementById('btn-copy');
+    const charCount = document.getElementById('char-count');
+    const encodeAll = document.getElementById('encode-all');
+    const toast = document.getElementById('toast');
+
+    let lastResult = '';
+
+    input.addEventListener('input', function() {
+      charCount.textContent = this.value.length;
+    });
+
+    btnEncode.addEventListener('click', function() {
+      const val = input.value.trim();
+      if (!val) return showToast('Please enter text to encode');
+      try {
+        lastResult = encodeURIComponent(val);
+        showResult(lastResult);
+      } catch (e) {
+        showToast('Error: ' + e.message);
+      }
+    });
+
+    btnDecode.addEventListener('click', function() {
+      const val = input.value.trim();
+      if (!val) return showToast('Please enter text to decode');
+      try {
+        lastResult = decodeURIComponent(val);
+        showResult(lastResult);
+      } catch (e) {
+        showToast('Error: Invalid URL encoding');
+      }
+    });
+
+    btnClear.addEventListener('click', function() {
+      input.value = '';
+      charCount.textContent = '0';
+      result.classList.remove('visible');
+      result.textContent = '';
+      actionRow.style.display = 'none';
+      lastResult = '';
+      input.focus();
+    });
+
+    btnCopy.addEventListener('click', function() {
+      if (!lastResult) return;
+      navigator.clipboard.writeText(lastResult).then(function() {
+        showToast('Copied!');
+      }).catch(function() {
+        showToast('Failed to copy');
+      });
+    });
+
+    function showResult(text) {
+      result.textContent = text;
+      result.classList.add('visible');
+      actionRow.style.display = 'flex';
+    }
+
+    let toastTimeout;
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(function() { toast.classList.remove('show'); }, 2000);
+    }
+
+    document.querySelectorAll('.faq-q').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = this.parentElement;
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+</body>
+</html>

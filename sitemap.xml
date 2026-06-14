@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://tools.example.com/</loc>
+    <loc>https://diyarceylan.github.io/dev-tools/</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://tools.example.com/json-to-csv-converter/</loc>
+    <loc>https://diyarceylan.github.io/dev-tools/url-encoder-decoder/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://tools.example.com/privacy/</loc>
+    <loc>https://diyarceylan.github.io/dev-tools/json-to-csv-converter/</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://diyarceylan.github.io/dev-tools/privacy/</loc>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://tools.example.com/terms/</loc>
+    <loc>https://diyarceylan.github.io/dev-tools/terms/</loc>
     <priority>0.3</priority>
   </url>
 </urlset>
