@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — DevTools</title>
+  <meta name="description" content="Privacy Policy for DevTools. Learn how we handle your data, cookies, and third-party services.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-hue: 265; --brand: oklch(0.55 0.24 var(--brand-hue)); --brand-light: oklch(0.92 0.06 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300));
+      --bg: oklch(0.985 0.002 280); --bg-secondary: oklch(0.96 0.004 280); --bg-card: oklch(0.99 0.002 280 / 0.6);
+      --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
+      --border: oklch(0.88 0.01 280 / 0.5); --border-hover: oklch(0.8 0.04 280);
+      --radius: 14px; --radius-lg: 20px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    [data-theme="dark"] {
+      --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270); --bg-card: oklch(0.18 0.02 270 / 0.6);
+      --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
+      --border: oklch(0.25 0.02 280 / 0.5);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; display: flex; flex-direction: column; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; pointer-events: none; }
+    header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); }
+    .inner { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    main { flex: 1; padding: 48px 24px; }
+    .page { max-width: 800px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 48px; backdrop-filter: blur(12px); }
+    .page h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .page .updated { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 32px; }
+    .page h2 { font-size: 1.2rem; font-weight: 700; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+    .page p { color: var(--text-secondary); margin-bottom: 12px; }
+    .page a { color: var(--brand); }
+    footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+    footer a { color: var(--text-secondary); text-decoration: none; }
+    footer a:hover { color: var(--brand); }
+    @media (max-width: 640px) { .page { padding: 28px 20px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner header-inner">
+      <a href="../index.html" class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        DevTools
+      </a>
+    </div>
+  </header>
+  <main>
+    <div class="page">
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: June 14, 2026</p>
+
+      <h2>Information We Collect</h2>
+      <p>All DevTools operate entirely in your browser. We do not collect, store, or transmit any data you enter into our tools. No cookies are set by the tools themselves.</p>
+
+      <h2>Third-Party Services</h2>
+      <p>We use <strong>Google AdSense</strong> to display advertisements. AdSense may use cookies and web beacons to serve relevant ads based on your browsing history. This data is handled entirely by Google and is subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+      <p>You can manage your cookie preferences through your browser settings or visit <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ad Settings</a> to opt out of personalized advertising.</p>
+
+      <h2>Data Processing</h2>
+      <p>All tool processing happens client-side via JavaScript. Your JSON input, CSV output, and any other information never leaves your device. There are no server uploads, no logs, and no analytics tracking of your usage.</p>
+
+      <h2>Cookies</h2>
+      <p>We do not set any first-party cookies. Third-party cookies may be set by Google AdSense for ad personalization and frequency capping.</p>
+
+      <h2>Changes to This Policy</h2>
+      <p>We may update this policy occasionally. Changes will be posted here with an updated date.</p>
+    </div>
+  </main>
+  <footer>
+    <div class="inner">
+      <a href="../index.html">DevTools</a> &mdash; Free developer tools that run in your browser.
+    </div>
+  </footer>
+</body>
+</html>
