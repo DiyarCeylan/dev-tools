@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Base64 Encoder / Decoder — DevTools</title>
-  <meta name="description" content="Free online Base64 encoder and decoder. Encode text or files to Base64, decode Base64 strings instantly. 100% private, runs in your browser.">
+  <meta name="description" content="Free online Base64 encoder and decoder. Encode text/files to Base64 or decode Base64 back to text. 100% client-side.">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -19,8 +19,12 @@
       --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
       --text-on-brand: oklch(1 0 0);
       --border: oklch(0.88 0.01 280 / 0.5); --border-hover: oklch(0.8 0.04 280);
-      --radius: 14px; --radius-lg: 20px; --radius-sm: 8px;
-      --shadow-xl: 0 4px 24px oklch(0 0 0 / 0.06);
+      --success: oklch(0.55 0.2 145); --success-bg: oklch(0.95 0.05 145 / 0.3);
+      --error: oklch(0.55 0.22 25); --error-bg: oklch(0.95 0.05 25 / 0.3);
+      --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.04);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
     }
@@ -28,87 +32,70 @@
       --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270); --bg-card: oklch(0.18 0.02 270 / 0.6);
       --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
       --border: oklch(0.25 0.02 280 / 0.5);
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.2);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.35), 0 4px 6px -4px rgb(0 0 0 / 0.2);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6;
-      min-height: 100vh; display: flex; flex-direction: column;
-    }
-    body::before {
-      content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-repeat: repeat; background-size: 256px 256px; pointer-events: none;
-    }
-    body::after {
-      content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-      background:
-        radial-gradient(ellipse 600px 400px at 10% 20%, oklch(0.55 0.24 265 / 0.06) 0%, transparent 100%),
-        radial-gradient(ellipse 500px 500px at 90% 80%, oklch(0.5 0.26 300 / 0.04) 0%, transparent 100%);
-    }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; pointer-events: none; }
+    body::after { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 600px 400px at 10% 20%, oklch(0.55 0.24 265 / 0.04) 0%, transparent 100%), radial-gradient(ellipse 500px 500px at 90% 80%, oklch(0.5 0.26 300 / 0.03) 0%, transparent 100%); }
     header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-    .inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .header-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-link { padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; display: none; }
+    .nav-link:hover { color: var(--text); background: var(--bg-secondary); }
+    @media (min-width: 640px) { .nav-link { display: inline-flex; } }
     .theme-toggle { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
     .theme-toggle:hover { background: var(--brand-light); border-color: var(--brand); transform: scale(1.05); }
     main { flex: 1; padding: 40px 24px 60px; }
-    .hero { text-align: center; margin-bottom: 40px; }
-    .hero h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 10px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero p { color: var(--text-secondary); font-size: 1.05rem; max-width: 520px; margin: 0 auto; }
+    .hero { text-align: center; margin-bottom: 40px; animation: fadeSlideUp 0.7s ease-out; }
+    .hero h1 { font-size: clamp(2rem,4vw,2.8rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 10px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--text-secondary); font-size: clamp(0.95rem,1.5vw,1.05rem); max-width: 520px; margin: 0 auto; }
 
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; animation: fadeSlideUp 0.7s ease-out 0.15s both; }
+    @media (max-width: 768px) { .tool-grid { grid-template-columns: 1fr; } }
 
-    .card textarea {
-      width: 100%; min-height: 120px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius);
-      font-family: var(--font-mono); font-size: 0.875rem; line-height: 1.6; resize: vertical;
-      background: var(--bg); color: var(--text); outline: none; transition: border-color 0.2s;
-    }
-    .card textarea:focus { border-color: var(--brand); }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-sm); }
+    .card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: var(--text-secondary); }
+    .card textarea { width: 100%; min-height: 140px; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.875rem; line-height: 1.6; resize: vertical; background: oklch(0 0 0 / 0.03); color: var(--text); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    [data-theme="dark"] .card textarea { background: oklch(1 0 0 / 0.05); }
+    .card textarea:focus { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-light); }
+    .card textarea[readonly] { cursor: default; }
 
-    .mode-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-    .mode-tab { padding: 10px 24px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-secondary); font-family: var(--font); font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
-    .mode-tab:hover { border-color: var(--brand); color: var(--brand); }
-    .mode-tab.active { background: var(--brand-gradient); color: var(--text-on-brand); border-color: transparent; }
+    .char-count { font-size: 0.8rem; color: var(--text-muted); text-align: right; margin-top: 6px; }
+
+    .file-drop { border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; margin-bottom: 14px; }
+    .file-drop:hover { border-color: var(--brand); background: var(--brand-light); }
+    .file-drop.dragover { border-color: var(--brand); background: var(--brand-light); }
+    .file-drop svg { display: block; margin: 0 auto 6px; opacity: 0.4; }
+    .file-drop p { font-size: 0.85rem; color: var(--text-muted); }
+    .file-drop .file-name { font-weight: 600; color: var(--text-secondary); margin-top: 4px; }
 
     .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border: none; border-radius: var(--radius-sm);
-      font-family: var(--font); font-size: 0.9rem; font-weight: 600; cursor: pointer; text-decoration: none;
-      transition: all 0.2s;
-    }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border: none; border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.875rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
+    .btn:active { transform: scale(0.95); }
     .btn-primary { background: var(--brand-gradient); color: var(--text-on-brand); }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px oklch(0.55 0.24 265 / 0.35); }
-    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:hover { box-shadow: 0 4px 16px oklch(0.55 0.24 265 / 0.35); transform: translateY(-1px); }
     .btn-secondary { background: var(--bg-secondary); color: var(--text); border: 1px solid var(--border); }
-    .btn-secondary:hover { background: var(--border); border-color: var(--border-hover); }
+    .btn-secondary:hover { background: var(--brand-light); border-color: var(--brand); color: var(--brand); }
 
-    .swap-btn { display: flex; align-items: center; justify-content: center; margin: 8px 0; }
-    .swap-btn button { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
-    .swap-btn button:hover { background: var(--brand-light); color: var(--brand); border-color: var(--brand); transform: rotate(180deg); }
-
-    .char-info { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; flex-wrap: wrap; gap: 4px; }
-
-    .file-upload { margin-bottom: 16px; }
-    .file-upload label { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: 1px dashed var(--border); border-radius: var(--radius-sm); cursor: pointer; font-size: 0.85rem; color: var(--text-secondary); transition: border-color 0.2s, color 0.2s; }
-    .file-upload label:hover { border-color: var(--brand); color: var(--brand); }
-    .file-upload input { display: none; }
-    .file-name { font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; }
-
-    .result-box {
-      margin-top: 16px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius);
-      background: var(--bg); word-break: break-all; font-family: var(--font-mono);
-      font-size: 0.85rem; line-height: 1.6; color: var(--text); min-height: 50px; display: none; max-height: 300px; overflow-y: auto;
-    }
+    .result-box { margin-top: 14px; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: oklch(0 0 0 / 0.02); word-break: break-all; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.6; color: var(--text); min-height: 50px; max-height: 300px; overflow-y: auto; display: none; }
+    [data-theme="dark"] .result-box { background: oklch(1 0 0 / 0.03); }
     .result-box.visible { display: block; }
 
     .action-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
     .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 10px 20px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
     .toast.show { opacity: 1; }
 
-    .faq { margin-top: 48px; }
+    .section-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 48px 0 32px; color: var(--text-muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; }
+    .section-divider::before, .section-divider::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+
+    .faq { max-width: 900px; margin: 0 auto; }
     .faq h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; text-align: center; }
-    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; background: var(--bg-card); backdrop-filter: blur(8px); transition: border-color 0.2s; }
+    .faq-item:hover { border-color: var(--border-hover); }
     .faq-q { width: 100%; padding: 16px 20px; background: none; border: none; font-family: var(--font); font-size: 0.95rem; font-weight: 600; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-align: left; }
     .faq-q:hover { background: var(--bg-secondary); }
     .faq-q svg { transition: transform 0.25s ease; flex-shrink: 0; }
@@ -122,11 +109,9 @@
     footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; font-weight: 500; }
     footer a:hover { color: var(--brand); }
 
-    @media (max-width: 640px) {
-      .hero h1 { font-size: 1.6rem; }
-      .card { padding: 20px; }
-      .card textarea { min-height: 100px; }
-    }
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0s!important; transition-duration:0s!important; } }
+    @media print { header,footer,.theme-toggle,.btn-group { display:none; } }
   </style>
 </head>
 <body>
@@ -137,117 +122,89 @@
         DevTools
       </a>
       <div class="header-actions">
+        <a href="../index.html" class="nav-link">All Tools</a>
+        <a href="../about/index.html" class="nav-link">About</a>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
           <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
       </div>
     </div>
   </header>
-
   <main>
     <div class="hero">
       <h1>Base64 Encoder / Decoder</h1>
-      <p>Encode text or files to Base64, or decode Base64 strings back to readable text. All processing happens in your browser.</p>
+      <p>Encode text or files to Base64, decode Base64 back to text, and download binary output. 100% client-side.</p>
     </div>
 
-    <div class="inner">
-      <div class="card">
-        <div class="mode-tabs" role="tablist">
-          <button class="mode-tab active" data-mode="encode" role="tab" aria-selected="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;"><polyline points="17 1 21 1 21 5"/><path d="M6.5 20.5L21 6"/><polyline points="3 19 3 23 7 23"/><path d="M16.5 3.5L3 17"/></svg>
-            Encode
-          </button>
-          <button class="mode-tab" data-mode="decode" role="tab" aria-selected="false">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;"><polyline points="17 1 21 1 21 5"/><path d="M3 20.5L18.5 5"/><polyline points="3 19 3 23 7 23"/><path d="M5.5 3.5L21 19"/></svg>
-            Decode
-          </button>
-        </div>
-
-        <div class="file-upload" id="file-upload-section">
-          <label for="file-input">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Upload a file to encode
-          </label>
-          <input type="file" id="file-input" accept="*/*">
+    <div class="tool-grid">
+      <section class="card" aria-labelledby="input-heading">
+        <h2 id="input-heading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Input
+        </h2>
+        <textarea id="input" placeholder="Paste text to encode/decode, or upload a file..." spellcheck="false"></textarea>
+        <div class="char-count"><span id="char-count">0</span> characters</div>
+        <div class="file-drop" id="file-drop">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          <p>Upload a file to encode</p>
           <div class="file-name" id="file-name"></div>
         </div>
-
-        <label for="input" id="input-label">Enter text to encode</label>
-        <textarea id="input" placeholder="Paste your text here..." spellcheck="false"></textarea>
-        <div class="char-info">
-          <span><span id="input-chars">0</span> characters</span>
-        </div>
-
+        <input type="file" id="file-input" accept="*/*" style="display:none;">
         <div class="btn-group">
-          <button class="btn btn-primary" id="btn-convert">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-            <span id="btn-label">Encode</span>
-          </button>
-          <button class="btn btn-secondary" id="btn-swap" title="Swap input and output">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 1 21 5"/><path d="M3 20.5L18.5 5"/><polyline points="3 19 3 23 7 23"/><path d="M5.5 3.5L21 19"/></svg>
-            Swap
-          </button>
-          <button class="btn btn-secondary" id="btn-clear">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            Clear
-          </button>
+          <button class="btn btn-primary" id="btn-encode">Encode to Base64</button>
+          <button class="btn btn-primary" id="btn-decode">Decode from Base64</button>
+          <button class="btn btn-secondary" id="btn-swap">Swap</button>
+          <button class="btn btn-secondary" id="btn-clear">Clear</button>
         </div>
+      </section>
 
-        <label for="output">Output</label>
-        <textarea id="output" placeholder="Result will appear here..." spellcheck="false" readonly></textarea>
-        <div class="char-info">
-          <span><span id="output-chars">0</span> characters</span>
-          <div class="action-row">
-            <button class="btn btn-secondary" id="btn-copy">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              Copy
-            </button>
-            <button class="btn btn-secondary" id="btn-download" style="display:none;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Download
-            </button>
-          </div>
+      <section class="card" aria-labelledby="output-heading">
+        <h2 id="output-heading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Output
+        </h2>
+        <div class="result-box" id="result"></div>
+        <div class="action-row" id="action-row" style="display:none;">
+          <button class="btn btn-secondary" id="btn-copy">Copy</button>
+          <button class="btn btn-secondary" id="btn-download">Download</button>
         </div>
-      </div>
-
-      <div class="faq">
-        <h2>Frequently Asked Questions</h2>
-        <div class="faq-item">
-          <button class="faq-q">
-            What is Base64?
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner">Base64 is an encoding scheme that converts binary data into a text format using 64 printable ASCII characters (A-Z, a-z, 0-9, +, /). It's commonly used to embed images or files in HTML, CSS, emails, and JSON.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">
-            When would I use Base64 encoding?
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner">Embedding images in HTML/CSS (&lt;img src="data:image/png;base64,..."&gt;), sending binary data via JSON APIs, storing binary data in databases, encoding authentication tokens (Basic Auth), and email attachments.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">
-            Can I decode any Base64 string?
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner">Yes, as long as it's valid Base64. The tool will decode it. If the result is binary (not readable text), you can download it as a file. Invalid Base64 will show an error message.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">
-            Is Base64 encryption?
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner">No. Base64 is encoding, not encryption. Anyone can easily decode it. Never use Base64 to protect sensitive data — it's just a different representation of the same information.</div></div>
-        </div>
-      </div>
+      </section>
     </div>
+
+    <div class="section-divider" aria-hidden="true">FAQ</div>
+
+    <section class="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <button class="faq-q">
+          What is Base64?
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Base64 is a binary-to-text encoding scheme that represents binary data in an ASCII string format, commonly used for embedding images or files in HTML, CSS, JSON, and email attachments.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Can I encode files?
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Click the upload area or drag and drop a file. It will be converted to Base64. You can then copy the result or download it.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Does the "Download" button save the original file?
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">When you decode Base64, "Download" saves the decoded binary as a file. When you encode, "Download" saves the Base64 text as a .txt file.</div></div>
+      </div>
+    </section>
   </main>
 
   <footer>
     <div class="inner">
       <div class="footer-links">
         <a href="../index.html">All Tools</a>
+        <a href="../about/index.html">About</a>
+        <a href="../contact/index.html">Contact</a>
         <a href="../privacy/index.html">Privacy</a>
         <a href="../terms/index.html">Terms</a>
       </div>
@@ -258,182 +215,129 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    var mode = 'encode';
-    var decodedFileData = null;
-
     var input = document.getElementById('input');
-    var output = document.getElementById('output');
-    var inputChars = document.getElementById('input-chars');
-    var outputChars = document.getElementById('output-chars');
-    var btnConvert = document.getElementById('btn-convert');
-    var btnLabel = document.getElementById('btn-label');
+    var result = document.getElementById('result');
+    var actionRow = document.getElementById('action-row');
+    var btnEncode = document.getElementById('btn-encode');
+    var btnDecode = document.getElementById('btn-decode');
     var btnSwap = document.getElementById('btn-swap');
     var btnClear = document.getElementById('btn-clear');
     var btnCopy = document.getElementById('btn-copy');
     var btnDownload = document.getElementById('btn-download');
-    var inputLabel = document.getElementById('input-label');
+    var charCount = document.getElementById('char-count');
+    var fileDrop = document.getElementById('file-drop');
     var fileInput = document.getElementById('file-input');
     var fileName = document.getElementById('file-name');
-    var fileUploadSection = document.getElementById('file-upload-section');
     var toast = document.getElementById('toast');
+    var lastResult = '';
+    var lastResultIsBinary = false;
+    var uploadedFile = null;
 
-    input.addEventListener('input', function() {
-      inputChars.textContent = this.value.length;
-    });
+    input.addEventListener('input', function() { charCount.textContent = this.value.length; });
 
-    document.querySelectorAll('.mode-tab').forEach(function(tab) {
-      tab.addEventListener('click', function() {
-        document.querySelectorAll('.mode-tab').forEach(function(t) { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
-        this.classList.add('active');
-        this.setAttribute('aria-selected', 'true');
-        mode = this.getAttribute('data-mode');
-        btnLabel.textContent = mode === 'encode' ? 'Encode' : 'Decode';
-        inputLabel.textContent = mode === 'encode' ? 'Enter text or upload a file to encode' : 'Enter Base64 string to decode';
-        output.value = '';
-        outputChars.textContent = '0';
-        btnDownload.style.display = 'none';
-        decodedFileData = null;
-        if (mode === 'encode') {
-          fileUploadSection.style.display = 'block';
-        } else {
-          fileUploadSection.style.display = 'none';
-          fileInput.value = '';
-          fileName.textContent = '';
-        }
-      });
-    });
+    fileDrop.addEventListener('click', function() { fileInput.click(); });
+    fileDrop.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('dragover'); });
+    fileDrop.addEventListener('dragleave', function() { this.classList.remove('dragover'); });
+    fileDrop.addEventListener('drop', function(e) { e.preventDefault(); this.classList.remove('dragover'); if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+    fileInput.addEventListener('change', function() { if (this.files.length) handleFile(this.files[0]); });
 
-    fileInput.addEventListener('change', function(e) {
-      var file = e.target.files[0];
-      if (!file) return;
-      fileName.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+    function handleFile(file) {
+      uploadedFile = file;
+      fileName.textContent = file.name + ' (' + formatSize(file.size) + ')';
       var reader = new FileReader();
-      reader.onload = function(e) {
-        var base64 = e.target.result.split(',')[1];
-        input.value = base64;
-        inputChars.textContent = input.value.length;
-      };
+      reader.onload = function(e) { input.value = e.target.result; charCount.textContent = input.value.length; };
       reader.readAsDataURL(file);
-    });
+    }
 
-    btnConvert.addEventListener('click', function() {
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    btnEncode.addEventListener('click', function() {
       var val = input.value.trim();
-      if (!val) return showToast('Please enter some ' + (mode === 'encode' ? 'text' : 'Base64') + ' first.');
-
-      if (mode === 'encode') {
-        try {
-          var encoded = btoa(unescape(encodeURIComponent(val)));
-          output.value = encoded;
-          outputChars.textContent = encoded.length;
-          btnDownload.style.display = 'none';
-          decodedFileData = null;
-        } catch (e) {
-          showToast('Encoding failed: ' + e.message);
+      if (!val) return showToast('Please enter text or upload a file');
+      try {
+        if (val.startsWith('data:')) {
+          lastResult = val.split(',')[1] || val;
+        } else {
+          lastResult = btoa(unescape(encodeURIComponent(val)));
         }
-      } else {
-        try {
-          var decoded = decodeURIComponent(escape(atob(val)));
-          output.value = decoded;
-          outputChars.textContent = decoded.length;
-          btnDownload.style.display = 'none';
-          decodedFileData = null;
-        } catch (e) {
-          try {
-            var binary = atob(val);
-            var bytes = new Uint8Array(binary.length);
-            for (var i = 0; i < binary.length; i++) {
-              bytes[i] = binary.charCodeAt(i);
-            }
-            decodedFileData = { data: bytes, mime: detectMime(val) };
-            output.value = '[Binary data — click Download to save as file]';
-            outputChars.textContent = binary.length + ' bytes (binary)';
-            btnDownload.style.display = 'inline-flex';
-          } catch (e2) {
-            showToast('Invalid Base64 string. Check your input.');
-          }
-        }
-      }
+        lastResultIsBinary = false;
+        showResult(lastResult);
+      } catch (e) { showToast('Error: ' + e.message); }
     });
 
-    function detectMime(base64) {
-      if (base64.startsWith('/9j/')) return 'image/jpeg';
-      if (base64.startsWith('iVBOR')) return 'image/png';
-      if (base64.startsWith('R0lGOD')) return 'image/gif';
-      if (base64.startsWith('UklGR')) return 'image/webp';
-      if (base64.startsWith('JVBER')) return 'application/pdf';
-      if (base64.startsWith('UEsD')) return 'application/zip';
-      return 'application/octet-stream';
-    }
-
-    function base64ToBlob(base64, mime) {
-      var binary = atob(base64);
-      var bytes = new Uint8Array(binary.length);
-      for (var i = 0; i < binary.length; i++) {
-        bytes[i] = binary.charCodeAt(i);
-      }
-      return new Blob([bytes], { type: mime });
-    }
-
-    btnDownload.addEventListener('click', function() {
-      if (!decodedFileData) return;
-      var blob = base64ToBlob(input.value.trim(), decodedFileData.mime);
-      var mimeMap = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/gif': 'gif', 'image/webp': 'webp', 'application/pdf': 'pdf', 'application/zip': 'zip', 'application/octet-stream': 'bin' };
-      var ext = mimeMap[decodedFileData.mime] || decodedFileData.mime.split('/')[1] || 'bin';
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'decoded-file.' + ext;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      showToast('File downloaded');
+    btnDecode.addEventListener('click', function() {
+      var val = input.value.trim();
+      if (!val) return showToast('Please enter Base64 text');
+      try {
+        if (val.startsWith('data:')) {
+          var parts = val.split(',');
+          lastResult = atob(parts[1] || parts[0]);
+          try { lastResult = decodeURIComponent(escape(lastResult)); } catch(e2) {}
+        } else {
+          lastResult = atob(val);
+          try { lastResult = decodeURIComponent(escape(lastResult)); } catch(e2) {}
+        }
+        lastResultIsBinary = true;
+        showResult(lastResult);
+      } catch (e) { showToast('Invalid Base64 input'); }
     });
 
     btnSwap.addEventListener('click', function() {
-      if (!output.value.trim()) return showToast('No output to swap');
-      var temp = input.value;
-      input.value = output.value;
-      output.value = '';
-      outputChars.textContent = '0';
-      inputChars.textContent = input.value.length;
-      btnDownload.style.display = 'none';
-      decodedFileData = null;
-      if (mode === 'encode' && input.value.match(/^[A-Za-z0-9+/=]+$/)) {
-        // likely base64, switch to decode mode
-        document.querySelectorAll('.mode-tab').forEach(function(t) { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); if (t.getAttribute('data-mode') === 'decode') { t.classList.add('active'); t.setAttribute('aria-selected', 'true'); mode = 'decode'; } });
-        btnLabel.textContent = 'Decode';
-        inputLabel.textContent = 'Enter Base64 string to decode';
-        fileUploadSection.style.display = 'none';
-      }
+      var tmp = input.value;
+      input.value = result.textContent && result.classList.contains('visible') ? result.textContent : '';
+      result.classList.remove('visible'); result.textContent = ''; actionRow.style.display = 'none';
+      charCount.textContent = input.value.length; lastResult = '';
     });
 
     btnClear.addEventListener('click', function() {
-      input.value = '';
-      output.value = '';
-      inputChars.textContent = '0';
-      outputChars.textContent = '0';
-      fileInput.value = '';
-      fileName.textContent = '';
-      btnDownload.style.display = 'none';
-      decodedFileData = null;
-      input.focus();
+      input.value = ''; charCount.textContent = '0'; result.classList.remove('visible');
+      result.textContent = ''; actionRow.style.display = 'none'; lastResult = '';
+      uploadedFile = null; fileName.textContent = ''; fileInput.value = ''; input.focus();
     });
 
     btnCopy.addEventListener('click', function() {
-      if (!output.value.trim()) return showToast('Nothing to copy');
-      navigator.clipboard.writeText(output.value).then(function() {
-        showToast('Copied!');
-      }).catch(function() {
-        showToast('Failed to copy');
-      });
+      if (!lastResult) return;
+      navigator.clipboard.writeText(lastResult).then(function() { showToast('Copied!'); }).catch(function() { showToast('Failed to copy'); });
     });
 
+    btnDownload.addEventListener('click', function() {
+      if (!lastResult) return;
+      try {
+        if (lastResultIsBinary && !input.value.trim().startsWith('data:')) {
+          var mimeMap = {
+            'png': 'image/png', 'jpg': 'image/jpeg', 'jpeg': 'image/jpeg', 'gif': 'image/gif', 'webp': 'image/webp', 'svg': 'image/svg+xml',
+            'pdf': 'application/pdf', 'zip': 'application/zip', 'gz': 'application/gzip', 'mp3': 'audio/mpeg', 'mp4': 'video/mp4',
+            'json': 'application/json', 'xml': 'application/xml', 'html': 'text/html', 'css': 'text/css', 'js': 'text/javascript',
+            'txt': 'text/plain', 'csv': 'text/csv', 'ico': 'image/x-icon', 'woff2': 'font/woff2'
+          };
+          var ext = (uploadedFile ? uploadedFile.name.split('.').pop() : 'bin').toLowerCase();
+          var mime = mimeMap[ext] || 'application/octet-stream';
+          var byteChars = atob(input.value.trim());
+          var bytes = new Uint8Array(byteChars.length);
+          for (var i = 0; i < byteChars.length; i++) bytes[i] = byteChars.charCodeAt(i);
+          var blob = new Blob([bytes], { type: mime });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a'); a.href = url; a.download = 'decoded.' + ext; a.click();
+          URL.revokeObjectURL(url);
+        } else {
+          var blob = new Blob([lastResult], { type: 'text/plain' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a'); a.href = url; a.download = 'output.txt'; a.click();
+          URL.revokeObjectURL(url);
+        }
+      } catch (e) { showToast('Download failed'); }
+    });
+
+    function showResult(text) { result.textContent = text; result.classList.add('visible'); actionRow.style.display = 'flex'; }
+
+    var toastTimeout;
     function showToast(msg) {
-      toast.textContent = msg;
-      toast.classList.add('show');
-      clearTimeout(toast._timeout);
-      toast._timeout = setTimeout(function() { toast.classList.remove('show'); }, 2000);
+      toast.textContent = msg; toast.classList.add('show'); clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(function() { toast.classList.remove('show'); }, 2000);
     }
 
     document.querySelectorAll('.faq-q').forEach(function(btn) {

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UUID Generator — DevTools</title>
-  <meta name="description" content="Free online UUID generator. Generate random UUIDs (v4), versions 1 and 7, bulk generation, copy to clipboard. 100% private, runs in your browser.">
+  <meta name="description" content="Free online UUID generator. Generate UUID v1, v4, or v7 in bulk. 100% client-side, no server uploads.">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -19,8 +19,12 @@
       --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
       --text-on-brand: oklch(1 0 0);
       --border: oklch(0.88 0.01 280 / 0.5); --border-hover: oklch(0.8 0.04 280);
-      --radius: 14px; --radius-lg: 20px; --radius-sm: 8px;
-      --shadow-xl: 0 4px 24px oklch(0 0 0 / 0.06);
+      --success: oklch(0.55 0.2 145); --success-bg: oklch(0.95 0.05 145 / 0.3);
+      --error: oklch(0.55 0.22 25); --error-bg: oklch(0.95 0.05 25 / 0.3);
+      --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.04);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
     }
@@ -28,85 +32,84 @@
       --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270); --bg-card: oklch(0.18 0.02 270 / 0.6);
       --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
       --border: oklch(0.25 0.02 280 / 0.5);
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.2);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.35), 0 4px 6px -4px rgb(0 0 0 / 0.2);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6;
-      min-height: 100vh; display: flex; flex-direction: column;
-    }
-    body::before {
-      content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-repeat: repeat; background-size: 256px 256px; pointer-events: none;
-    }
-    body::after {
-      content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-      background:
-        radial-gradient(ellipse 600px 400px at 10% 20%, oklch(0.55 0.24 265 / 0.04) 0%, transparent 100%),
-        radial-gradient(ellipse 500px 500px at 90% 80%, oklch(0.5 0.26 300 / 0.03) 0%, transparent 100%);
-    }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; pointer-events: none; }
+    body::after { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 600px 400px at 10% 20%, oklch(0.55 0.24 265 / 0.04) 0%, transparent 100%), radial-gradient(ellipse 500px 500px at 90% 80%, oklch(0.5 0.26 300 / 0.03) 0%, transparent 100%); }
     header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-    .inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .header-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-link { padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; display: none; }
+    .nav-link:hover { color: var(--text); background: var(--bg-secondary); }
+    @media (min-width: 640px) { .nav-link { display: inline-flex; } }
     .theme-toggle { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
     .theme-toggle:hover { background: var(--brand-light); border-color: var(--brand); transform: scale(1.05); }
     main { flex: 1; padding: 40px 24px 60px; }
-    .hero { text-align: center; margin-bottom: 40px; }
-    .hero h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 10px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero p { color: var(--text-secondary); font-size: 1.05rem; max-width: 500px; margin: 0 auto; }
+    .hero { text-align: center; margin-bottom: 40px; animation: fadeSlideUp 0.7s ease-out; }
+    .hero h1 { font-size: clamp(2rem,4vw,2.8rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 10px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--text-secondary); font-size: clamp(0.95rem,1.5vw,1.05rem); max-width: 500px; margin: 0 auto; }
 
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-    .card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; color: var(--text-secondary); }
+    .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; animation: fadeSlideUp 0.7s ease-out 0.15s both; }
+    @media (max-width: 768px) { .tool-grid { grid-template-columns: 1fr; } }
 
-    .version-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
-    .version-tab { padding: 10px 20px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-secondary); font-family: var(--font); font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
-    .version-tab:hover { border-color: var(--brand); color: var(--brand); }
-    .version-tab.active { background: var(--brand-gradient); color: var(--text-on-brand); border-color: transparent; }
-    .version-tab small { display: block; font-weight: 400; font-size: 0.7rem; opacity: 0.7; margin-top: 2px; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-sm); }
+    .card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: var(--text-secondary); }
 
-    .count-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
-    .count-group label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
-    .count-btn { padding: 8px 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-secondary); font-family: var(--font); font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
-    .count-btn:hover { border-color: var(--brand); color: var(--brand); }
-    .count-btn.active { background: var(--brand); color: var(--text-on-brand); border-color: var(--brand); }
-    .count-custom { width: 60px; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); font-family: var(--font-mono); font-size: 0.85rem; color: var(--text); text-align: center; outline: none; transition: border-color 0.2s; }
-    .count-custom:focus { border-color: var(--brand); }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+    .version-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .version-btn { padding: 10px 20px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-secondary); font-family: var(--font); font-size: 0.875rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
+    .version-btn:hover { border-color: var(--brand); color: var(--brand); }
+    .version-btn.active { background: var(--brand-gradient); color: var(--text-on-brand); border-color: transparent; box-shadow: 0 2px 8px oklch(0.55 0.24 265 / 0.3); }
+    .qty-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .qty-input { width: 80px; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.9rem; background: oklch(0 0 0 / 0.03); color: var(--text); outline: none; transition: border-color 0.2s; }
+    [data-theme="dark"] .qty-input { background: oklch(1 0 0 / 0.05); }
+    .qty-input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-light); }
+    .qty-preset { padding: 6px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-secondary); font-family: var(--font); font-size: 0.8rem; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .qty-preset:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+    .qty-preset.active { background: var(--brand-gradient); color: var(--text-on-brand); border-color: transparent; }
 
-    .uuid-list { display: flex; flex-direction: column; gap: 8px; margin: 20px 0; }
-    .uuid-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.85rem; color: var(--text); word-break: break-all; }
-    .uuid-row .index { color: var(--text-muted); font-size: 0.75rem; min-width: 28px; flex-shrink: 0; font-family: var(--font); }
-    .uuid-row .value { flex: 1; }
-    .uuid-row .copy-icon { flex-shrink: 0; background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; border-radius: 4px; display: flex; transition: color 0.2s, background 0.2s; }
-    .uuid-row .copy-icon:hover { color: var(--brand); background: var(--brand-light); }
-
-    .action-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border: none; border-radius: var(--radius-sm);
-      font-family: var(--font); font-size: 0.9rem; font-weight: 600; cursor: pointer; text-decoration: none;
-      transition: all 0.2s;
-    }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border: none; border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.875rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
+    .btn:active { transform: scale(0.95); }
     .btn-primary { background: var(--brand-gradient); color: var(--text-on-brand); }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px oklch(0.55 0.24 265 / 0.35); }
-    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:hover { box-shadow: 0 4px 16px oklch(0.55 0.24 265 / 0.35); transform: translateY(-1px); }
     .btn-secondary { background: var(--bg-secondary); color: var(--text); border: 1px solid var(--border); }
-    .btn-secondary:hover { background: var(--border); border-color: var(--border-hover); }
-    .btn-success { background: oklch(0.55 0.2 150); color: var(--text-on-brand); }
-    .btn-success:hover { transform: translateY(-1px); box-shadow: 0 4px 16px oklch(0.55 0.2 150 / 0.35); }
+    .btn-secondary:hover { background: var(--brand-light); border-color: var(--brand); color: var(--brand); }
+
+    .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .results-list { max-height: 440px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); background: oklch(0 0 0 / 0.02); }
+    [data-theme="dark"] .results-list { background: oklch(1 0 0 / 0.03); }
+    .uuid-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.8rem; gap: 8px; }
+    .uuid-item:last-child { border-bottom: none; }
+    .uuid-item .uuid-text { word-break: break-all; flex: 1; min-width: 0; }
+    .copy-single { flex-shrink: 0; background: none; border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer; color: var(--text-muted); transition: all 0.2s; font-family: var(--font); }
+    .copy-single:hover { background: var(--success-bg); border-color: var(--success); color: var(--success); }
+
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+    .empty-state svg { margin-bottom: 8px; opacity: 0.4; }
+    .empty-state p { font-size: 0.9rem; }
 
     .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 10px 20px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
     .toast.show { opacity: 1; }
 
-    .faq { margin-top: 48px; }
+    .section-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 48px 0 32px; color: var(--text-muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; }
+    .section-divider::before, .section-divider::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+
+    .faq { max-width: 900px; margin: 0 auto; }
     .faq h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; text-align: center; }
-    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; background: var(--bg-card); backdrop-filter: blur(8px); transition: border-color 0.2s; }
+    .faq-item:hover { border-color: var(--border-hover); }
     .faq-q { width: 100%; padding: 16px 20px; background: none; border: none; font-family: var(--font); font-size: 0.95rem; font-weight: 600; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-align: left; }
     .faq-q:hover { background: var(--bg-secondary); }
     .faq-q svg { transition: transform 0.25s ease; flex-shrink: 0; }
     .faq-item.open .faq-q svg { transform: rotate(180deg); }
     .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    .faq-item.open .faq-a { max-height: 400px; }
+    .faq-item.open .faq-a { max-height: 300px; }
     .faq-a-inner { padding: 0 20px 16px; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
 
     footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
@@ -114,11 +117,9 @@
     footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; font-weight: 500; }
     footer a:hover { color: var(--brand); }
 
-    @media (max-width: 640px) {
-      .hero h1 { font-size: 1.6rem; }
-      .card { padding: 20px; }
-      .version-tab { padding: 8px 14px; font-size: 0.8rem; }
-    }
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0s!important; transition-duration:0s!important; } }
+    @media print { header,footer,.theme-toggle,.btn-group { display:none; } }
   </style>
 </head>
 <body>
@@ -129,87 +130,103 @@
         DevTools
       </a>
       <div class="header-actions">
+        <a href="../index.html" class="nav-link">All Tools</a>
+        <a href="../about/index.html" class="nav-link">About</a>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
           <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
       </div>
     </div>
   </header>
-
   <main>
     <div class="hero">
       <h1>UUID Generator</h1>
-      <p>Generate random UUIDs (Universally Unique Identifiers). Supports v1, v4, and v7. 100% client-side.</p>
+      <p>Generate UUIDs v1, v4, or v7 in bulk. 100% client-side.</p>
     </div>
 
-    <div class="inner">
-      <div class="card">
-        <h2>Version</h2>
-        <div class="version-tabs" role="tablist">
-          <button class="version-tab active" data-version="v4" role="tab" aria-selected="true">v4 <small>Random</small></button>
-          <button class="version-tab" data-version="v1" role="tab" aria-selected="false">v1 <small>Time-based</small></button>
-          <button class="version-tab" data-version="v7" role="tab" aria-selected="false">v7 <small>Time-ordered</small></button>
+    <div class="tool-grid">
+      <section class="card" aria-labelledby="input-heading">
+        <h2 id="input-heading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+          Version
+        </h2>
+        <div class="form-group">
+          <div class="version-group" id="version-group">
+            <button class="version-btn active" data-version="v1">UUID v1</button>
+            <button class="version-btn" data-version="v4">UUID v4</button>
+            <button class="version-btn" data-version="v7">UUID v7</button>
+          </div>
         </div>
+        <div class="form-group">
+          <label for="quantity">Quantity</label>
+          <div class="qty-row">
+            <button class="qty-preset active" data-qty="1">1</button>
+            <button class="qty-preset" data-qty="5">5</button>
+            <button class="qty-preset" data-qty="10">10</button>
+            <button class="qty-preset" data-qty="25">25</button>
+            <button class="qty-preset" data-qty="50">50</button>
+            <button class="qty-preset" data-qty="100">100</button>
+            <input type="number" id="quantity" class="qty-input" value="1" min="1" max="1000">
+          </div>
+        </div>
+        <div class="btn-group" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
+          <button class="btn btn-primary" id="btn-generate">Generate</button>
+          <button class="btn btn-secondary" id="btn-clear">Clear</button>
+        </div>
+      </section>
 
-        <h2>Quantity</h2>
-        <div class="count-group">
-          <button class="count-btn active" data-count="1">1</button>
-          <button class="count-btn" data-count="5">5</button>
-          <button class="count-btn" data-count="10">10</button>
-          <button class="count-btn" data-count="50">50</button>
-          <button class="count-btn" data-count="100">100</button>
-          <input type="text" class="count-custom" id="count-custom" placeholder="#" inputmode="numeric">
+      <section class="card" aria-labelledby="output-heading">
+        <h2 id="output-heading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Results
+        </h2>
+        <div class="results-header">
+          <span id="result-count" style="font-size:0.85rem;color:var(--text-muted);">0 UUIDs</span>
+          <button class="btn btn-secondary" id="btn-copy-all" style="padding:6px 14px;font-size:0.8rem;">Copy All</button>
         </div>
-
-        <div class="action-row">
-          <button class="btn btn-primary" id="btn-generate">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-            Generate
-          </button>
-          <button class="btn btn-secondary" id="btn-copy-all">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Copy All
-          </button>
-          <button class="btn btn-secondary" id="btn-clear">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            Clear
-          </button>
+        <div class="results-list" id="results-list">
+          <div class="empty-state" id="empty-state">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <p>Click "Generate" to create UUIDs</p>
+          </div>
         </div>
-
-        <div class="uuid-list" id="uuid-list"></div>
-      </div>
-
-      <div class="faq">
-        <h2>Frequently Asked Questions</h2>
-        <div class="faq-item">
-          <button class="faq-q">
-            What is a UUID?
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner">A UUID is a 128-bit identifier standardized by RFC 4122. It looks like <code>550e8400-e29b-41d4-a716-446655440000</code>. UUIDs are unique across space and time without requiring a central registry.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">
-            What's the difference between v1, v4, and v7?
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner">v1 uses timestamp + MAC address (predictable but traceable). v4 uses random numbers (most common). v7 combines timestamp + random for sortable, database-friendly UUIDs.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">
-            Can UUIDs collide?
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner">The chance of a v4 UUID collision is astronomically small (about 1 in 5.3&times;10&sup1;&sup8;&sup7;). You'd need to generate 1 billion UUIDs per second for 86 years to reach a 50% collision probability.</div></div>
-        </div>
-      </div>
+      </section>
     </div>
+
+    <div class="section-divider" aria-hidden="true">FAQ</div>
+
+    <section class="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <button class="faq-q">
+          What is a UUID?
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">A UUID (Universally Unique Identifier) is a 128-bit label used for unique identification. It's formatted as 32 hexadecimal digits displayed in five groups separated by hyphens: 8-4-4-4-12.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          What's the difference between v1, v4, and v7?
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">UUID v1 is time-based using the current timestamp. v4 is fully random. v7 is a time-ordered random UUID that sorts chronologically, making it ideal for database primary keys.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Can I generate up to 1000 UUIDs at once?
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Use the quantity selector to generate up to 1000 UUIDs at once. You can copy them individually or use "Copy All".</div></div>
+      </div>
+    </section>
   </main>
 
   <footer>
     <div class="inner">
       <div class="footer-links">
         <a href="../index.html">All Tools</a>
+        <a href="../about/index.html">About</a>
+        <a href="../contact/index.html">Contact</a>
         <a href="../privacy/index.html">Privacy</a>
         <a href="../terms/index.html">Terms</a>
       </div>
@@ -220,118 +237,126 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    var currentVersion = 'v4';
-    var currentCount = 1;
-    var generatedUuids = [];
-
+    var versionBtns = document.querySelectorAll('.version-btn');
+    var currentVersion = 'v1';
+    var uuidList = [];
     var toast = document.getElementById('toast');
-    var uuidList = document.getElementById('uuid-list');
 
-    function uuidV4() {
-      return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, function(c) {
-        return (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16);
-      });
-    }
-
-    function uuidV1() {
-      var now = Date.now();
-      var timeHex = now.toString(16).padStart(12, '0');
-      var clockSeq = (crypto.getRandomValues(new Uint8Array(1))[0] & 0x3f).toString(16).padStart(2, '0');
-      var node = Array.from(crypto.getRandomValues(new Uint8Array(6))).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
-      return timeHex.substr(0, 8) + '-' + timeHex.substr(8, 4) + '-1' + timeHex.substr(12, 3) + '-' + clockSeq + '-' + node;
-    }
-
-    function uuidV7() {
-      var now = Date.now();
-      var timeHex = now.toString(16).padStart(12, '0');
-      var randA = (crypto.getRandomValues(new Uint8Array(2))[0] << 8 | crypto.getRandomValues(new Uint8Array(1))[0] & 0xfff).toString(16).padStart(4, '0');
-      var randB = Array.from(crypto.getRandomValues(new Uint8Array(8))).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
-      return timeHex.substr(0, 8) + '-' + timeHex.substr(8, 4) + '-7' + timeHex.substr(12, 3) + '-8' + randA.substr(1, 3) + '-' + randB;
-    }
-
-    function generate(count, version) {
-      var fn = { v4: uuidV4, v1: uuidV1, v7: uuidV7 }[version];
-      var result = [];
-      for (var i = 0; i < count; i++) {
-        result.push(fn());
-      }
-      return result;
-    }
-
-    function render(uuids) {
-      if (!uuids || uuids.length === 0) {
-        uuidList.innerHTML = '';
-        return;
-      }
-      var html = '';
-      for (var i = 0; i < uuids.length; i++) {
-        html += '<div class="uuid-row">';
-        html += '<span class="index">' + (i + 1) + '.</span>';
-        html += '<span class="value">' + uuids[i] + '</span>';
-        html += '<button class="copy-icon" data-value="' + uuids[i] + '" aria-label="Copy">';
-        html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
-        html += '</button>';
-        html += '</div>';
-      }
-      uuidList.innerHTML = html;
-
-      uuidList.querySelectorAll('.copy-icon').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          var val = this.getAttribute('data-value');
-          navigator.clipboard.writeText(val).then(function() {
-            showToast('Copied: ' + val);
-          }).catch(function() {
-            showToast('Failed to copy');
-          });
-        });
-      });
-    }
-
-    document.querySelectorAll('.version-tab').forEach(function(tab) {
-      tab.addEventListener('click', function() {
-        document.querySelectorAll('.version-tab').forEach(function(t) { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+    versionBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        versionBtns.forEach(function(b) { b.classList.remove('active'); });
         this.classList.add('active');
-        this.setAttribute('aria-selected', 'true');
         currentVersion = this.getAttribute('data-version');
       });
     });
 
-    document.querySelectorAll('.count-btn').forEach(function(btn) {
+    var qtyPresets = document.querySelectorAll('.qty-preset');
+    qtyPresets.forEach(function(btn) {
       btn.addEventListener('click', function() {
-        document.querySelectorAll('.count-btn').forEach(function(b) { b.classList.remove('active'); });
+        qtyPresets.forEach(function(b) { b.classList.remove('active'); });
         this.classList.add('active');
-        document.getElementById('count-custom').value = '';
-        currentCount = parseInt(this.getAttribute('data-count'));
+        document.getElementById('quantity').value = this.getAttribute('data-qty');
+        generateUUIDs();
       });
     });
 
-    document.getElementById('count-custom').addEventListener('input', function() {
-      document.querySelectorAll('.count-btn').forEach(function(b) { b.classList.remove('active'); });
-      var v = parseInt(this.value);
-      if (v > 0 && v <= 1000) {
-        currentCount = v;
-      }
+    document.getElementById('btn-generate').addEventListener('click', generateUUIDs);
+    document.getElementById('btn-clear').addEventListener('click', function() {
+      clearResults();
+      document.getElementById('quantity').value = 1;
+      qtyPresets.forEach(function(b) { b.classList.remove('active'); });
+      qtyPresets.forEach(function(b) { if (b.getAttribute('data-qty') === '1') b.classList.add('active'); });
     });
 
-    document.getElementById('btn-generate').addEventListener('click', function() {
-      generatedUuids = generate(currentCount, currentVersion);
-      render(generatedUuids);
-    });
+    function generateUUIDs() {
+      var qty = parseInt(document.getElementById('quantity').value, 10);
+      if (isNaN(qty) || qty < 1) qty = 1;
+      if (qty > 1000) qty = 1000;
+      document.getElementById('quantity').value = qty;
+
+      uuidList = [];
+      for (var i = 0; i < qty; i++) {
+        uuidList.push(generateUUID(currentVersion));
+      }
+      renderResults();
+    }
+
+    function generateUUID(version) {
+      if (version === 'v1') return generateV1();
+      if (version === 'v7') return generateV7();
+      return generateV4();
+    }
+
+    function generateV4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = crypto.getRandomValues(new Uint8Array(1))[0] / 256;
+        var v = c === 'x' ? r * 16 : (r * 4 + 8);
+        return Math.floor(v).toString(16);
+      });
+    }
+
+    function generateV1() {
+      var now = Date.now();
+      var t = now + 0x01b21dd213814000;
+      var hex = t.toString(16).padStart(12, '0');
+      var clockSeq = (Math.floor(crypto.getRandomValues(new Uint8Array(1))[0] / 64) + 0x80).toString(16).padStart(2, '0');
+      var node = Array.from(crypto.getRandomValues(new Uint8Array(6))).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+      return hex.substring(8,12) + '-' + hex.substring(4,8) + '-1' + hex.substring(1,4) + '-' + clockSeq + '-' + node;
+    }
+
+    function generateV7() {
+      var ts = Date.now().toString(16).padStart(12, '0');
+      var rand = Array.from(crypto.getRandomValues(new Uint8Array(10))).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+      return ts.substring(0,8) + '-' + ts.substring(8,12) + '-7' + rand.substring(0,3) + '-' + ('8' + (parseInt(rand.substring(3,4),16) & 3).toString(16)) + rand.substring(4,8) + '-' + rand.substring(8,20);
+    }
+
+    function renderResults() {
+      var list = document.getElementById('results-list');
+      var count = document.getElementById('result-count');
+      var empty = document.getElementById('empty-state');
+
+      if (uuidList.length === 0) {
+        list.innerHTML = '<div class="empty-state" id="empty-state"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg><p>Click "Generate" to create UUIDs</p></div>';
+        count.textContent = '0 UUIDs';
+        return;
+      }
+
+      count.textContent = uuidList.length + ' UUID' + (uuidList.length !== 1 ? 's' : '');
+      var html = '';
+      uuidList.forEach(function(uuid, idx) {
+        html += '<div class="uuid-item"><span class="uuid-text">' + escapeHtml(uuid) + '</span><button class="copy-single" data-idx="' + idx + '">Copy</button></div>';
+      });
+      list.innerHTML = html;
+
+      list.querySelectorAll('.copy-single').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          copyUUID(idx);
+        });
+      });
+    }
+
+    function copyUUID(idx) {
+      var text = uuidList[idx];
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(function() { showToast('Copied!'); }).catch(function() { showToast('Failed to copy'); });
+    }
 
     document.getElementById('btn-copy-all').addEventListener('click', function() {
-      if (generatedUuids.length === 0) return showToast('Generate UUIDs first');
-      var text = generatedUuids.join('\n');
-      navigator.clipboard.writeText(text).then(function() {
-        showToast('Copied all ' + generatedUuids.length + ' UUIDs');
-      }).catch(function() {
-        showToast('Failed to copy');
-      });
+      if (uuidList.length === 0) return showToast('No UUIDs to copy');
+      navigator.clipboard.writeText(uuidList.join('\n')).then(function() { showToast('Copied ' + uuidList.length + ' UUIDs!'); }).catch(function() { showToast('Failed to copy'); });
     });
 
-    document.getElementById('btn-clear').addEventListener('click', function() {
-      generatedUuids = [];
-      render([]);
-    });
+    function clearResults() {
+      uuidList = [];
+      renderResults();
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
 
     function showToast(msg) {
       toast.textContent = msg;
@@ -356,8 +381,6 @@
       try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)s('dark')}catch(e){}
       t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')});
     })();
-
-    render(generate(1, 'v4'));
   </script>
 </body>
 </html>

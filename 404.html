@@ -4,24 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 — Page Not Found | DevTools</title>
+  <meta name="robots" content="noindex, follow">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root { --brand-hue: 265; --brand: oklch(0.55 0.24 var(--brand-hue)); --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300)); --bg: oklch(0.985 0.002 280); --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-    [data-theme="dark"] { --bg: oklch(0.12 0.02 270); --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); }
+    :root {
+      --brand-hue: 265; --brand: oklch(0.55 0.24 var(--brand-hue)); --brand-light: oklch(0.92 0.06 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300));
+      --bg: oklch(0.985 0.002 280); --bg-secondary: oklch(0.96 0.004 280);
+      --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
+      --border: oklch(0.88 0.01 280 / 0.5);
+      --radius-sm: 8px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    [data-theme="dark"] {
+      --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270);
+      --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
+      --border: oklch(0.25 0.02 280 / 0.5);
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 24px; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; pointer-events: none; }
     .code { font-size: 6rem; font-weight: 900; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 8px; }
     h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
     p { color: var(--text-secondary); margin-bottom: 24px; max-width: 400px; }
-    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; background: var(--brand-gradient); color: #fff; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: opacity 0.2s; }
-    .btn:hover { opacity: 0.85; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; background: var(--brand-gradient); color: #fff; border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px oklch(0.55 0.24 265 / 0.35); }
+    footer { margin-top: 48px; color: var(--text-muted); font-size: 0.8rem; }
+    footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; font-weight: 500; }
+    footer a:hover { color: var(--brand); }
+    .logo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 24px; }
+    @media (prefers-reduced-motion:reduce) { * { animation-duration:0s!important; transition-duration:0s!important; } }
   </style>
 </head>
 <body>
+  <a href="index.html" class="logo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    DevTools
+  </a>
   <div class="code">404</div>
   <h1>Page not found</h1>
   <p>This page doesn't exist or has been moved. Try the homepage for our developer tools.</p>
@@ -29,5 +52,11 @@
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     Back to Home
   </a>
+  <footer>
+    <a href="index.html">All Tools</a> &mdash; Free developer tools that run in your browser.
+  </footer>
+  <script>
+    (function(){var t=document.createElement('button');function g(){return document.documentElement.getAttribute('data-theme')||'light'}function s(t){document.documentElement.setAttribute('data-theme',t)}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)s('dark')}catch(e){}})();
+  </script>
 </body>
 </html>
