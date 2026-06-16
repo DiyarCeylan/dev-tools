@@ -61,23 +61,11 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/hex-to-rgb/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://diyarceylan.github.io/dev-tools/rgb-to-hex/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://diyarceylan.github.io/dev-tools/hex-to-hsl/</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/image-to-base64/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://diyarceylan.github.io/dev-tools/base64-to-image/</loc>
+    <loc>https://diyarceylan.github.io/dev-tools/base64-image-converter/</loc>
     <priority>0.8</priority>
   </url>
   <url>
