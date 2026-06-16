@@ -127,8 +127,6 @@
 
     <div class="toolbar">
       <button class="btn" id="format-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg> Format</button>
-      <button class="btn btn-secondary" id="copy-btn">Copy</button>
-      <button class="btn btn-secondary" id="reset-btn">Reset</button>
     </div>
 
     <div class="split">
@@ -138,19 +136,7 @@
           <span class="count" id="input-count">0 chars</span>
         </div>
         <div class="editor-body">
-          <textarea id="sql-input" placeholder="SELECT * FROM users WHERE id = 1" spellcheck="false">SELECT u.id, u.name, u.email,
-o.total
-FROM users u
-LEFT JOIN (
-SELECT user_id, SUM(amount) as total
-FROM orders
-WHERE status = 'completed'
-GROUP BY user_id
-) o ON u.id = o.user_id
-WHERE u.active = 1
-AND o.total > 100
-ORDER BY o.total DESC
-LIMIT 10</textarea>
+          <textarea id="sql-input" placeholder="SELECT * FROM users WHERE id = 1" spellcheck="false"></textarea>
         </div>
         <div class="options">
           <label><input type="checkbox" id="uppercase" checked> Uppercase keywords</label>
@@ -161,6 +147,7 @@ LIMIT 10</textarea>
         <div class="header">
           <label>Formatted SQL</label>
           <span class="count" id="output-count">0 chars</span>
+          <button class="btn btn-secondary" id="copy-btn" style="padding:4px 10px;font-size:0.75rem">Copy</button>
         </div>
         <div class="editor-body" style="flex-direction:column">
           <div style="display:flex;flex:1;overflow:auto">
@@ -381,14 +368,6 @@ LIMIT 10</textarea>
       copyToClipboard(text);
     });
 
-    document.getElementById('reset-btn').addEventListener('click', function() {
-      document.getElementById('sql-input').value = 'SELECT u.id, u.name, u.email,\no.total\nFROM users u\nLEFT JOIN (\nSELECT user_id, SUM(amount) as total\nFROM orders\nWHERE status = \'completed\'\nGROUP BY user_id\n) o ON u.id = o.user_id\nWHERE u.active = 1\nAND o.total > 100\nORDER BY o.total DESC\nLIMIT 10';
-      document.getElementById('uppercase').checked = true;
-      document.getElementById('indent-size').value = '4';
-      formatAndDisplay();
-      showToast('Reset to sample');
-    });
-
     document.getElementById('sql-input').addEventListener('keydown', function(e) {
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); formatAndDisplay(); }
     });
@@ -397,8 +376,6 @@ LIMIT 10</textarea>
     });
     document.getElementById('uppercase').addEventListener('change', formatAndDisplay);
     document.getElementById('indent-size').addEventListener('change', formatAndDisplay);
-
-    formatAndDisplay();
 
     (function(){
       var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');
