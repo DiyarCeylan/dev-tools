@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HEX to HSL Converter — DevTools</title>
+  <title>HEX to HSL Converter â€” DevTools</title>
   <meta name="description" content="Free online HEX to HSL converter. Convert hex color codes to HSL and HSLA values instantly with a live color preview. 100% client-side.">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -118,13 +118,13 @@
 <body>
   <header>
     <div class="inner header-inner">
-      <a href="../index.html" class="logo">
+      <a href="../" class="logo">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         DevTools
       </a>
       <div class="header-actions">
-        <a href="../index.html" class="nav-link">All Tools</a>
-        <a href="../about/index.html" class="nav-link">About</a>
+        <a href="../" class="nav-link">All Tools</a>
+        <a href="../about/" class="nav-link">About</a>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
           <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
@@ -167,7 +167,7 @@
         <div class="result-grid">
           <div class="result-item" data-copy="hue">
             <span class="result-label">Hue</span>
-            <span class="result-value" id="val-hue">261°</span>
+            <span class="result-value" id="val-hue">261Â°</span>
           </div>
           <div class="result-item" data-copy="saturation">
             <span class="result-label">Saturation</span>
@@ -198,14 +198,14 @@
           What is HSL?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">HSL stands for Hue, Saturation, Lightness. Hue is the color angle (0–360°), Saturation is the intensity (0–100%), and Lightness is the brightness (0–100%). It's a more intuitive way to describe colors than HEX or RGB.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">HSL stands for Hue, Saturation, Lightness. Hue is the color angle (0â€“360Â°), Saturation is the intensity (0â€“100%), and Lightness is the brightness (0â€“100%). It's a more intuitive way to describe colors than HEX or RGB.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">
           How do I read hue values?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">Hue is measured in degrees on a color wheel: 0° = Red, 120° = Green, 240° = Blue. Values between represent all other colors. For example, 60° is yellow and 300° is magenta.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Hue is measured in degrees on a color wheel: 0Â° = Red, 120Â° = Green, 240Â° = Blue. Values between represent all other colors. For example, 60Â° is yellow and 300Â° is magenta.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">
@@ -220,11 +220,11 @@
   <footer>
     <div class="inner">
       <div class="footer-links">
-        <a href="../index.html">All Tools</a>
-        <a href="../about/index.html">About</a>
-        <a href="../contact/index.html">Contact</a>
-        <a href="../privacy/index.html">Privacy</a>
-        <a href="../terms/index.html">Terms</a>
+        <a href="../">All Tools</a>
+        <a href="../about/">About</a>
+        <a href="../contact/">Contact</a>
+        <a href="../privacy/">Privacy</a>
+        <a href="../terms/">Terms</a>
       </div>
       &copy; 2026 DevTools. Every tool runs 100% client-side.
     </div>
@@ -266,13 +266,13 @@
       var rgb = hexToRgb(val);
       if (!rgb) {
         ['hue','saturation','lightness','hsl','hsla'].forEach(function(id) {
-          document.getElementById('val-'+id).textContent = '—';
+          document.getElementById('val-'+id).textContent = 'â€”';
         });
         preview.style.background = 'var(--bg-card)';
         return;
       }
       var hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-      document.getElementById('val-hue').textContent = hsl.h + '°';
+      document.getElementById('val-hue').textContent = hsl.h + 'Â°';
       document.getElementById('val-saturation').textContent = hsl.s + '%';
       document.getElementById('val-lightness').textContent = hsl.l + '%';
       document.getElementById('val-hsl').textContent = 'hsl('+hsl.h+', '+hsl.s+'%, '+hsl.l+'%)';
@@ -298,7 +298,7 @@
     document.querySelectorAll('.result-item').forEach(function(row) {
       row.addEventListener('click', function() {
         var val = this.querySelector('.result-value');
-        if (!val || val.textContent === '—') return;
+        if (!val || val.textContent === 'â€”') return;
         navigator.clipboard.writeText(val.textContent).then(function() {
           showToast('Copied ' + val.textContent);
         }).catch(function() {});

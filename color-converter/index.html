@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Color Converter — DevTools</title>
+  <title>Color Converter â€” DevTools</title>
   <meta name="description" content="Free online color converter. Convert between HEX, RGB, HSL, OKLCH, and color names. Real-time color preview. 100% client-side.">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -130,13 +130,13 @@
 <body>
   <header>
     <div class="inner header-inner">
-      <a href="../index.html" class="logo">
+      <a href="../" class="logo">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         DevTools
       </a>
       <div class="header-actions">
-        <a href="../index.html" class="nav-link">All Tools</a>
-        <a href="../about/index.html" class="nav-link">About</a>
+        <a href="../" class="nav-link">All Tools</a>
+        <a href="../about/" class="nav-link">About</a>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
           <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
@@ -209,7 +209,7 @@
           </div>
           <div class="format-row" data-copy="Name">
             <span class="format-label">Name</span>
-            <span class="format-value" id="val-name">—</span>
+            <span class="format-value" id="val-name">â€”</span>
           </div>
         </div>
         <div style="margin-top:14px;color:var(--text-muted);font-size:0.75rem;">Click any format row to copy.</div>
@@ -238,7 +238,7 @@
           Why does "Name" show a dash for some colors?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">Named CSS colors are limited to 148 standard names. If your color doesn't have an exact match in the named palette, "—" is shown. The nearest named color is not approximated — only exact matches are reported.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Named CSS colors are limited to 148 standard names. If your color doesn't have an exact match in the named palette, "â€”" is shown. The nearest named color is not approximated â€” only exact matches are reported.</div></div>
       </div>
     </section>
   </main>
@@ -246,11 +246,11 @@
   <footer>
     <div class="inner">
       <div class="footer-links">
-        <a href="../index.html">All Tools</a>
-        <a href="../about/index.html">About</a>
-        <a href="../contact/index.html">Contact</a>
-        <a href="../privacy/index.html">Privacy</a>
-        <a href="../terms/index.html">Terms</a>
+        <a href="../">All Tools</a>
+        <a href="../about/">About</a>
+        <a href="../contact/">Contact</a>
+        <a href="../privacy/">Privacy</a>
+        <a href="../terms/">Terms</a>
       </div>
       &copy; 2026 DevTools. Every tool runs 100% client-side.
     </div>
@@ -445,7 +445,7 @@
 
     function updateUI(result) {
       if (!result) {
-        formatIds.forEach(function(id) { formatEls[id].textContent = '—'; });
+        formatIds.forEach(function(id) { formatEls[id].textContent = 'â€”'; });
         return;
       }
       var rgb=result.rgb, hsl=result.hsl, o=result.oklch;
@@ -456,7 +456,7 @@
       formatEls.hsla.textContent = 'hsla('+hsl.h+','+hsl.s+'%,'+hsl.l+'%,1)';
       var lStr = Math.round(o.l*100)/100, cStr = Math.round(o.c*100)/100, hStr = Math.round(o.h);
       formatEls.oklch.textContent = 'oklch('+lStr+' '+cStr+' '+hStr+')';
-      formatEls.name.textContent = result.name ? result.name.charAt(0).toUpperCase()+result.name.slice(1) : '—';
+      formatEls.name.textContent = result.name ? result.name.charAt(0).toUpperCase()+result.name.slice(1) : 'â€”';
 
       preview.style.background = result.hex;
       colorPicker.value = result.hex;
@@ -467,7 +467,7 @@
 
     function handleInput(val) {
       if (!val) {
-        formatIds.forEach(function(id) { formatEls[id].textContent = '—'; });
+        formatIds.forEach(function(id) { formatEls[id].textContent = 'â€”'; });
         preview.style.background = 'var(--bg-card)';
         previewText.textContent = 'Enter a color';
         previewText.style.color = 'var(--text-muted)';
@@ -506,7 +506,7 @@
     document.querySelectorAll('.format-row').forEach(function(row) {
       row.addEventListener('click', function() {
         var val = this.querySelector('.format-value');
-        if (!val || val.textContent === '—') return;
+        if (!val || val.textContent === 'â€”') return;
         navigator.clipboard.writeText(val.textContent).then(function() {
           showToast('Copied ' + val.textContent);
         }).catch(function() {});
