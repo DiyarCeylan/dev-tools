@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Preview — DevTools</title>
+  <meta name="description" content="Free online HTML preview tool. Write HTML, CSS, and JavaScript code and see the rendered output in real-time. 100% client-side.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "HTML Preview",
+    "url": "https://diyarceylan.github.io/dev-tools/html-preview/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "description": "Free online HTML preview tool. Write and preview HTML/CSS/JS code in real-time. 100% client-side."
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-hue: 265; --brand: oklch(0.55 0.24 var(--brand-hue)); --brand-light: oklch(0.92 0.06 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300));
+      --bg: oklch(0.985 0.002 280); --bg-secondary: oklch(0.96 0.004 280); --bg-card: oklch(0.99 0.002 280 / 0.6);
+      --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
+      --text-on-brand: oklch(1 0 0);
+      --border: oklch(0.88 0.01 280 / 0.5); --border-hover: oklch(0.8 0.04 280);
+      --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    }
+    [data-theme="dark"] {
+      --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270); --bg-card: oklch(0.18 0.02 270 / 0.6);
+      --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
+      --border: oklch(0.25 0.02 280 / 0.5); --border-hover: oklch(0.35 0.04 280);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; pointer-events: none; }
+    body::after { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 600px 400px at 10% 20%, oklch(0.55 0.24 265 / 0.04) 0%, transparent 100%), radial-gradient(ellipse 500px 500px at 90% 80%, oklch(0.5 0.26 300 / 0.03) 0%, transparent 100%); }
+    header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    .inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-link { padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; display: none; }
+    .nav-link:hover { color: var(--text); background: var(--bg-secondary); }
+    @media (min-width: 640px) { .nav-link { display: inline-flex; } }
+    .theme-toggle { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+    .theme-toggle:hover { background: var(--brand-light); border-color: var(--brand); transform: scale(1.05); }
+    main { flex: 1; padding: 40px 24px 60px; }
+    .hero { text-align: center; margin-bottom: 32px; animation: fadeSlideUp 0.7s ease-out; }
+    .hero h1 { font-size: clamp(2rem,4vw,2.8rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 10px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--text-secondary); font-size: clamp(0.95rem,1.5vw,1.05rem); max-width: 500px; margin: 0 auto; }
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+    .preview-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; animation: fadeSlideUp 0.7s ease-out 0.15s both; }
+    @media (max-width: 900px) { .preview-layout { grid-template-columns: 1fr; } }
+
+    .editor-panel { display: flex; flex-direction: column; gap: 16px; }
+    .editor-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-sm); }
+    .editor-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--bg-secondary); }
+    .editor-header label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
+    .editor-body { position: relative; }
+    .editor-body textarea { width: 100%; min-height: 120px; padding: 14px; border: none; resize: vertical; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.5; background: var(--bg); color: var(--text); outline: none; tab-size: 2; }
+    .editor-body textarea:focus { box-shadow: inset 0 0 0 2px var(--brand); }
+
+    .preview-panel { display: flex; flex-direction: column; }
+    .preview-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-sm); flex: 1; display: flex; flex-direction: column; }
+    .preview-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--bg-secondary); }
+    .preview-header label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
+    .preview-body { flex: 1; background: #fff; position: relative; min-height: 400px; }
+    .preview-body iframe { width: 100%; height: 100%; border: none; position: absolute; inset: 0; }
+
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; animation: fadeSlideUp 0.7s ease-out 0.1s both; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; background: var(--brand-gradient); color: var(--text-on-brand); }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px oklch(0.55 0.24 265 / 0.3); }
+    .btn:active { transform: scale(0.95); }
+    .btn-secondary { background: var(--bg-secondary); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--border); box-shadow: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner">
+      <div class="header-inner">
+        <a href="../index.html" class="logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+          DevTools
+        </a>
+        <div class="header-actions">
+          <a href="../about/index.html" class="nav-link">About</a>
+          <a href="../contact/index.html" class="nav-link">Contact</a>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="hero">
+      <h1>HTML Preview</h1>
+      <p>Write HTML, CSS, and JavaScript code and see the rendered output in real-time</p>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn" id="run-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg> Run</button>
+      <button class="btn btn-secondary" id="auto-run-toggle">Auto-run: ON</button>
+      <button class="btn btn-secondary" id="reset-btn">Reset</button>
+    </div>
+
+    <div class="preview-layout">
+      <div class="editor-panel">
+        <div class="editor-card">
+          <div class="editor-header"><label>HTML</label></div>
+          <div class="editor-body">
+            <textarea id="html-input" placeholder="<h1>Hello World</h1>" spellcheck="false"><div style="padding:20px;font-family:sans-serif">
+  <h1>Hello World</h1>
+  <p id="demo">This is a live HTML preview.</p>
+  <button onclick="document.getElementById('demo').textContent = 'You clicked!'" style="padding:8px 16px;font-size:1rem">Click Me</button>
+</div></textarea>
+          </div>
+        </div>
+        <div class="editor-card">
+          <div class="editor-header"><label>CSS (optional)</label></div>
+          <div class="editor-body">
+            <textarea id="css-input" placeholder="body { background: #f0f0f0; }" spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="editor-card">
+          <div class="editor-header"><label>JavaScript (optional)</label></div>
+          <div class="editor-body">
+            <textarea id="js-input" placeholder="console.log('hello');" spellcheck="false"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="preview-panel">
+        <div class="preview-card">
+          <div class="preview-header"><label>Preview</label></div>
+          <div class="preview-body">
+            <iframe id="preview-frame" sandbox="allow-scripts allow-modals"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="inner">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:24px 0;border-top:1px solid var(--border)">
+        <div>
+          <div style="font-weight:800;font-size:0.9rem;background:var(--brand-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">DevTools</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">Free developer tools that run in your browser.</div>
+        </div>
+        <div style="display:flex;gap:16px;font-size:0.8rem">
+          <a href="../about/index.html" style="color:var(--text-secondary);text-decoration:none">About</a>
+          <a href="../contact/index.html" style="color:var(--text-secondary);text-decoration:none">Contact</a>
+          <a href="../privacy/index.html" style="color:var(--text-secondary);text-decoration:none">Privacy</a>
+          <a href="../terms/index.html" style="color:var(--text-secondary);text-decoration:none">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    function showToast(msg) {
+      var t = document.createElement('div');
+      t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:var(--radius-sm);font-size:0.85rem;font-weight:500;z-index:999;animation:fadeSlideUp 0.3s ease-out;max-width:90vw';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(function() { t.remove(); }, 2500);
+    }
+
+    var autoRun = true;
+    var runTimer = null;
+
+    function runPreview() {
+      var html = document.getElementById('html-input').value;
+      var css = document.getElementById('css-input').value;
+      var js = document.getElementById('js-input').value;
+      var doc = '<html><head><style>' + css + '</style></head><body>' + html + '<script>' + js + '<\/script></body></html>';
+      var frame = document.getElementById('preview-frame');
+      frame.srcdoc = doc;
+    }
+
+    function scheduleRun() {
+      if (!autoRun) return;
+      if (runTimer) clearTimeout(runTimer);
+      runTimer = setTimeout(runPreview, 300);
+    }
+
+    document.getElementById('run-btn').addEventListener('click', runPreview);
+
+    document.getElementById('auto-run-toggle').addEventListener('click', function() {
+      autoRun = !autoRun;
+      this.textContent = 'Auto-run: ' + (autoRun ? 'ON' : 'OFF');
+      if (autoRun) runPreview();
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', function() {
+      document.getElementById('html-input').value = '<div style="padding:20px;font-family:sans-serif">\n  <h1>Hello World</h1>\n  <p id="demo">This is a live HTML preview.</p>\n  <button onclick="document.getElementById(\'demo\').textContent = \'You clicked!\'" style="padding:8px 16px;font-size:1rem">Click Me</button>\n</div>';
+      document.getElementById('css-input').value = '';
+      document.getElementById('js-input').value = '';
+      runPreview();
+      showToast('Reset to default');
+    });
+
+    document.querySelectorAll('.editor-body textarea').forEach(function(el) {
+      el.addEventListener('input', scheduleRun);
+      el.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); runPreview(); }
+      });
+    });
+
+    runPreview();
+
+    (function(){
+      var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');
+      function g(){return document.documentElement.getAttribute('data-theme')||'light'}
+      function s(t){document.documentElement.setAttribute('data-theme',t);i.innerHTML=t==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';try{localStorage.setItem('theme',t)}catch(e){}}
+      try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)s('dark')}catch(e){}
+      t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')});
+    })();
+  </script>
+</body>
+</html>

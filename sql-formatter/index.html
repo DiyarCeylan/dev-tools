@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Formatter — DevTools</title>
+  <meta name="description" content="Free online SQL formatter. Format and beautify SQL queries with syntax highlighting. Supports SELECT, INSERT, UPDATE, DELETE. 100% client-side.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SQL Formatter",
+    "url": "https://diyarceylan.github.io/dev-tools/sql-formatter/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "description": "Free online SQL formatter. Format and beautify SQL queries with syntax highlighting. 100% client-side."
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-hue: 265; --brand: oklch(0.55 0.24 var(--brand-hue)); --brand-light: oklch(0.92 0.06 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300));
+      --bg: oklch(0.985 0.002 280); --bg-secondary: oklch(0.96 0.004 280); --bg-card: oklch(0.99 0.002 280 / 0.6);
+      --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
+      --text-on-brand: oklch(1 0 0);
+      --border: oklch(0.88 0.01 280 / 0.5); --border-hover: oklch(0.8 0.04 280);
+      --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    }
+    [data-theme="dark"] {
+      --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270); --bg-card: oklch(0.18 0.02 270 / 0.6);
+      --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
+      --border: oklch(0.25 0.02 280 / 0.5); --border-hover: oklch(0.35 0.04 280);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; pointer-events: none; }
+    body::after { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 600px 400px at 10% 20%, oklch(0.55 0.24 265 / 0.04) 0%, transparent 100%), radial-gradient(ellipse 500px 500px at 90% 80%, oklch(0.5 0.26 300 / 0.03) 0%, transparent 100%); }
+    header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    .inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-link { padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; display: none; }
+    .nav-link:hover { color: var(--text); background: var(--bg-secondary); }
+    @media (min-width: 640px) { .nav-link { display: inline-flex; } }
+    .theme-toggle { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+    .theme-toggle:hover { background: var(--brand-light); border-color: var(--brand); transform: scale(1.05); }
+    main { flex: 1; padding: 40px 24px 60px; }
+    .hero { text-align: center; margin-bottom: 32px; animation: fadeSlideUp 0.7s ease-out; }
+    .hero h1 { font-size: clamp(2rem,4vw,2.8rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 10px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--text-secondary); font-size: clamp(0.95rem,1.5vw,1.05rem); max-width: 500px; margin: 0 auto; }
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; animation: fadeSlideUp 0.7s ease-out 0.1s both; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; background: var(--brand-gradient); color: var(--text-on-brand); }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px oklch(0.55 0.24 265 / 0.3); }
+    .btn:active { transform: scale(0.95); }
+    .btn-secondary { background: var(--bg-secondary); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--border); box-shadow: none; }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; animation: fadeSlideUp 0.7s ease-out 0.15s both; }
+    @media (max-width: 768px) { .split { grid-template-columns: 1fr; } }
+    .editor-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+    .editor-card .header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--bg-secondary); }
+    .editor-card .header label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
+    .editor-card .header .count { font-size: 0.75rem; color: var(--text-muted); }
+    .editor-body { position: relative; flex: 1; display: flex; }
+    .editor-body pre { margin: 0; padding: 14px; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; overflow: auto; white-space: pre-wrap; word-break: break-word; tab-size: 2; }
+    .editor-body textarea, .editor-body .highlight { padding: 14px; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; tab-size: 2; }
+    .editor-body textarea { width: 100%; min-height: 350px; border: none; resize: vertical; background: var(--bg); color: var(--text); outline: none; }
+    .editor-body textarea:focus { box-shadow: inset 0 0 0 2px var(--brand); }
+
+    .line-numbers { padding: 14px 0 14px 14px; text-align: right; color: var(--text-muted); font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; user-select: none; border-right: 1px solid var(--border); min-width: 40px; background: var(--bg-secondary); }
+    .code-output { padding: 14px; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word; overflow: auto; flex: 1; }
+    .kw { color: oklch(0.5 0.2 265); font-weight: 600; }
+    .fn { color: oklch(0.5 0.18 200); }
+    .str { color: oklch(0.5 0.18 140); }
+    .num { color: oklch(0.6 0.18 30); }
+    .cm { color: var(--text-muted); font-style: italic; }
+    [data-theme="dark"] .kw { color: oklch(0.7 0.18 265); }
+    [data-theme="dark"] .fn { color: oklch(0.7 0.16 200); }
+    [data-theme="dark"] .str { color: oklch(0.7 0.16 140); }
+    [data-theme="dark"] .num { color: oklch(0.8 0.16 30); }
+
+    .options { display: flex; gap: 16px; flex-wrap: wrap; padding: 12px 16px; border-top: 1px solid var(--border); background: var(--bg-secondary); }
+    .options label { font-size: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-secondary); }
+    .options input[type="checkbox"] { accent-color: var(--brand); width: 16px; height: 16px; cursor: pointer; }
+    .options select { padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; background: var(--bg); color: var(--text); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner">
+      <div class="header-inner">
+        <a href="../index.html" class="logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+          DevTools
+        </a>
+        <div class="header-actions">
+          <a href="../about/index.html" class="nav-link">About</a>
+          <a href="../contact/index.html" class="nav-link">Contact</a>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="hero">
+      <h1>SQL Formatter</h1>
+      <p>Format and beautify SQL queries with syntax highlighting</p>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn" id="format-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg> Format</button>
+      <button class="btn btn-secondary" id="copy-btn">Copy</button>
+      <button class="btn btn-secondary" id="reset-btn">Reset</button>
+    </div>
+
+    <div class="split">
+      <div class="editor-card">
+        <div class="header">
+          <label>Input SQL</label>
+          <span class="count" id="input-count">0 chars</span>
+        </div>
+        <div class="editor-body">
+          <textarea id="sql-input" placeholder="SELECT * FROM users WHERE id = 1" spellcheck="false">SELECT u.id, u.name, u.email,
+o.total
+FROM users u
+LEFT JOIN (
+SELECT user_id, SUM(amount) as total
+FROM orders
+WHERE status = 'completed'
+GROUP BY user_id
+) o ON u.id = o.user_id
+WHERE u.active = 1
+AND o.total > 100
+ORDER BY o.total DESC
+LIMIT 10</textarea>
+        </div>
+        <div class="options">
+          <label><input type="checkbox" id="uppercase" checked> Uppercase keywords</label>
+          <label>Indent: <select id="indent-size"><option value="2">2 spaces</option><option value="4" selected>4 spaces</option></select></label>
+        </div>
+      </div>
+      <div class="editor-card">
+        <div class="header">
+          <label>Formatted SQL</label>
+          <span class="count" id="output-count">0 chars</span>
+        </div>
+        <div class="editor-body" style="flex-direction:column">
+          <div style="display:flex;flex:1;overflow:auto">
+            <div class="line-numbers" id="line-numbers">1</div>
+            <div class="code-output" id="sql-output"><span class="cm">-- Click Format to beautify</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="inner">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:24px 0;border-top:1px solid var(--border)">
+        <div>
+          <div style="font-weight:800;font-size:0.9rem;background:var(--brand-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">DevTools</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">Free developer tools that run in your browser.</div>
+        </div>
+        <div style="display:flex;gap:16px;font-size:0.8rem">
+          <a href="../about/index.html" style="color:var(--text-secondary);text-decoration:none">About</a>
+          <a href="../contact/index.html" style="color:var(--text-secondary);text-decoration:none">Contact</a>
+          <a href="../privacy/index.html" style="color:var(--text-secondary);text-decoration:none">Privacy</a>
+          <a href="../terms/index.html" style="color:var(--text-secondary);text-decoration:none">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    function showToast(msg) {
+      var t = document.createElement('div');
+      t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:var(--radius-sm);font-size:0.85rem;font-weight:500;z-index:999;animation:fadeSlideUp 0.3s ease-out;max-width:90vw';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(function() { t.remove(); }, 2500);
+    }
+
+    function copyToClipboard(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast('Copied!'); } catch(e) { showToast('Failed to copy'); }
+      document.body.removeChild(ta);
+    }
+
+    var KEYWORDS = ['SELECT','FROM','WHERE','AND','OR','NOT','IN','IS','NULL','AS','ON','LEFT','RIGHT','INNER','OUTER','JOIN','FULL','CROSS','GROUP','BY','ORDER','ASC','DESC','HAVING','LIMIT','OFFSET','INSERT','INTO','VALUES','UPDATE','SET','DELETE','CREATE','TABLE','DROP','ALTER','ADD','COLUMN','INDEX','VIEW','COUNT','SUM','AVG','MIN','MAX','DISTINCT','CASE','WHEN','THEN','ELSE','END','EXISTS','BETWEEN','LIKE','UNION','ALL','PRIMARY','KEY','FOREIGN','REFERENCES','CASCADE','DEFAULT','CHECK','UNIQUE','IF','REPLACE','MERGE','WITH','RECURSIVE','EXCEPT','INTERSECT','TRUE','FALSE'];
+    var FUNCTIONS = ['COUNT','SUM','AVG','MIN','MAX','COALESCE','IFNULL','NULLIF','CAST','CONVERT','SUBSTR','SUBSTRING','LENGTH','TRIM','UPPER','LOWER','REPLACE','CONCAT','GROUP_CONCAT','DATE','DATETIME','STRFTIME','NOW','CURDATE','CURTIME','ROUND','FLOOR','CEIL','ABS','RANDOM','TYPEOF','INSTR'];
+
+    function isKeyword(w) { return KEYWORDS.indexOf(w.toUpperCase()) > -1; }
+    function isFunction(w) { return FUNCTIONS.indexOf(w.toUpperCase()) > -1; }
+
+    function highlightSQL(sql) {
+      var kwSet = {}; KEYWORDS.forEach(function(k) { kwSet[k] = true; });
+      var fnSet = {}; FUNCTIONS.forEach(function(f) { fnSet[f] = true; });
+      var escaped = sql.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      var tokens = [];
+      var i = 0;
+      while (i < escaped.length) {
+        if (escaped[i] === "'" || escaped[i] === '"') {
+          var quote = escaped[i];
+          var start = i;
+          i++;
+          while (i < escaped.length && escaped[i] !== quote) { if (escaped[i] === '\\') i++; i++; }
+          if (i < escaped.length) i++;
+          tokens.push({ type: 'str', text: escaped.substring(start, i) });
+        } else if (escaped[i] === '-' && escaped[i+1] === '-') {
+          var start = i;
+          while (i < escaped.length && escaped[i] !== '\n') i++;
+          tokens.push({ type: 'cm', text: escaped.substring(start, i) });
+        } else if (/[a-zA-Z_]/.test(escaped[i])) {
+          var start = i;
+          while (i < escaped.length && /[a-zA-Z0-9_]/.test(escaped[i])) i++;
+          var word = escaped.substring(start, i);
+          if (kwSet[word.toUpperCase()]) tokens.push({ type: 'kw', text: word });
+          else if (fnSet[word.toUpperCase()] && escaped[i] === '(') tokens.push({ type: 'fn', text: word });
+          else tokens.push({ type: 'text', text: word });
+        } else if (/[0-9]/.test(escaped[i])) {
+          var start = i;
+          while (i < escaped.length && /[0-9.]/.test(escaped[i])) i++;
+          tokens.push({ type: 'num', text: escaped.substring(start, i) });
+        } else {
+          tokens.push({ type: 'text', text: escaped[i] });
+          i++;
+        }
+      }
+      return tokens.map(function(t) {
+        if (t.type === 'text') return t.text;
+        return '<span class="' + t.type + '">' + t.text + '</span>';
+      }).join('');
+    }
+
+    function formatSQL(sql) {
+      var uppercase = document.getElementById('uppercase').checked;
+      var indentSize = parseInt(document.getElementById('indent-size').value);
+
+      var lines = sql.split('\n');
+      var cleaned = [];
+      lines.forEach(function(l) {
+        var trimmed = l.trim();
+        if (trimmed) cleaned.push(trimmed);
+      });
+      var singleLine = cleaned.join(' ');
+
+      var clauses = ['SELECT\\s+', 'INSERT\\s+(?:INTO\\s+)?', 'UPDATE\\s+', 'DELETE\\s+(?:FROM\\s+)?', 'CREATE\\s+(?:TABLE|VIEW|INDEX)\\s+', 'ALTER\\s+TABLE\\s+', 'DROP\\s+(?:TABLE|VIEW|INDEX)\\s+'];
+      var subClauses = ['FROM\\s+', 'WHERE\\s+', 'GROUP\\s+BY\\s+', 'ORDER\\s+BY\\s+', 'HAVING\\s+', 'LIMIT\\s+', 'OFFSET\\s+', 'SET\\s+', 'VALUES\\s*\\('];
+      var joinClauses = ['(?:LEFT|RIGHT|INNER|OUTER|FULL|CROSS)\\s+JOIN\\s+', 'JOIN\\s+', 'ON\\s+'];
+      var all = clauses.concat(subClauses).concat(joinClauses);
+      var pattern = '(' + all.join('|') + ')';
+      var re = new RegExp(pattern, 'gi');
+
+      var parts = [];
+      var last = 0;
+      var match;
+      while ((match = re.exec(singleLine)) !== null) {
+        if (match.index > last) parts.push({ text: singleLine.substring(last, match.index), isKeyword: false });
+        parts.push({ text: match[0], isKeyword: true, keyword: match[0] });
+        last = re.lastIndex;
+      }
+      if (last < singleLine.length) parts.push({ text: singleLine.substring(last), isKeyword: false });
+
+      var result = [];
+      var indent = 0;
+      var inSelect = false;
+      var inValues = false;
+
+      parts.forEach(function(p) {
+        if (!p.isKeyword) {
+          var remaining = p.text.trim();
+          if (remaining) {
+            var items = remaining.split(',').map(function(s) { return s.trim(); });
+            items.forEach(function(item, idx) {
+              if (item) {
+                if (idx > 0) result.push({ indent: indent + 1, text: item + (idx < items.length - 1 ? ',' : '') });
+                else result.push({ indent: indent + 1, text: item + (idx < items.length - 1 ? ',' : '') });
+              }
+            });
+          }
+          return;
+        }
+
+        var kw = p.keyword.trim().toUpperCase();
+        var original = p.keyword.trim();
+
+        if (clauses.some(function(c) { return kw.match(new RegExp('^' + c.trim().toUpperCase().replace(/\\s\+/g,'\\s+'))); })) {
+          indent = 0;
+          inSelect = kw === 'SELECT';
+          inValues = false;
+          result.push({ indent: 0, text: (uppercase ? kw : original) });
+        } else if (joinClauses.some(function(c) { return kw.match(new RegExp('^' + c.trim().toUpperCase().replace(/\\s\+/g,'\\s+'))); })) {
+          result.push({ indent: 0, text: (uppercase ? kw : original) });
+        } else if (kw === 'ON') {
+          result.push({ indent: 1, text: (uppercase ? kw : original) });
+        } else if (subClauses.some(function(c) { return kw.match(new RegExp('^' + c.trim().toUpperCase().replace(/\\s\+/g,'\\s+'))); })) {
+          indent = 1;
+          if (kw === 'VALUES(' || kw.startsWith('VALUES')) { inValues = true; indent = 1; }
+          result.push({ indent: 0, text: (uppercase ? kw : original) });
+        } else {
+          result.push({ indent: indent, text: (uppercase ? kw : original) });
+        }
+      });
+
+      var out = '';
+      result.forEach(function(r) {
+        var spaces = '';
+        for (var i = 0; i < r.indent * indentSize; i++) spaces += ' ';
+        if (out) out += '\n';
+        out += spaces + r.text;
+      });
+
+      return out;
+    }
+
+    function formatAndDisplay() {
+      var input = document.getElementById('sql-input').value;
+      document.getElementById('input-count').textContent = input.length + ' chars';
+      if (!input.trim()) { document.getElementById('sql-output').innerHTML = '<span class="cm">-- Enter SQL above and click Format</span>'; document.getElementById('line-numbers').textContent = '1'; document.getElementById('output-count').textContent = '0 chars'; return; }
+      var formatted = formatSQL(input);
+      var highlighted = highlightSQL(formatted);
+      document.getElementById('sql-output').innerHTML = highlighted || '<span class="cm">-- No output</span>';
+      var lines = (formatted || '').split('\n').length;
+      var nums = '';
+      for (var i = 1; i <= lines; i++) { nums += i + '\n'; }
+      document.getElementById('line-numbers').textContent = nums;
+      document.getElementById('output-count').textContent = formatted.length + ' chars';
+    }
+
+    document.getElementById('format-btn').addEventListener('click', formatAndDisplay);
+
+    document.getElementById('copy-btn').addEventListener('click', function() {
+      var text = document.getElementById('sql-output').textContent;
+      if (!text || text === '-- Click Format to beautify' || text === '-- Enter SQL above and click Format' || text === '-- No output') { showToast('Nothing to copy'); return; }
+      copyToClipboard(text);
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', function() {
+      document.getElementById('sql-input').value = 'SELECT u.id, u.name, u.email,\no.total\nFROM users u\nLEFT JOIN (\nSELECT user_id, SUM(amount) as total\nFROM orders\nWHERE status = \'completed\'\nGROUP BY user_id\n) o ON u.id = o.user_id\nWHERE u.active = 1\nAND o.total > 100\nORDER BY o.total DESC\nLIMIT 10';
+      document.getElementById('uppercase').checked = true;
+      document.getElementById('indent-size').value = '4';
+      formatAndDisplay();
+      showToast('Reset to sample');
+    });
+
+    document.getElementById('sql-input').addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); formatAndDisplay(); }
+    });
+    document.getElementById('sql-input').addEventListener('input', function() {
+      document.getElementById('input-count').textContent = this.value.length + ' chars';
+    });
+    document.getElementById('uppercase').addEventListener('change', formatAndDisplay);
+    document.getElementById('indent-size').addEventListener('change', formatAndDisplay);
+
+    formatAndDisplay();
+
+    (function(){
+      var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');
+      function g(){return document.documentElement.getAttribute('data-theme')||'light'}
+      function s(t){document.documentElement.setAttribute('data-theme',t);i.innerHTML=t==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';try{localStorage.setItem('theme',t)}catch(e){}}
+      try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)s('dark')}catch(e){}
+      t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')});
+    })();
+  </script>
+</body>
+</html>
