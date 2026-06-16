@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HEX to HSL Converter Ã¢â‚¬â€ DevTools</title>
+  <title>HEX to HSL Converter — DevTools</title>
   <meta name="description" content="Free online HEX to HSL converter. Convert hex color codes to HSL and HSLA values instantly with a live color preview. 100% client-side.">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -167,7 +167,7 @@
         <div class="result-grid">
           <div class="result-item" data-copy="hue">
             <span class="result-label">Hue</span>
-            <span class="result-value" id="val-hue">261Ã‚Â°</span>
+            <span class="result-value" id="val-hue">261°</span>
           </div>
           <div class="result-item" data-copy="saturation">
             <span class="result-label">Saturation</span>
@@ -198,14 +198,14 @@
           What is HSL?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">HSL stands for Hue, Saturation, Lightness. Hue is the color angle (0Ã¢â‚¬â€œ360Ã‚Â°), Saturation is the intensity (0Ã¢â‚¬â€œ100%), and Lightness is the brightness (0Ã¢â‚¬â€œ100%). It's a more intuitive way to describe colors than HEX or RGB.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">HSL stands for Hue, Saturation, Lightness. Hue is the color angle (0–360°), Saturation is the intensity (0–100%), and Lightness is the brightness (0–100%). It's a more intuitive way to describe colors than HEX or RGB.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">
           How do I read hue values?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">Hue is measured in degrees on a color wheel: 0Ã‚Â° = Red, 120Ã‚Â° = Green, 240Ã‚Â° = Blue. Values between represent all other colors. For example, 60Ã‚Â° is yellow and 300Ã‚Â° is magenta.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Hue is measured in degrees on a color wheel: 0° = Red, 120° = Green, 240° = Blue. Values between represent all other colors. For example, 60° is yellow and 300° is magenta.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">
@@ -266,13 +266,13 @@
       var rgb = hexToRgb(val);
       if (!rgb) {
         ['hue','saturation','lightness','hsl','hsla'].forEach(function(id) {
-          document.getElementById('val-'+id).textContent = 'Ã¢â‚¬â€';
+          document.getElementById('val-'+id).textContent = '—';
         });
         preview.style.background = 'var(--bg-card)';
         return;
       }
       var hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-      document.getElementById('val-hue').textContent = hsl.h + 'Ã‚Â°';
+      document.getElementById('val-hue').textContent = hsl.h + '°';
       document.getElementById('val-saturation').textContent = hsl.s + '%';
       document.getElementById('val-lightness').textContent = hsl.l + '%';
       document.getElementById('val-hsl').textContent = 'hsl('+hsl.h+', '+hsl.s+'%, '+hsl.l+'%)';
@@ -298,7 +298,7 @@
     document.querySelectorAll('.result-item').forEach(function(row) {
       row.addEventListener('click', function() {
         var val = this.querySelector('.result-value');
-        if (!val || val.textContent === 'Ã¢â‚¬â€') return;
+        if (!val || val.textContent === '—') return;
         navigator.clipboard.writeText(val.textContent).then(function() {
           showToast('Copied ' + val.textContent);
         }).catch(function() {});

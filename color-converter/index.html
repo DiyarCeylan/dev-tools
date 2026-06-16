@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Color Converter Ã¢â‚¬â€ DevTools</title>
+  <title>Color Converter — DevTools</title>
   <meta name="description" content="Free online color converter. Convert between HEX, RGB, HSL, OKLCH, and color names. Real-time color preview. 100% client-side.">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -209,7 +209,7 @@
           </div>
           <div class="format-row" data-copy="Name">
             <span class="format-label">Name</span>
-            <span class="format-value" id="val-name">Ã¢â‚¬â€</span>
+            <span class="format-value" id="val-name">—</span>
           </div>
         </div>
         <div style="margin-top:14px;color:var(--text-muted);font-size:0.75rem;">Click any format row to copy.</div>
@@ -238,7 +238,7 @@
           Why does "Name" show a dash for some colors?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="faq-a-inner">Named CSS colors are limited to 148 standard names. If your color doesn't have an exact match in the named palette, "Ã¢â‚¬â€" is shown. The nearest named color is not approximated Ã¢â‚¬â€ only exact matches are reported.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Named CSS colors are limited to 148 standard names. If your color doesn't have an exact match in the named palette, "—" is shown. The nearest named color is not approximated — only exact matches are reported.</div></div>
       </div>
     </section>
   </main>
@@ -445,7 +445,7 @@
 
     function updateUI(result) {
       if (!result) {
-        formatIds.forEach(function(id) { formatEls[id].textContent = 'Ã¢â‚¬â€'; });
+        formatIds.forEach(function(id) { formatEls[id].textContent = '—'; });
         return;
       }
       var rgb=result.rgb, hsl=result.hsl, o=result.oklch;
@@ -456,7 +456,7 @@
       formatEls.hsla.textContent = 'hsla('+hsl.h+','+hsl.s+'%,'+hsl.l+'%,1)';
       var lStr = Math.round(o.l*100)/100, cStr = Math.round(o.c*100)/100, hStr = Math.round(o.h);
       formatEls.oklch.textContent = 'oklch('+lStr+' '+cStr+' '+hStr+')';
-      formatEls.name.textContent = result.name ? result.name.charAt(0).toUpperCase()+result.name.slice(1) : 'Ã¢â‚¬â€';
+      formatEls.name.textContent = result.name ? result.name.charAt(0).toUpperCase()+result.name.slice(1) : '—';
 
       preview.style.background = result.hex;
       colorPicker.value = result.hex;
@@ -467,7 +467,7 @@
 
     function handleInput(val) {
       if (!val) {
-        formatIds.forEach(function(id) { formatEls[id].textContent = 'Ã¢â‚¬â€'; });
+        formatIds.forEach(function(id) { formatEls[id].textContent = '—'; });
         preview.style.background = 'var(--bg-card)';
         previewText.textContent = 'Enter a color';
         previewText.style.color = 'var(--text-muted)';
@@ -506,7 +506,7 @@
     document.querySelectorAll('.format-row').forEach(function(row) {
       row.addEventListener('click', function() {
         var val = this.querySelector('.format-value');
-        if (!val || val.textContent === 'Ã¢â‚¬â€') return;
+        if (!val || val.textContent === '—') return;
         navigator.clipboard.writeText(val.textContent).then(function() {
           showToast('Copied ' + val.textContent);
         }).catch(function() {});

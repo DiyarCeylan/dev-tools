@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Epoch Converter Ã¢â‚¬â€ DevTools</title>
+  <title>Epoch Converter — DevTools</title>
   <meta name="description" content="Free online epoch converter. Convert Unix timestamps to human-readable dates and vice versa. Supports seconds and milliseconds. 100% client-side.">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -114,7 +114,7 @@
     </div>
 
     <div class="current-time">
-      <div class="epoch" id="current-epoch">Ã¢â‚¬â€</div>
+      <div class="epoch" id="current-epoch">—</div>
       <div class="date" id="current-date">Current Unix timestamp</div>
     </div>
 
@@ -129,11 +129,11 @@
         </div>
         <div style="margin-top:16px">
           <div class="output-label">UTC</div>
-          <div class="output" id="utc-output">Ã¢â‚¬â€</div>
+          <div class="output" id="utc-output">—</div>
         </div>
         <div style="margin-top:12px">
           <div class="output-label">Local</div>
-          <div class="output" id="local-output">Ã¢â‚¬â€</div>
+          <div class="output" id="local-output">—</div>
         </div>
         <div class="row" style="margin-top:10px">
           <select id="ts-format">
@@ -153,15 +153,15 @@
         </div>
         <div style="margin-top:16px">
           <div class="output-label">Seconds</div>
-          <div class="output" id="seconds-output">Ã¢â‚¬â€</div>
+          <div class="output" id="seconds-output">—</div>
         </div>
         <div style="margin-top:12px">
           <div class="output-label">Milliseconds</div>
-          <div class="output" id="milliseconds-output">Ã¢â‚¬â€</div>
+          <div class="output" id="milliseconds-output">—</div>
         </div>
         <div style="margin-top:12px">
           <div class="output-label">ISO 8601</div>
-          <div class="output" id="iso-output">Ã¢â‚¬â€</div>
+          <div class="output" id="iso-output">—</div>
         </div>
       </div>
     </div>
@@ -248,9 +248,9 @@
 
     document.getElementById('reset-date').addEventListener('click', function() {
       document.getElementById('date-input').value = '';
-      document.getElementById('seconds-output').textContent = 'Ã¢â‚¬â€';
-      document.getElementById('milliseconds-output').textContent = 'Ã¢â‚¬â€';
-      document.getElementById('iso-output').textContent = 'Ã¢â‚¬â€';
+      document.getElementById('seconds-output').textContent = '—';
+      document.getElementById('milliseconds-output').textContent = '—';
+      document.getElementById('iso-output').textContent = '—';
     });
 
     document.getElementById('ts-input').addEventListener('keydown', function(e) {
