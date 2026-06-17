@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Formatter — DevTools</title>
+  <meta name="description" content="Free online SQL formatter. Format and beautify SQL queries with syntax highlighting. Supports SELECT, INSERT, UPDATE, DELETE. 100% client-side.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SQL Formatter",
+    "url": "https://diyarceylan.github.io/dev-tools/sql-formatter/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "description": "Free online SQL formatter. Format and beautify SQL queries with syntax highlighting. 100% client-side."
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-hue: 265; --brand: oklch(0.55 0.24 var(--brand-hue)); --brand-light: oklch(0.92 0.06 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300));
+      --bg: oklch(0.985 0.002 280); --bg-secondary: oklch(0.96 0.004 280); --bg-card: oklch(0.99 0.002 280 / 0.6);
+      --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
+      --text-on-brand: oklch(1 0 0);
+      --border: oklch(0.88 0.01 280 / 0.5); --border-hover: oklch(0.8 0.04 280);
+      --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    }
+    [data-theme="dark"] {
+      --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270); --bg-card: oklch(0.18 0.02 270 / 0.6);
+      --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
+      --border: oklch(0.25 0.02 280 / 0.5); --border-hover: oklch(0.35 0.04 280);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; pointer-events: none; }
+    body::after { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 600px 400px at 10% 20%, oklch(0.55 0.24 265 / 0.04) 0%, transparent 100%), radial-gradient(ellipse 500px 500px at 90% 80%, oklch(0.5 0.26 300 / 0.03) 0%, transparent 100%); }
+    header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    .inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-link { padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; display: none; }
+    .nav-link:hover { color: var(--text); background: var(--bg-secondary); }
+    @media (min-width: 640px) { .nav-link { display: inline-flex; } }
+    .theme-toggle { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+    .theme-toggle:hover { background: var(--brand-light); border-color: var(--brand); transform: scale(1.05); }
+    main { flex: 1; padding: 40px 24px 60px; }
+    .hero { text-align: center; margin-bottom: 32px; animation: fadeSlideUp 0.7s ease-out; }
+    .hero h1 { font-size: clamp(2rem,4vw,2.8rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 10px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--text-secondary); font-size: clamp(0.95rem,1.5vw,1.05rem); max-width: 500px; margin: 0 auto; }
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; animation: fadeSlideUp 0.7s ease-out 0.1s both; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; background: var(--brand-gradient); color: var(--text-on-brand); }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px oklch(0.55 0.24 265 / 0.3); }
+    .btn:active { transform: scale(0.95); }
+    .btn-secondary { background: var(--bg-secondary); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--border); box-shadow: none; }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; animation: fadeSlideUp 0.7s ease-out 0.15s both; }
+    @media (max-width: 768px) { .split { grid-template-columns: 1fr; } }
+    .editor-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+    .editor-card .header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--bg-secondary); }
+    .editor-card .header label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
+    .editor-card .header .count { font-size: 0.75rem; color: var(--text-muted); }
+    .editor-body { position: relative; flex: 1; display: flex; }
+    .editor-body pre { margin: 0; padding: 14px; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; overflow: auto; white-space: pre-wrap; word-break: break-word; tab-size: 2; }
+    .editor-body textarea, .editor-body .highlight { padding: 14px; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; tab-size: 2; }
+    .editor-body textarea { width: 100%; min-height: 350px; border: none; resize: vertical; background: var(--bg); color: var(--text); outline: none; }
+    .editor-body textarea:focus { box-shadow: inset 0 0 0 2px var(--brand); }
+
+    .line-numbers { padding: 14px 0 14px 14px; text-align: right; color: var(--text-muted); font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; user-select: none; border-right: 1px solid var(--border); min-width: 40px; background: var(--bg-secondary); white-space: pre; }
+    .code-output { padding: 14px; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; white-space: pre; overflow: auto; flex: 1; }
+    .kw { color: oklch(0.5 0.2 265); font-weight: 600; }
+    .fn { color: oklch(0.5 0.18 200); }
+    .str { color: oklch(0.5 0.18 140); }
+    .num { color: oklch(0.6 0.18 30); }
+    .cm { color: var(--text-muted); font-style: italic; }
+    [data-theme="dark"] .kw { color: oklch(0.7 0.18 265); }
+    [data-theme="dark"] .fn { color: oklch(0.7 0.16 200); }
+    [data-theme="dark"] .str { color: oklch(0.7 0.16 140); }
+    [data-theme="dark"] .num { color: oklch(0.8 0.16 30); }
+
+    .options { display: flex; gap: 16px; flex-wrap: wrap; padding: 12px 16px; border-top: 1px solid var(--border); background: var(--bg-secondary); }
+    .options label { font-size: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-secondary); }
+    .options input[type="checkbox"] { accent-color: var(--brand); width: 16px; height: 16px; cursor: pointer; }
+    .options select { padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; background: var(--bg); color: var(--text); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner">
+      <div class="header-inner">
+        <a href="../index.html" class="logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+          DevTools
+        </a>
+        <div class="header-actions">
+          <a href="../about/index.html" class="nav-link">About</a>
+          <a href="../contact/index.html" class="nav-link">Contact</a>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="hero">
+      <h1>SQL Formatter</h1>
+      <p>Format and beautify SQL queries with syntax highlighting</p>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn" id="format-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg> Format</button>
+      <button class="btn btn-secondary" id="clear-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Clear</button>
+    </div>
+
+    <div class="split">
+      <div class="editor-card">
+        <div class="header">
+          <label>Input SQL</label>
+          <span class="count" id="input-count">0 chars</span>
+        </div>
+        <div class="editor-body">
+          <textarea id="sql-input" placeholder="SELECT * FROM users WHERE id = 1" spellcheck="false"></textarea>
+        </div>
+        <div class="options">
+          <label><input type="checkbox" id="uppercase" checked> Uppercase keywords</label>
+          <label>Indent: <select id="indent-size"><option value="2">2 spaces</option><option value="4" selected>4 spaces</option></select></label>
+        </div>
+      </div>
+      <div class="editor-card">
+        <div class="header">
+          <label>Formatted SQL</label>
+          <span class="count" id="output-count">0 chars</span>
+          <button class="btn btn-secondary" id="copy-btn" style="padding:4px 10px;font-size:0.75rem">Copy</button>
+        </div>
+        <div class="editor-body" style="flex-direction:column">
+          <div style="display:flex;flex:1;overflow:auto">
+            <div class="line-numbers" id="line-numbers">1</div>
+            <div class="code-output" id="sql-output"><span class="cm">-- Click Format to beautify</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="inner">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:24px 0;border-top:1px solid var(--border)">
+        <div>
+          <div style="font-weight:800;font-size:0.9rem;background:var(--brand-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">DevTools</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">Free developer tools that run in your browser.</div>
+        </div>
+        <div style="display:flex;gap:16px;font-size:0.8rem">
+          <a href="../about/index.html" style="color:var(--text-secondary);text-decoration:none">About</a>
+          <a href="../contact/index.html" style="color:var(--text-secondary);text-decoration:none">Contact</a>
+          <a href="../privacy/index.html" style="color:var(--text-secondary);text-decoration:none">Privacy</a>
+          <a href="../terms/index.html" style="color:var(--text-secondary);text-decoration:none">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    function showToast(msg) {
+      var t = document.createElement('div');
+      t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:var(--radius-sm);font-size:0.85rem;font-weight:500;z-index:999;animation:fadeSlideUp 0.3s ease-out;max-width:90vw';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(function() { t.remove(); }, 2500);
+    }
+
+    function copyToClipboard(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast('Copied!'); } catch(e) { showToast('Failed to copy'); }
+      document.body.removeChild(ta);
+    }
+
+    var KEYWORDS = ['SELECT','FROM','WHERE','AND','OR','NOT','IN','IS','NULL','AS','ON','LEFT','RIGHT','INNER','OUTER','JOIN','FULL','CROSS','GROUP','BY','ORDER','ASC','DESC','HAVING','LIMIT','OFFSET','INSERT','INTO','VALUES','UPDATE','SET','DELETE','CREATE','TABLE','DROP','ALTER','ADD','COLUMN','INDEX','VIEW','COUNT','SUM','AVG','MIN','MAX','DISTINCT','CASE','WHEN','THEN','ELSE','END','EXISTS','BETWEEN','LIKE','UNION','ALL','PRIMARY','KEY','FOREIGN','REFERENCES','CASCADE','DEFAULT','CHECK','UNIQUE','IF','REPLACE','MERGE','WITH','RECURSIVE','EXCEPT','INTERSECT','TRUE','FALSE'];
+    var FUNCTIONS = ['COUNT','SUM','AVG','MIN','MAX','COALESCE','IFNULL','NULLIF','CAST','CONVERT','SUBSTR','SUBSTRING','LENGTH','TRIM','UPPER','LOWER','REPLACE','CONCAT','GROUP_CONCAT','DATE','DATETIME','STRFTIME','NOW','CURDATE','CURTIME','ROUND','FLOOR','CEIL','ABS','RANDOM','TYPEOF','INSTR'];
+
+    function isKeyword(w) { return KEYWORDS.indexOf(w.toUpperCase()) > -1; }
+    function isFunction(w) { return FUNCTIONS.indexOf(w.toUpperCase()) > -1; }
+
+    function highlightSQL(sql) {
+      var kwSet = {}; KEYWORDS.forEach(function(k) { kwSet[k] = true; });
+      var fnSet = {}; FUNCTIONS.forEach(function(f) { fnSet[f] = true; });
+      var escaped = sql.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      var tokens = [];
+      var i = 0;
+      while (i < escaped.length) {
+        if (escaped[i] === "'" || escaped[i] === '"') {
+          var quote = escaped[i];
+          var start = i;
+          i++;
+          while (i < escaped.length && escaped[i] !== quote) { if (escaped[i] === '\\') i++; i++; }
+          if (i < escaped.length) i++;
+          tokens.push({ type: 'str', text: escaped.substring(start, i) });
+        } else if (escaped[i] === '-' && escaped[i+1] === '-') {
+          var start = i;
+          while (i < escaped.length && escaped[i] !== '\n') i++;
+          tokens.push({ type: 'cm', text: escaped.substring(start, i) });
+        } else if (/[a-zA-Z_]/.test(escaped[i])) {
+          var start = i;
+          while (i < escaped.length && /[a-zA-Z0-9_]/.test(escaped[i])) i++;
+          var word = escaped.substring(start, i);
+          if (kwSet[word.toUpperCase()]) tokens.push({ type: 'kw', text: word });
+          else if (fnSet[word.toUpperCase()] && escaped[i] === '(') tokens.push({ type: 'fn', text: word });
+          else tokens.push({ type: 'text', text: word });
+        } else if (/[0-9]/.test(escaped[i])) {
+          var start = i;
+          while (i < escaped.length && /[0-9.]/.test(escaped[i])) i++;
+          tokens.push({ type: 'num', text: escaped.substring(start, i) });
+        } else {
+          tokens.push({ type: 'text', text: escaped[i] });
+          i++;
+        }
+      }
+      return tokens.map(function(t) {
+        if (t.type === 'text') return t.text;
+        return '<span class="' + t.type + '">' + t.text + '</span>';
+      }).join('');
+    }
+
+    function formatSQL(sql) {
+      var uppercase = document.getElementById('uppercase').checked;
+      var indentSize = parseInt(document.getElementById('indent-size').value);
+
+      var KEYWORDS = { SELECT:1, INSERT:1, UPDATE:1, DELETE:1, CREATE:1, ALTER:1, DROP:1, TABLE:1, INDEX:1, VIEW:1, FROM:1, WHERE:1, 'AND':1, 'OR':1, 'GROUP':1, 'ORDER':1, 'BY':1, HAVING:1, LIMIT:1, OFFSET:1, SET:1, VALUES:1, INTO:1, JOIN:1, 'LEFT':1, 'RIGHT':1, 'INNER':1, 'OUTER':1, 'FULL':1, 'CROSS':1, 'NATURAL':1, 'ON':1, 'AS':1, 'NOT':1, 'NULL':1, 'IN':1, 'IS':1, 'LIKE':1, 'BETWEEN':1, 'EXISTS':1, 'ALL':1, 'ANY':1, 'UNION':1, 'EXCEPT':1, 'INTERSECT':1, 'ASC':1, 'DESC':1, 'DISTINCT':1, 'CASE':1, 'WHEN':1, 'THEN':1, 'ELSE':1, 'END':1, 'WITH':1, 'RECURSIVE':1, 'PRIMARY':1, 'KEY':1, 'FOREIGN':1, 'REFERENCES':1, 'CASCADE':1, 'DEFAULT':1, 'CHECK':1, 'UNIQUE':1, 'IF':1, 'REPLACE':1, 'MERGE':1, 'TRUE':1, 'FALSE':1, 'TOP':1, 'USING':1, 'RETURNING':1 };
+      var JOIN_WORDS = { 'JOIN':1, 'LEFT':1, 'RIGHT':1, 'INNER':1, 'OUTER':1, 'FULL':1, 'CROSS':1, 'NATURAL':1 };
+
+      var tokens = [];
+      for (var i = 0; i < sql.length;) {
+        if (sql[i] === ' ' || sql[i] === '\t' || sql[i] === '\r' || sql[i] === '\n') { i++; continue; }
+        if (sql[i] === "'" || sql[i] === '"') {
+          var q = sql[i], s = i; i++;
+          while (i < sql.length && sql[i] !== q) { if (sql[i] === '\\') i++; i++; }
+          if (i < sql.length) i++;
+          tokens.push({ t: sql.substring(s, i), k: 0 }); continue;
+        }
+        if (sql[i] === '-' && sql[i+1] === '-') { var s = i; while (i < sql.length && sql[i] !== '\n') i++; tokens.push({ t: sql.substring(s, i), k: 2 }); continue; }
+        if (/[a-zA-Z_]/.test(sql[i])) { var s = i; while (i < sql.length && /[a-zA-Z0-9_]/.test(sql[i])) i++; var w = sql.substring(s, i); tokens.push({ t: w, k: KEYWORDS[w.toUpperCase()] ? 1 : 0 }); continue; }
+        if (/[0-9]/.test(sql[i])) { var s = i; while (i < sql.length && /[0-9.]/.test(sql[i])) i++; tokens.push({ t: sql.substring(s, i), k: 0 }); continue; }
+        tokens.push({ t: sql[i], k: 0 }); i++;
+      }
+
+      function uc(t) { return KEYWORDS[t.toUpperCase()] && uppercase ? t.toUpperCase() : t; }
+      function needSpace(prev, curr) {
+        if (!prev) return false;
+        if (curr === ',' || curr === ')' || curr === '.') return false;
+        if (prev === '(' || prev === '.') return false;
+        if (curr === '(' && FUNCTIONS.indexOf(prev.toUpperCase()) > -1) return false;
+        return true;
+      }
+
+      var out = [];
+      var indent = 0, parenDepth = 0, inLine = [];
+      var cteParen = 0, baseIndent = 0, cteMode = false;
+      function isTop() { return parenDepth === 0 || (cteParen > 0 && parenDepth < cteParen); }
+      function emitLine(nl) {
+        if (inLine.length > 0) {
+          var text = '';
+          for (var i = 0; i < inLine.length; i++) {
+            if (needSpace(i > 0 ? inLine[i-1] : null, inLine[i])) text += ' ';
+            text += inLine[i];
+          }
+          var lvl = (parenDepth > 0 ? indent + parenDepth : indent) + baseIndent;
+          out.push({ indent: Math.max(0, lvl), text: text });
+          inLine = [];
+        }
+        if (nl !== undefined) indent = nl;
+      }
+
+      for (var pos = 0; pos < tokens.length; pos++) {
+        var tok = tokens[pos];
+        if (tok.k === 2) { emitLine(); inLine.push(tok.t); emitLine(); continue; }
+        if (tok.t === '(') {
+          if (cteParen === 0 && pos > 0 && tokens[pos-1].t.toUpperCase() === 'AS' && cteMode) {
+              cteParen = 1; cteMode = false;
+              emitLine(); indent = 0; baseIndent = 1; inLine.push('('); emitLine(); continue;
+          }
+          parenDepth++; inLine.push('('); continue;
+        }
+        if (tok.t === ')') {
+          if (cteParen > 0 && parenDepth === 0) { emitLine(); inLine.push(')'); emitLine(); cteParen = 0; baseIndent = 0; continue; }
+          if (cteParen > 0) { parenDepth--; inLine.push(')'); continue; }
+          parenDepth = Math.max(0, parenDepth - 1); inLine.push(')'); continue;
+        }
+        if (tok.t === ',') { inLine.push(','); if (isTop()) { cteMode = true; emitLine(); indent = Math.max(1, indent); } continue; }
+
+        if (tok.k === 1) {
+          var up = tok.t.toUpperCase();
+          var nxt = pos + 1 < tokens.length ? tokens[pos+1].t.toUpperCase() : '';
+          if (up === 'WITH' && isTop()) { emitLine(0); inLine.push('WITH'); cteMode = true; if (nxt === 'RECURSIVE') { pos++; inLine.push('RECURSIVE'); } continue; }
+          if (up === 'SELECT' && isTop()) { emitLine(0); inLine.push('SELECT'); continue; }
+          if (up === 'INSERT' && isTop()) { emitLine(0); inLine.push('INSERT'); continue; }
+          if (up === 'UPDATE' && isTop()) { emitLine(0); inLine.push('UPDATE'); continue; }
+          if (up === 'DELETE' && isTop()) { emitLine(0); inLine.push('DELETE'); continue; }
+          if (up === 'CREATE' && isTop()) { emitLine(0); inLine.push('CREATE'); continue; }
+          if (up === 'ALTER' && isTop()) { emitLine(0); inLine.push('ALTER'); continue; }
+          if (up === 'DROP' && isTop()) { emitLine(0); inLine.push('DROP'); continue; }
+          if (up === 'FROM' && isTop()) { emitLine(0); inLine.push('FROM'); continue; }
+          if (up === 'WHERE' && isTop()) { emitLine(0); inLine.push('WHERE'); continue; }
+          if (up === 'HAVING' && isTop()) { emitLine(0); inLine.push('HAVING'); continue; }
+          if (up === 'LIMIT' && isTop()) { emitLine(0); inLine.push('LIMIT'); continue; }
+          if (up === 'OFFSET' && isTop()) { emitLine(0); inLine.push('OFFSET'); continue; }
+          if (up === 'SET' && isTop()) { emitLine(0); inLine.push('SET'); continue; }
+          if (up === 'UNION' && isTop()) { emitLine(0); inLine.push('UNION'); if (nxt === 'ALL') { pos++; inLine.push('ALL'); } continue; }
+          if ((up === 'EXCEPT' || up === 'INTERSECT') && isTop()) { emitLine(0); inLine.push(up); continue; }
+          if (up === 'VALUES' && isTop()) { emitLine(1); inLine.push('VALUES'); continue; }
+          if (up === 'ORDER' && nxt === 'BY' && isTop()) { emitLine(0); inLine.push('ORDER'); pos++; inLine.push('BY'); continue; }
+          if (up === 'GROUP' && nxt === 'BY' && isTop()) { emitLine(0); inLine.push('GROUP'); pos++; inLine.push('BY'); continue; }
+          if ((up === 'AND' || up === 'OR') && isTop()) { emitLine(1); inLine.push(up); continue; }
+          if (up === 'ON' && isTop()) {
+            if (inLine.length > 0) { inLine.push('ON'); continue; }
+            emitLine(0); inLine.push('ON'); continue;
+          }
+          if (JOIN_WORDS[up] && isTop()) {
+            if (up === 'JOIN') { emitLine(0); inLine.push('JOIN'); continue; }
+            var nn = pos + 1 < tokens.length ? tokens[pos+1].t.toUpperCase() : '';
+            if (nn === 'JOIN') { emitLine(0); inLine.push(up); pos++; inLine.push('JOIN'); continue; }
+          }
+          inLine.push(uc(tok.t));
+          continue;
+        }
+
+        if ((tok.t === '<' || tok.t === '>' || tok.t === '!') && pos + 1 < tokens.length && tokens[pos+1].t === '=') {
+          inLine.push(tok.t + '='); pos++; continue;
+        }
+        if (tok.t === '<' && pos + 1 < tokens.length && tokens[pos+1].t === '>') {
+          inLine.push('<>'); pos++; continue;
+        }
+        if (tok.t === '=' || tok.t === '>' || tok.t === '<' || tok.t === '!' || tok.t === '+' || tok.t === '-' || tok.t === '/' || tok.t === '%' || tok.t === '*') {
+          inLine.push(tok.t);
+          continue;
+        }
+
+        inLine.push(tok.t);
+      }
+
+      emitLine(0);
+
+      var result = '';
+      for (var r = 0; r < out.length; r++) {
+        var sp = '';
+        for (var s = 0; s < out[r].indent * indentSize; s++) sp += ' ';
+        if (r > 0) result += '\n';
+        result += sp + out[r].text;
+      }
+      return result;
+    }
+
+    function formatAndDisplay() {
+      var input = document.getElementById('sql-input').value;
+      document.getElementById('input-count').textContent = input.length + ' chars';
+      if (!input.trim()) { document.getElementById('sql-output').innerHTML = '<span class="cm">-- Enter SQL above and click Format</span>'; document.getElementById('line-numbers').textContent = '1'; document.getElementById('output-count').textContent = '0 chars'; return; }
+      var formatted = formatSQL(input);
+      var highlighted = highlightSQL(formatted);
+      document.getElementById('sql-output').innerHTML = highlighted || '<span class="cm">-- No output</span>';
+      var lines = (formatted || '').split('\n').length;
+      var nums = '';
+      for (var i = 1; i <= lines; i++) { nums += i + '\n'; }
+      document.getElementById('line-numbers').textContent = nums;
+      document.getElementById('output-count').textContent = formatted.length + ' chars';
+    }
+
+    document.getElementById('format-btn').addEventListener('click', formatAndDisplay);
+
+    document.getElementById('clear-btn').addEventListener('click', function() {
+      document.getElementById('sql-input').value = '';
+      document.getElementById('input-count').textContent = '0 chars';
+      document.getElementById('sql-output').innerHTML = '<span class="cm">-- Enter SQL above and click Format</span>';
+      document.getElementById('line-numbers').textContent = '1';
+      document.getElementById('output-count').textContent = '0 chars';
+    });
+
+    document.getElementById('copy-btn').addEventListener('click', function() {
+      var text = document.getElementById('sql-output').textContent;
+      if (!text || text === '-- Click Format to beautify' || text === '-- Enter SQL above and click Format' || text === '-- No output') { showToast('Nothing to copy'); return; }
+      copyToClipboard(text);
+    });
+
+    document.getElementById('sql-input').addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); formatAndDisplay(); }
+    });
+    document.getElementById('sql-input').addEventListener('input', function() {
+      document.getElementById('input-count').textContent = this.value.length + ' chars';
+    });
+    document.getElementById('uppercase').addEventListener('change', formatAndDisplay);
+    document.getElementById('indent-size').addEventListener('change', formatAndDisplay);
+
+    (function(){
+      var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');
+      function g(){return document.documentElement.getAttribute('data-theme')||'light'}
+      function s(t){document.documentElement.setAttribute('data-theme',t);i.innerHTML=t==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';try{localStorage.setItem('theme',t)}catch(e){}}
+      try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)s('dark')}catch(e){}
+      t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')});
+    })();
+  </script>
+</body>
+</html>
