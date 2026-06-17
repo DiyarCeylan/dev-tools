@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevTools — Free Online Developer Tools</title>
+  <meta name="description" content="Free online developer tools that run in your browser. JSON to CSV, URL encoder, UUID generator, Base64, and more. 100% private, no server uploads.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6325d6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <link rel="canonical" href="https://diyarceylan.github.io/dev-tools/">
+  <meta property="og:title" content="DevTools — Free Online Developer Tools">
+  <meta property="og:description" content="Free online developer tools that run in your browser. 100% private, no server uploads.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DevTools">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "DevTools",
+    "url": "https://diyarceylan.github.io/dev-tools/",
+    "description": "Free online developer tools that run in your browser. JSON to CSV, URL encoder, UUID generator, Base64, and more.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://diyarceylan.github.io/dev-tools/?search={search_term}",
+      "query-input": "required name=search_term"
+    }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-hue: 265; --brand: oklch(0.55 0.24 var(--brand-hue)); --brand-light: oklch(0.92 0.06 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300));
+      --bg: oklch(0.985 0.002 280); --bg-secondary: oklch(0.96 0.004 280); --bg-card: oklch(0.99 0.002 280 / 0.6);
+      --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
+      --border: oklch(0.88 0.01 280 / 0.5); --border-hover: oklch(0.8 0.04 280);
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --header-height: 68px;
+    }
+    [data-theme="dark"] {
+      --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270); --bg-card: oklch(0.18 0.02 270 / 0.6);
+      --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
+      --border: oklch(0.25 0.02 280 / 0.5);
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.2);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.35), 0 4px 6px -4px rgb(0 0 0 / 0.2);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; position: relative; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; pointer-events: none; }
+    .bg-orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: -1; opacity: 0.12; }
+    [data-theme="dark"] .bg-orb { opacity: 0.08; }
+    .bg-orb--1 { width: 600px; height: 600px; top: -200px; right: -150px; background: oklch(0.55 0.24 265 / 0.5); animation: orbFloat 20s ease-in-out infinite; }
+    .bg-orb--2 { width: 400px; height: 400px; bottom: -100px; left: -100px; background: oklch(0.65 0.18 30 / 0.4); animation: orbFloat 25s ease-in-out infinite reverse; }
+    @keyframes orbFloat { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-30px) scale(1.05); } 66% { transform: translate(-20px,20px) scale(0.95); } }
+    header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    .inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: var(--header-height); }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-link { padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; display: none; }
+    .nav-link:hover { color: var(--text); background: var(--bg-secondary); }
+    @media (min-width: 640px) { .nav-link { display: inline-flex; } }
+    .theme-toggle { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+    .theme-toggle:hover { background: var(--brand-light); border-color: var(--brand); transform: scale(1.05); }
+    main { flex: 1; max-width: 1200px; margin: 0 auto; padding: 64px 24px; width: 100%; }
+    .hero { text-align: center; margin-bottom: 48px; animation: fadeSlideUp 0.7s ease-out; }
+    .hero h1 { font-size: clamp(2.4rem,5vw,3.8rem); font-weight: 900; line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.03em; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: clamp(1rem,2vw,1.2rem); color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.7; margin-bottom: 32px; }
+
+    .search-wrap { position: relative; max-width: 420px; margin: 0 auto; }
+    .search-wrap svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+    .search-wrap input { width: 100%; padding: 12px 16px 12px 44px; border: 1px solid var(--border); border-radius: var(--radius); font-family: var(--font); font-size: 0.9rem; background: var(--bg-card); color: var(--text); outline: none; backdrop-filter: blur(12px); transition: border-color 0.2s, box-shadow 0.2s; }
+    .search-wrap input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-light); }
+    .search-wrap input::placeholder { color: var(--text-muted); }
+
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 20px; animation: fadeSlideUp 0.7s ease-out 0.15s both; }
+    .tool-card { position: relative; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; text-decoration: none; color: inherit; box-shadow: var(--shadow-sm); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.35s cubic-bezier(0.22,1,0.36,1); display: flex; flex-direction: column; gap: 10px; }
+    .tool-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--brand); }
+    .tool-card-icon { width: 48px; height: 48px; background: var(--brand-light); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--brand); flex-shrink: 0; }
+    .tool-card h2 { font-size: 1.1rem; font-weight: 700; }
+    .tool-card p { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; }
+    .no-results { text-align: center; padding: 60px 24px; color: var(--text-muted); font-size: 0.95rem; display: none; grid-column: 1 / -1; }
+
+    footer { border-top: 1px solid var(--border); padding: 40px 24px 32px; margin-top: 48px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 24px; text-align: center; }
+    @media (min-width:640px) { .footer-inner { grid-template-columns: 1fr 1fr; text-align: left; } }
+    .footer-brand { font-weight: 700; font-size: 1rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 4px; }
+    .footer-tagline { color: var(--text-muted); font-size: 0.85rem; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: center; }
+    @media (min-width:640px) { .footer-links { justify-content: flex-end; } }
+    .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--brand); }
+    .footer-bottom { grid-column: 1 / -1; text-align: center; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; }
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { transition-duration:0s!important; animation-duration:0s!important; } .bg-orb,.tool-card { animation:none!important; } }
+    @media print { header,footer,.theme-toggle,.bg-orb,.search-wrap { display:none; } .tool-card { border:1px solid #ccc; box-shadow:none; background:#fff; } }
+  </style>
+</head>
+<body>
+  <div class="bg-orb bg-orb--1" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb--2" aria-hidden="true"></div>
+  <header>
+    <div class="inner header-inner">
+      <a href="index.html" class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        DevTools
+      </a>
+      <div class="header-actions">
+        <a href="blog/index.html" class="nav-link">Blog</a>
+        <a href="about/index.html" class="nav-link">About</a>
+        <a href="contact/index.html" class="nav-link">Contact</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <h1>Developer Tools</h1>
+      <p>Free, private, browser-based tools for developers. No servers, no uploads, no tracking.</p>
+      <div class="search-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="tool-search" placeholder="Search tools..." aria-label="Search tools">
+      </div>
+    </section>
+    <div class="tools-grid" id="tools-grid">
+      <a href="url-encoder-decoder/index.html" class="tool-card" data-name="URL Encoder / Decoder">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="2 12 6 12 9 9 12 12 15 6 18 9 22 9"/></svg>
+        </div>
+        <h2>URL Encoder / Decoder</h2>
+        <p>Encode or decode URL strings instantly. Supports all special characters with one click copy.</p>
+      </a>
+      <a href="base64-encoder-decoder/index.html" class="tool-card" data-name="Base64 Encoder / Decoder">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 1 21 5"/><path d="M6.5 20.5L21 6"/><polyline points="3 19 3 23 7 23"/><path d="M16.5 3.5L3 17"/></svg>
+        </div>
+        <h2>Base64 Encoder / Decoder</h2>
+        <p>Encode text or files to Base64. Decode Base64 with file download for binary data.</p>
+      </a>
+      <a href="uuid-generator/index.html" class="tool-card" data-name="UUID Generator">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <h2>UUID Generator</h2>
+        <p>Generate UUIDs v1, v4, v7. Bulk generate up to 1000, copy individual or all at once.</p>
+      </a>
+      <a href="json-to-csv-converter/index.html" class="tool-card" data-name="JSON to CSV Converter">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+        </div>
+        <h2>JSON to CSV Converter</h2>
+        <p>Convert JSON arrays to CSV with nested object flattening, custom delimiters, copy, and download.</p>
+      </a>
+      <a href="json-formatter-validator/index.html" class="tool-card" data-name="JSON Formatter & Validator">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        </div>
+        <h2>JSON Formatter &amp; Validator</h2>
+        <p>Format, validate, and beautify JSON with syntax highlighting, line numbers, and key sorting.</p>
+      </a>
+      <a href="regex-tester/index.html" class="tool-card" data-name="Regex Tester">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16.5 7.5L12 12l-2-2"/><path d="M12 12l4.5 4.5"/></svg>
+        </div>
+        <h2>Regex Tester</h2>
+        <p>Test regular expressions with real-time matching, highlighted results, and group capture.</p>
+      </a>
+      <a href="html-entity-encoder-decoder/index.html" class="tool-card" data-name="HTML Entity Encoder / Decoder">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h2>HTML Entity Encoder / Decoder</h2>
+        <p>Encode or decode HTML special characters like &amp;lt; &amp;gt; &amp;amp; with one click.</p>
+      </a>
+      <a href="jwt-parser/index.html" class="tool-card" data-name="JWT Parser">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+        </div>
+        <h2>JWT Parser</h2>
+        <p>Decode and inspect JSON Web Tokens. View header, payload, algorithm, and validate expiration.</p>
+      </a>
+      <a href="color-converter/index.html" class="tool-card" data-name="Color Converter">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <h2>Color Converter</h2>
+        <p>Convert between HEX, RGB, HSL, OKLCH and named colors with real-time color preview.</p>
+      </a>
+      <a href="text-diff-checker/index.html" class="tool-card" data-name="Text Diff Checker">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h2>Text Diff Checker</h2>
+        <p>Compare two texts side by side with highlighted additions, deletions, and line numbers.</p>
+      </a>
+      <a href="hex-to-hsl/index.html" class="tool-card" data-name="HEX to HSL Converter">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <h2>HEX to HSL Converter</h2>
+        <p>Convert hex color codes to HSL values instantly with real-time preview.</p>
+      </a>
+      <a href="base64-image-converter/index.html" class="tool-card" data-name="Base64 Image Converter">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 1 21 5"/><path d="M6.5 20.5L21 6"/><polyline points="3 19 3 23 7 23"/><path d="M16.5 3.5L3 17"/></svg>
+        </div>
+        <h2>Base64 Image Converter</h2>
+        <p>Encode images to Base64 or decode Base64 strings back to images.</p>
+      </a>
+      <a href="epoch-converter/index.html" class="tool-card" data-name="Epoch Converter">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h2>Epoch Converter</h2>
+        <p>Convert Unix timestamps to human-readable dates and vice versa.</p>
+      </a>
+      <a href="html-preview/index.html" class="tool-card" data-name="HTML Preview">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h2>HTML Preview</h2>
+        <p>Write HTML/CSS/JS and see the rendered output in real-time.</p>
+      </a>
+      <a href="sql-formatter/index.html" class="tool-card" data-name="SQL Formatter">
+        <div class="tool-card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        </div>
+        <h2>SQL Formatter</h2>
+        <p>Format and beautify SQL queries with syntax highlighting.</p>
+      </a>
+      <div class="no-results" id="no-results">No tools found. Try a different search.</div>
+    </div>
+  </main>
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">DevTools</div>
+        <div class="footer-tagline">Free developer tools that run in your browser.</div>
+      </div>
+      <div class="footer-links">
+        <a href="blog/index.html">Blog</a>
+        <a href="about/index.html">About</a>
+        <a href="contact/index.html">Contact</a>
+        <a href="privacy/index.html">Privacy</a>
+        <a href="terms/index.html">Terms</a>
+      </div>
+      <div class="footer-bottom">&copy; 2026 DevTools. Built with care. Every tool runs 100% client-side.</div>
+    </div>
+  </footer>
+  <script>
+    (function(){var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');function g(){return document.documentElement.getAttribute('data-theme')||'light'}function s(t){document.documentElement.setAttribute('data-theme',t);i.innerHTML=t==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';try{localStorage.setItem('theme',t)}catch(e){}}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)s('dark')}catch(e){}t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')})})();
+
+    document.getElementById('tool-search').addEventListener('input', function() {
+      var q = this.value.toLowerCase().trim();
+      var cards = document.querySelectorAll('.tool-card');
+      var visible = 0;
+      cards.forEach(function(c) {
+        var match = c.getAttribute('data-name').toLowerCase().includes(q);
+        c.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+      document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+    });
+  </script>
+</body>
+</html>

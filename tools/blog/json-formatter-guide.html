@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Formatter & Validator: The Complete Guide — DevTools</title>
+  <meta name="description" content="Learn how to format, validate, and debug JSON efficiently. Covers syntax rules, common pitfalls, formatting best practices, and practical examples.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://diyarceylan.github.io/dev-tools/blog/json-formatter-guide">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <meta property="og:title" content="JSON Formatter & Validator: The Complete Guide">
+  <meta property="og:description" content="Learn how to format, validate, and debug JSON efficiently.">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="JSON Formatter & Validator: The Complete Guide">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "JSON Formatter & Validator: The Complete Guide",
+    "description": "Learn how to format, validate, and debug JSON efficiently. Covers syntax rules, common pitfalls, formatting best practices, and practical examples.",
+    "url": "https://diyarceylan.github.io/dev-tools/blog/json-formatter-guide",
+    "author": { "@type": "Organization", "name": "DevTools" },
+    "publisher": { "@type": "Organization", "name": "DevTools" },
+    "datePublished": "2026-06-17",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://diyarceylan.github.io/dev-tools/blog/json-formatter-guide" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://diyarceylan.github.io/dev-tools/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://diyarceylan.github.io/dev-tools/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "JSON Formatter Guide" }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-hue: 265; --brand: oklch(0.55 0.24 var(--brand-hue)); --brand-light: oklch(0.92 0.06 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300));
+      --bg: oklch(0.985 0.002 280); --bg-secondary: oklch(0.96 0.004 280); --bg-card: oklch(0.99 0.002 280 / 0.6);
+      --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
+      --text-on-brand: oklch(1 0 0);
+      --border: oklch(0.88 0.01 280 / 0.5); --border-hover: oklch(0.8 0.04 280);
+      --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    }
+    [data-theme="dark"] {
+      --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270); --bg-card: oklch(0.18 0.02 270 / 0.6);
+      --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
+      --border: oklch(0.25 0.02 280 / 0.5); --border-hover: oklch(0.35 0.04 280);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; pointer-events: none; }
+    body::after { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 600px 400px at 10% 20%, oklch(0.55 0.24 265 / 0.04) 0%, transparent 100%), radial-gradient(ellipse 500px 500px at 90% 80%, oklch(0.5 0.26 300 / 0.03) 0%, transparent 100%); }
+    header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    .inner { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-link { padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; display: none; }
+    .nav-link:hover { color: var(--text); background: var(--bg-secondary); }
+    @media (min-width: 640px) { .nav-link { display: inline-flex; } }
+    .theme-toggle { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+    .theme-toggle:hover { background: var(--brand-light); border-color: var(--brand); transform: scale(1.05); }
+    main { flex: 1; padding: 40px 24px 60px; }
+
+    article { max-width: 800px; margin: 0 auto; animation: fadeSlideUp 0.7s ease-out; }
+    article header { position: static; background: none; border: none; backdrop-filter: none; }
+    .breadcrumbs { display: flex; gap: 8px; align-items: center; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px; flex-wrap: wrap; }
+    .breadcrumbs a { color: var(--text-secondary); text-decoration: none; }
+    .breadcrumbs a:hover { color: var(--brand); }
+    .article-meta { font-size: 0.85rem; color: var(--text-muted); margin: 8px 0 24px; display: flex; gap: 16px; flex-wrap: wrap; }
+    article h1 { font-size: clamp(1.8rem,3.5vw,2.6rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 8px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.2; }
+    article h2 { font-size: 1.5rem; font-weight: 800; margin-top: 40px; margin-bottom: 12px; letter-spacing: -0.02em; }
+    article h3 { font-size: 1.15rem; font-weight: 700; margin-top: 28px; margin-bottom: 8px; }
+    article p, article li { color: var(--text-secondary); line-height: 1.8; }
+    article p { margin-bottom: 16px; }
+    article ul, article ol { padding-left: 24px; margin-bottom: 16px; }
+    article li { margin-bottom: 6px; }
+    article a { color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }
+    article a:hover { opacity: 0.8; }
+
+    pre { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.7; margin-bottom: 16px; }
+    code { font-family: var(--font-mono); font-size: 0.85em; background: var(--bg-secondary); padding: 2px 6px; border-radius: 4px; }
+    pre code { background: none; padding: 0; }
+
+    .tip { background: var(--brand-light); border-left: 4px solid var(--brand); padding: 16px 20px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 16px; }
+    .tip p { margin-bottom: 0; }
+    .tip strong:first-child { color: var(--brand); }
+
+    .tool-cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 28px; margin: 32px 0; text-align: center; backdrop-filter: blur(12px); }
+    .tool-cta p { margin-bottom: 14px; font-size: 1rem; }
+    .tool-cta .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--brand-gradient); color: var(--text-on-brand); border: none; border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.9rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
+    .tool-cta .btn:hover { box-shadow: 0 4px 16px oklch(0.55 0.24 265 / 0.35); transform: translateY(-1px); }
+
+    .table-wrap { overflow-x: auto; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { font-weight: 700; background: var(--bg-secondary); color: var(--text); }
+    td { color: var(--text-secondary); }
+
+    nav.toc { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 28px; }
+    nav.toc h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; }
+    nav.toc ul { list-style: none; padding: 0; margin: 0; }
+    nav.toc li { margin-bottom: 6px; }
+    nav.toc a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+    nav.toc a:hover { color: var(--brand); }
+
+    footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+    footer .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 8px; flex-wrap: wrap; }
+    footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; font-weight: 500; }
+    footer a:hover { color: var(--brand); }
+
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0s!important; transition-duration:0s!important; } }
+    @media print { header,footer,.theme-toggle,.tool-cta { display:none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner header-inner">
+      <a href="../index.html" class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        DevTools
+      </a>
+      <div class="header-actions">
+        <a href="../index.html" class="nav-link">All Tools</a>
+        <a href="../about/index.html" class="nav-link">About</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <article>
+      <div class="breadcrumbs">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="index.html">Blog</a>
+        <span>/</span>
+        <span>JSON Formatter &amp; Validator Guide</span>
+      </div>
+
+      <header>
+        <h1>JSON Formatter &amp; Validator: The Complete Guide</h1>
+        <div class="article-meta">
+          <span>June 17, 2026</span>
+          <span>8 min read</span>
+        </div>
+      </header>
+
+      <nav class="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+          <li><a href="#what-is-json">What is JSON?</a></li>
+          <li><a href="#syntax-rules">JSON Syntax Rules</a></li>
+          <li><a href="#common-pitfalls">Common JSON Pitfalls</a></li>
+          <li><a href="#formatting">Formatting &amp; Indentation</a></li>
+          <li><a href="#validation">Validation &amp; Error Messages</a></li>
+          <li><a href="#practical-examples">Practical Examples</a></li>
+          <li><a href="#best-practices">JSON Best Practices</a></li>
+        </ul>
+      </nav>
+
+      <section id="what-is-json">
+        <h2>What is JSON?</h2>
+        <p>JSON (JavaScript Object Notation) is a lightweight data interchange format that is easy for humans to read and write, and easy for machines to parse and generate. It is based on a subset of the JavaScript Programming Language Standard ECMA-262 3rd Edition, but is completely language-independent, making it an ideal data exchange format for APIs, configuration files, and data storage.</p>
+        <p>JSON represents structured data in two universal structures: <strong>objects</strong> (collections of key/value pairs) and <strong>arrays</strong> (ordered lists of values). Most modern programming languages have built-in support for JSON parsing and serialization.</p>
+      </section>
+
+      <section id="syntax-rules">
+        <h2>JSON Syntax Rules</h2>
+        <p>JSON syntax is derived from JavaScript object notation syntax, but the format is text only and strictly defined. Here are the essential rules:</p>
+
+        <h3>Data Types</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Type</th><th>Example</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>String</td><td><code>"hello world"</code></td><td>Must be in double quotes. No single quotes allowed.</td></tr>
+              <tr><td>Number</td><td><code>42</code>, <code>3.14</code>, <code>-7</code></td><td>Integers and decimals. No leading zeros.</td></tr>
+              <tr><td>Boolean</td><td><code>true</code>, <code>false</code></td><td>Lowercase only.</td></tr>
+              <tr><td>Null</td><td><code>null</code></td><td>Lowercase only.</td></tr>
+              <tr><td>Object</td><td><code>{ "key": "value" }</code></td><td>Unordered collection of key/value pairs.</td></tr>
+              <tr><td>Array</td><td><code>[1, 2, 3]</code></td><td>Ordered list of values.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Structure Rules</h3>
+        <ul>
+          <li>Objects are enclosed in curly braces <code>{}</code></li>
+          <li>Arrays are enclosed in square brackets <code>[]</code></li>
+          <li>Keys must be double-quoted strings (<code>"key"</code>, not <code>key</code> or <code>'key'</code>)</li>
+          <li>Key/value pairs in objects are separated by commas (<code>,</code>)</li>
+          <li>Values in arrays are separated by commas</li>
+          <li>No trailing commas allowed (before closing <code>}</code> or <code>]</code>)</li>
+        </ul>
+
+        <pre><code>{
+  "name": "DevTools",
+  "version": 1.0,
+  "features": ["formatter", "validator"],
+  "isFree": true,
+  "metadata": null
+}</code></pre>
+      </section>
+
+      <section id="common-pitfalls">
+        <h2>Common JSON Pitfalls</h2>
+
+        <h3>Trailing Commas</h3>
+        <p>The most common JSON error. JavaScript allows trailing commas, but JSON does not.</p>
+        <pre><code>// Invalid JSON (trailing comma after last item)
+{
+  "name": "Alice",
+  "age": 30,   // &lt;- BAD
+}
+
+// Valid JSON
+{
+  "name": "Alice",
+  "age": 30
+}</code></pre>
+
+        <h3>Single Quotes</h3>
+        <p>JSON requires double quotes for strings and keys. Single quotes are not valid.</p>
+        <pre><code>// Invalid JSON
+{ 'name': 'Alice' }
+
+// Valid JSON
+{ "name": "Alice" }</code></pre>
+
+        <h3>Unquoted Keys</h3>
+        <p>Unlike JavaScript objects, JSON requires all keys to be quoted.</p>
+        <pre><code>// Invalid JSON
+{ name: "Alice" }
+
+// Valid JSON
+{ "name": "Alice" }</code></pre>
+
+        <h3>Comments</h3>
+        <p>JSON does not support comments. Use a separate metadata field or preprocessor if you need annotations.</p>
+        <pre><code>// Invalid JSON
+{
+  "name": "Alice" // this is a comment
+}
+
+// Alternative: use a _comment key
+{
+  "_comment": "User profile",
+  "name": "Alice"
+}</code></pre>
+
+        <h3>Nested Depth</h3>
+        <p>Deeply nested JSON can be hard to read and slow to parse. Most JSON formatters handle 10+ levels, but consider restructuring if you find yourself going deeper.</p>
+
+        <div class="tip">
+          <p><strong>Tip:</strong> Use the <a href="../json-formatter-validator/index.html">JSON Formatter &amp; Validator</a> to instantly catch these errors. Paste your JSON and click "Format / Validate" to see detailed error messages.</p>
+        </div>
+      </section>
+
+      <section id="formatting">
+        <h2>Formatting &amp; Indentation</h2>
+        <p>Proper formatting makes JSON readable and maintainable. Our formatter supports four indentation options:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Indent</th><th>Use Case</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>2 spaces</code></td><td>Most common. Compact but readable. Used by many API responses.</td></tr>
+              <tr><td><code>4 spaces</code></td><td>More visual separation. Common in Python/Java config files.</td></tr>
+              <tr><td><code>8 spaces</code></td><td>Wide indentation for deeply nested structures. Rare.</td></tr>
+              <tr><td><code>Tab</code></td><td>Accessibility preference. Each user sees their preferred width.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Minification</h3>
+        <p>Minified JSON removes all whitespace, reducing file size for transmission. Our tool provides a "Minify" button alongside "Format / Validate" so you can switch between the two instantly.</p>
+
+        <pre><code>// Formatted (readable)
+{"name":"DevTools","version":1.0,"features":["formatter","validator"]}
+
+// Minified (compact)
+{"name":"DevTools","version":1.0,"features":["formatter","validator"]}</code></pre>
+
+        <h3>Key Sorting</h3>
+        <p>The "Sort keys" option alphabetically orders all keys in your JSON objects. This is useful for:</p>
+        <ul>
+          <li>Comparing two JSON files side by side</li>
+          <li>Creating consistent output for version control</li>
+          <li>Organizing configuration files by key name</li>
+        </ul>
+
+        <pre><code>// Before sorting
+{ "zebra": 1, "apple": 2, "monkey": 3 }
+
+// After sorting (alphabetical)
+{ "apple": 2, "monkey": 3, "zebra": 1 }</code></pre>
+      </section>
+
+      <section id="validation">
+        <h2>Validation &amp; Error Messages</h2>
+        <p>When you paste invalid JSON into the formatter, the error message tells you exactly what went wrong and where. Here are common error messages and what they mean:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Error</th><th>Meaning</th><th>Fix</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Unexpected token at position X</code></td><td>A syntax error was found at character X</td><td>Check near the reported position for typos</td></tr>
+              <tr><td><code>Expected ',' or '}'</code></td><td>Missing comma or extra item</td><td>Add a comma between items, or remove trailing comma</td></tr>
+              <tr><td><code>Expected property name</code></td><td>Key is not properly quoted</td><td>Wrap the key in double quotes</td></tr>
+              <tr><td><code>Unexpected string</code></td><td>String outside quotes or wrong quote type</td><td>Use double quotes, check for single quotes</td></tr>
+              <tr><td><code>Unexpected number</code></td><td>Number in wrong context</td><td>Ensure numbers follow proper syntax</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tip">
+          <p><strong>Tip:</strong> Error positions in JSON are 0-indexed. If position 42 reports an error, count 42 characters from the start of your JSON to find the problem area.</p>
+        </div>
+      </section>
+
+      <section id="practical-examples">
+        <h2>Practical Examples</h2>
+
+        <h3>API Response Formatting</h3>
+        <p>When debugging API responses, paste the raw response into the formatter to make it readable. A typical REST API response goes from this:</p>
+
+        <pre><code>{"status":"ok","data":{"users":[{"id":1,"name":"Alice","email":"alice@example.com"},{"id":2,"name":"Bob","email":"bob@example.com"}],"total":2},"meta":{"page":1,"per_page":20}}</code></pre>
+
+        <p>To this after formatting:</p>
+
+        <pre><code>{
+  "status": "ok",
+  "data": {
+    "users": [
+      {
+        "id": 1,
+        "name": "Alice",
+        "email": "alice@example.com"
+      },
+      {
+        "id": 2,
+        "name": "Bob",
+        "email": "bob@example.com"
+      }
+    ],
+    "total": 2
+  },
+  "meta": {
+    "page": 1,
+    "per_page": 20
+  }
+}</code></pre>
+
+        <h3>Configuration File Validation</h3>
+        <p>Before deploying a configuration file (like <code>.eslintrc.json</code>, <code>tsconfig.json</code>, or <code>manifest.json</code>), validate it with the formatter. A trailing comma or missing quote can break your entire build.</p>
+
+        <div class="tip">
+          <p><strong>Tip:</strong> Use the "Sort keys" feature before committing configuration files to version control. It makes diffs smaller and more meaningful.</p>
+        </div>
+      </section>
+
+      <section id="best-practices">
+        <h2>JSON Best Practices</h2>
+        <ul>
+          <li><strong>Use consistent indentation:</strong> Pick 2 or 4 spaces and stick with it across your project.</li>
+          <li><strong>Validate before writing:</strong> Always run your JSON through a validator before using it in code or saving to a file.</li>
+          <li><strong>Avoid deep nesting:</strong> More than 4-5 levels of nesting makes JSON hard to read. Normalize data or use references when possible.</li>
+          <li><strong>Use meaningful keys:</strong> Keys should be descriptive and consistent. Prefer <code>firstName</code> over <code>fn</code>.</li>
+          <li><strong>No trailing commas:</strong> JSON parsers are strict about trailing commas. Always check.</li>
+          <li><strong>Keep it UTF-8:</strong> Always save JSON files as UTF-8 to avoid encoding issues.</li>
+          <li><strong>Use arrays for ordered data:</strong> If order matters, use an array of items instead of an object with numeric keys.</li>
+        </ul>
+
+        <div class="tool-cta">
+          <p>Ready to format and validate your JSON?</p>
+          <a href="../json-formatter-validator/index.html" class="btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            Try JSON Formatter &amp; Validator
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer>
+    <div class="inner">
+      <div class="footer-links">
+        <a href="../index.html">All Tools</a>
+        <a href="../about/index.html">About</a>
+        <a href="../contact/index.html">Contact</a>
+        <a href="../privacy/index.html">Privacy</a>
+        <a href="../terms/index.html">Terms</a>
+      </div>
+      &copy; 2026 DevTools. Every tool runs 100% client-side.
+    </div>
+  </footer>
+  <script>
+    (function(){var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');function g(){return document.documentElement.getAttribute('data-theme')||'light'}function s(t){document.documentElement.setAttribute('data-theme',t);i.innerHTML=t==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';try{localStorage.setItem('theme',t)}catch(e){}}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)s('dark')}catch(e){}t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')})})();
+  </script>
+</body>
+</html>

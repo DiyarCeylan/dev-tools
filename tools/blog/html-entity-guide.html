@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Entity Encoder & Decoder: The Complete Guide — DevTools</title>
+  <meta name="description" content="Learn how to encode and decode HTML entities. Covers named and numeric entities, XSS prevention, special character handling, and practical examples.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://diyarceylan.github.io/dev-tools/blog/html-entity-guide">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <meta property="og:title" content="HTML Entity Encoder & Decoder: The Complete Guide">
+  <meta property="og:description" content="Learn how to encode and decode HTML special characters safely.">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HTML Entity Encoder & Decoder: The Complete Guide">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "HTML Entity Encoder & Decoder: The Complete Guide",
+    "description": "Learn how to encode and decode HTML entities. Covers named and numeric entities, XSS prevention, special character handling, and practical web development examples.",
+    "url": "https://diyarceylan.github.io/dev-tools/blog/html-entity-guide",
+    "author": { "@type": "Organization", "name": "DevTools" },
+    "publisher": { "@type": "Organization", "name": "DevTools" },
+    "datePublished": "2026-06-17",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://diyarceylan.github.io/dev-tools/blog/html-entity-guide" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://diyarceylan.github.io/dev-tools/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://diyarceylan.github.io/dev-tools/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "HTML Entity Encoder & Decoder Guide" }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-hue: 265; --brand: oklch(0.55 0.24 var(--brand-hue)); --brand-light: oklch(0.92 0.06 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300));
+      --bg: oklch(0.985 0.002 280); --bg-secondary: oklch(0.96 0.004 280); --bg-card: oklch(0.99 0.002 280 / 0.6);
+      --text: oklch(0.15 0.02 280); --text-secondary: oklch(0.4 0.02 280); --text-muted: oklch(0.65 0.01 280);
+      --text-on-brand: oklch(1 0 0);
+      --border: oklch(0.88 0.01 280 / 0.5); --border-hover: oklch(0.8 0.04 280);
+      --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04); --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    }
+    [data-theme="dark"] {
+      --bg: oklch(0.12 0.02 270); --bg-secondary: oklch(0.16 0.02 270); --bg-card: oklch(0.18 0.02 270 / 0.6);
+      --text: oklch(0.95 0.01 280); --text-secondary: oklch(0.7 0.02 280); --text-muted: oklch(0.5 0.02 280);
+      --border: oklch(0.25 0.02 280 / 0.5); --border-hover: oklch(0.35 0.04 280);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 256px 256px; pointer-events: none; }
+    body::after { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 600px 400px at 10% 20%, oklch(0.55 0.24 265 / 0.04) 0%, transparent 100%), radial-gradient(ellipse 500px 500px at 90% 80%, oklch(0.5 0.26 300 / 0.03) 0%, transparent 100%); }
+    header { position: sticky; top: 0; z-index: 100; background: color-mix(in oklch, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    .inner { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.15rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-link { padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; display: none; }
+    .nav-link:hover { color: var(--text); background: var(--bg-secondary); }
+    @media (min-width: 640px) { .nav-link { display: inline-flex; } }
+    .theme-toggle { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+    .theme-toggle:hover { background: var(--brand-light); border-color: var(--brand); transform: scale(1.05); }
+    main { flex: 1; padding: 40px 24px 60px; }
+
+    article { max-width: 800px; margin: 0 auto; animation: fadeSlideUp 0.7s ease-out; }
+    article header { position: static; background: none; border: none; backdrop-filter: none; }
+    .breadcrumbs { display: flex; gap: 8px; align-items: center; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px; flex-wrap: wrap; }
+    .breadcrumbs a { color: var(--text-secondary); text-decoration: none; }
+    .breadcrumbs a:hover { color: var(--brand); }
+    .article-meta { font-size: 0.85rem; color: var(--text-muted); margin: 8px 0 24px; display: flex; gap: 16px; flex-wrap: wrap; }
+    article h1 { font-size: clamp(1.8rem,3.5vw,2.6rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 8px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.2; }
+    article h2 { font-size: 1.5rem; font-weight: 800; margin-top: 40px; margin-bottom: 12px; letter-spacing: -0.02em; }
+    article h3 { font-size: 1.15rem; font-weight: 700; margin-top: 28px; margin-bottom: 8px; }
+    article p, article li { color: var(--text-secondary); line-height: 1.8; }
+    article p { margin-bottom: 16px; }
+    article ul, article ol { padding-left: 24px; margin-bottom: 16px; }
+    article li { margin-bottom: 6px; }
+    article a { color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }
+    article a:hover { opacity: 0.8; }
+
+    pre { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.7; margin-bottom: 16px; }
+    code { font-family: var(--font-mono); font-size: 0.85em; background: var(--bg-secondary); padding: 2px 6px; border-radius: 4px; }
+    pre code { background: none; padding: 0; }
+
+    .tip { background: var(--brand-light); border-left: 4px solid var(--brand); padding: 16px 20px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 16px; }
+    .tip p { margin-bottom: 0; }
+    .tip strong:first-child { color: var(--brand); }
+
+    .tool-cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 28px; margin: 32px 0; text-align: center; backdrop-filter: blur(12px); }
+    .tool-cta p { margin-bottom: 14px; font-size: 1rem; }
+    .tool-cta .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--brand-gradient); color: var(--text-on-brand); border: none; border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.9rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
+    .tool-cta .btn:hover { box-shadow: 0 4px 16px oklch(0.55 0.24 265 / 0.35); transform: translateY(-1px); }
+
+    .table-wrap { overflow-x: auto; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { font-weight: 700; background: var(--bg-secondary); color: var(--text); }
+    td { color: var(--text-secondary); }
+
+    nav.toc { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 28px; }
+    nav.toc h2 { font-size: 1rem; font-weight: 700; margin: 0 0 12px; }
+    nav.toc ul { list-style: none; padding: 0; margin: 0; }
+    nav.toc li { margin-bottom: 6px; }
+    nav.toc a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+    nav.toc a:hover { color: var(--brand); }
+
+    footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+    footer .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 8px; flex-wrap: wrap; }
+    footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; font-weight: 500; }
+    footer a:hover { color: var(--brand); }
+
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0s!important; transition-duration:0s!important; } }
+    @media print { header,footer,.theme-toggle,.tool-cta { display:none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner header-inner">
+      <a href="../index.html" class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        DevTools
+      </a>
+      <div class="header-actions">
+        <a href="../index.html" class="nav-link">All Tools</a>
+        <a href="../about/index.html" class="nav-link">About</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <article>
+      <div class="breadcrumbs">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="index.html">Blog</a>
+        <span>/</span>
+        <span>HTML Entity Encoder &amp; Decoder Guide</span>
+      </div>
+
+      <header>
+        <h1>HTML Entity Encoder &amp; Decoder: The Complete Guide</h1>
+        <div class="article-meta">
+          <span>June 17, 2026</span>
+          <span>8 min read</span>
+        </div>
+      </header>
+
+      <nav class="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+          <li><a href="#what-are">What are HTML Entities?</a></li>
+          <li><a href="#encoding-vs-decoding">Encoding vs Decoding</a></li>
+          <li><a href="#named-vs-numeric">Named vs Numeric Entities</a></li>
+          <li><a href="#xss-prevention">XSS Prevention with Encoding</a></li>
+          <li><a href="#common-entities">Common HTML Entities Reference</a></li>
+          <li><a href="#practical-examples">Practical Examples</a></li>
+          <li><a href="#best-practices">Best Practices</a></li>
+        </ul>
+      </nav>
+
+      <section id="what-are">
+        <h2>What are HTML Entities?</h2>
+        <p>HTML entities are special character codes that represent characters reserved by HTML or characters that are not easily typed on a keyboard. The browser renders these entities as their corresponding characters, allowing you to display symbols like <code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>, and <code>&quot;</code> without breaking the HTML parsing.</p>
+        <p>HTML entities always begin with an ampersand (<code>&amp;</code>) and end with a semicolon (<code>;</code>). They come in two varieties: <strong>named entities</strong> like <code>&amp;amp;</code> for <code>&amp;</code> and <strong>numeric entities</strong> like <code>&amp;#60;</code> for <code>&lt;</code>. Our <a href="../html-entity-encoder-decoder/index.html">HTML Entity Encoder &amp; Decoder</a> handles both formats, making it easy to switch between raw text and entity-encoded representations.</p>
+      </section>
+
+      <section id="encoding-vs-decoding">
+        <h2>Encoding vs Decoding</h2>
+
+        <h3>Encoding</h3>
+        <p>Encoding converts special characters into their HTML entity equivalents. In raw text, the <code>&lt;</code> character would be interpreted as the start of an HTML tag. Encoding transforms it to <code>&amp;lt;</code> so it displays safely as text:</p>
+
+        <pre><code>Raw text:     5 &lt; 10 &amp;&amp; 3 &gt; 1
+Encoded:      5 &amp;lt; 10 &amp;amp;&amp;amp; 3 &amp;gt; 1
+Browser view: 5 &lt; 10 &amp;&amp; 3 &gt; 1</code></pre>
+
+        <h3>Decoding</h3>
+        <p>Decoding reverses the process — it converts HTML entity codes back into their actual characters. When you fetch HTML content from an API or scrape a web page, the text often contains encoded entities. Decoding restores them for human readability or further processing:</p>
+
+        <pre><code>Encoded HTML:  The &amp;lt;title&amp;gt; tag defines the document title.
+Decoded:       The &lt;title&gt; tag defines the document title.</code></pre>
+
+        <div class="tip">
+          <p><strong>Tip:</strong> Use the <a href="../html-entity-encoder-decoder/index.html">HTML Entity Encoder &amp; Decoder</a> to toggle between encoded and decoded forms instantly. Paste your text, click "Encode" or "Decode", and copy the result.</p>
+        </div>
+      </section>
+
+      <section id="named-vs-numeric">
+        <h2>Named vs Numeric Entities</h2>
+        <p>HTML supports two encoding schemes for special characters:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Type</th><th>Format</th><th>Example</th><th>Result</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Named entity</td><td><code>&amp;name;</code></td><td><code>&amp;copy;</code></td><td>&copy;</td></tr>
+              <tr><td>Decimal numeric</td><td><code>&amp;#DDDD;</code></td><td><code>&amp;#169;</code></td><td>&copy;</td></tr>
+              <tr><td>Hexadecimal numeric</td><td><code>&amp;#xHHHH;</code></td><td><code>&amp;#xA9;</code></td><td>&copy;</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Named Entities</h3>
+        <p>Named entities are easier to read and remember. HTML5 defines over 2,000 named character references, including common ones like <code>&amp;lt;</code>, <code>&amp;gt;</code>, <code>&amp;amp;</code>, <code>&amp;quot;</code>, and <code>&amp;apos;</code>. The tool uses named entities by default for the five core HTML special characters.</p>
+
+        <h3>Numeric Entities</h3>
+        <p>Numeric entities use Unicode code points and cover every character in the Unicode standard. Use decimal form (<code>&amp;#169;</code>) or hexadecimal (<code>&amp;#xA9;</code>). Numeric entities are especially useful for encoding characters that have no named entity equivalent, such as <code>&amp;#9775;</code> (&ofcir;) or <code>&amp;#10003;</code> (✓).</p>
+
+        <h3>Encode All Non-ASCII Characters</h3>
+        <p>The encoder provides an option to encode all non-ASCII characters. This is useful when you need to ensure your HTML is valid in legacy encoding contexts or when delivering text through systems that may not handle UTF-8 correctly:</p>
+
+        <pre><code>Input:    Café résumé (with encoding option ON)
+Output:   Café r&eacute;sum&eacute;</code></pre>
+      </section>
+
+      <section id="xss-prevention">
+        <h2>XSS Prevention with Encoding</h2>
+        <p>Cross-Site Scripting (XSS) remains one of the most common web security vulnerabilities. The root cause is almost always the same: user-controlled data is rendered as HTML without proper encoding. HTML entity encoding is your first line of defense.</p>
+
+        <h3>How Encoding Prevents XSS</h3>
+        <p>When user input contains HTML tags or JavaScript code, encoding converts the dangerous characters into harmless entity references:</p>
+
+        <pre><code>User input:  &lt;script&gt;alert('hacked')&lt;/script&gt;
+Encoded:     &amp;lt;script&amp;gt;alert('hacked')&amp;lt;/script&amp;gt;
+Result:      The browser displays the text safely instead of executing it.</code></pre>
+
+        <h3>Context-Specific Encoding</h3>
+        <p>HTML encoding is essential but not sufficient in every context. Follow these guidelines:</p>
+        <ul>
+          <li><strong>HTML body context:</strong> Encode <code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>, <code>&quot;</code>, <code>'</code></li>
+          <li><strong>HTML attribute context:</strong> Encode <code>&quot;</code>, <code>&amp;</code>, <code>'</code>, <code>&lt;</code></li>
+          <li><strong>URL context:</strong> Use URL encoding (percent-encoding), not HTML entity encoding</li>
+          <li><strong>JavaScript context:</strong> Use JavaScript string escaping, not HTML entity encoding</li>
+        </ul>
+
+        <div class="tip">
+          <p><strong>Tip:</strong> Always encode user-generated content before rendering it on a web page. Modern frameworks like React and Vue do this automatically, but when rendering raw HTML or building templates server-side, you must handle encoding explicitly.</p>
+        </div>
+      </section>
+
+      <section id="common-entities">
+        <h2>Common HTML Entities Reference</h2>
+        <p>Here is a quick reference of the most frequently used HTML entities:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Character</th><th>Named Entity</th><th>Numeric Entity</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>&lt;</td><td><code>&amp;lt;</code></td><td><code>&amp;#60;</code></td><td>Less than</td></tr>
+              <tr><td>&gt;</td><td><code>&amp;gt;</code></td><td><code>&amp;#62;</code></td><td>Greater than</td></tr>
+              <tr><td>&amp;</td><td><code>&amp;amp;</code></td><td><code>&amp;#38;</code></td><td>Ampersand</td></tr>
+              <tr><td>&quot;</td><td><code>&amp;quot;</code></td><td><code>&amp;#34;</code></td><td>Double quote</td></tr>
+              <tr><td>'</td><td><code>&amp;apos;</code></td><td><code>&amp;#39;</code></td><td>Apostrophe / single quote</td></tr>
+              <tr><td>&copy;</td><td><code>&amp;copy;</code></td><td><code>&amp;#169;</code></td><td>Copyright</td></tr>
+              <tr><td>&reg;</td><td><code>&amp;reg;</code></td><td><code>&amp;#174;</code></td><td>Registered trademark</td></tr>
+              <tr><td>&euro;</td><td><code>&amp;euro;</code></td><td><code>&amp;#8364;</code></td><td>Euro sign</td></tr>
+              <tr><td>&nbsp;</td><td><code>&amp;nbsp;</code></td><td><code>&amp;#160;</code></td><td>Non-breaking space</td></tr>
+              <tr><td>&mdash;</td><td><code>&amp;mdash;</code></td><td><code>&amp;#8212;</code></td><td>Em dash</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="practical-examples">
+        <h2>Practical Examples</h2>
+
+        <h3>Displaying Code Snippets on a Blog</h3>
+        <p>When writing a technical blog post, you need to display code that contains HTML tags. Without encoding, the browser interprets your example code as actual HTML. Use the encoder to safely escape code snippets before inserting them into your article:</p>
+
+        <pre><code>Before:  &lt;div class="container"&gt;Hello&lt;/div&gt;
+After:   &amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;Hello&amp;lt;/div&amp;gt;</code></pre>
+
+        <h3>Sanitizing User Comments</h3>
+        <p>A comment system receives user input that may contain malicious HTML. Encode the input before storing it in the database to ensure it renders as plain text on the page. This prevents stored XSS attacks and keeps your users safe.</p>
+
+        <h3>Email Content Rendering</h3>
+        <p>HTML emails have notoriously inconsistent rendering across clients. Encoding special characters ensures your email content displays correctly in Outlook, Gmail, and Apple Mail without unexpected formatting issues.</p>
+
+        <h3>Scraped Data Cleanup</h3>
+        <p>Web scraping often yields HTML-encoded text like <code>&amp;lt;b&amp;gt;hello&amp;lt;/b&amp;gt;</code>. Decoding this restores the actual characters, making the scraped data usable for analysis, display, or further processing.</p>
+      </section>
+
+      <section id="best-practices">
+        <h2>Best Practices</h2>
+        <ul>
+          <li><strong>Encode at the point of output:</strong> Store raw text in your database and encode it only when rendering HTML. This preserves the original data and gives you flexibility when choosing output formats.</li>
+          <li><strong>Never double-encode:</strong> If text is already encoded, encoding it again produces double entities like <code>&amp;amp;lt;</code>. Always decode first if you are unsure of the encoding state.</li>
+          <li><strong>Use the correct encoding for the context:</strong> HTML entity encoding is for HTML contexts. Use URL encoding for URLs, JSON escaping for JSON strings, and database parameterization for SQL queries.</li>
+          <li><strong>Prefer named entities for readability:</strong> Use <code>&amp;copy;</code> instead of <code>&amp;#169;</code> when a named entity exists — it is more readable when inspecting the raw HTML source.</li>
+          <li><strong>Always encode the five core characters:</strong> The minimum set for safe HTML output is <code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>, <code>&quot;</code>, and <code>'</code>. For defense-in-depth, consider encoding all non-ASCII characters as well.</li>
+          <li><strong>Test with both directions:</strong> After encoding, verify that decoding reproduces the original text exactly. A round-trip test catches edge cases like invalid entity names or missing semicolons.</li>
+        </ul>
+
+        <div class="tool-cta">
+          <p>Ready to encode or decode HTML entities?</p>
+          <a href="../html-entity-encoder-decoder/index.html" class="btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            Try HTML Entity Encoder &amp; Decoder
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer>
+    <div class="inner">
+      <div class="footer-links">
+        <a href="../index.html">All Tools</a>
+        <a href="../about/index.html">About</a>
+        <a href="../contact/index.html">Contact</a>
+        <a href="../privacy/index.html">Privacy</a>
+        <a href="../terms/index.html">Terms</a>
+      </div>
+      &copy; 2026 DevTools. Every tool runs 100% client-side.
+    </div>
+  </footer>
+  <script>
+    (function(){var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');function g(){return document.documentElement.getAttribute('data-theme')||'light'}function s(t){document.documentElement.setAttribute('data-theme',t);i.innerHTML=t==='dark'?'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>':'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';try{localStorage.setItem('theme',t)}catch(e){}}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)s('dark')}catch(e){}t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')})})();
+  </script>
+</body>
+</html>

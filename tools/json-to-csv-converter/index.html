@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON to CSV Converter — Free Online Developer Tool</title>
+  <meta name="description" content="Convert JSON arrays to CSV instantly in your browser. Supports nested objects, custom delimiters, copy, and download. 100% free and private.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#6325d6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSON to CSV Converter",
+    "url": "https://diyarceylan.github.io/dev-tools/json-to-csv-converter/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "description": "Free online JSON to CSV converter. Convert JSON arrays to CSV with nested object flattening, custom delimiters. 100% client-side."
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does nested JSON get converted to CSV?","acceptedAnswer":{"@type":"Answer","text":"Nested objects are flattened using dot notation. For example, {\"user\": {\"name\": \"Alice\"}} becomes a column named user.name with value \"Alice\"."}},{"@type":"Question","name":"What if my JSON has inconsistent keys?","acceptedAnswer":{"@type":"Answer","text":"The converter scans all objects in the array and collects every unique key. Missing values are left empty."}},{"@type":"Question","name":"Can I change the delimiter?","acceptedAnswer":{"@type":"Answer","text":"Yes, the tool supports comma, semicolon, tab, and pipe delimiters. Choose the one that matches your target application."}}],"name":"JSON to CSV Converter FAQ"}
+  </script>
+  <link rel="canonical" href="https://diyarceylan.github.io/dev-tools/json-to-csv-converter/">
+  <meta property="og:title" content="JSON to CSV Converter — DevTools">
+  <meta property="og:description" content="Convert JSON arrays to CSV with nested object flattening.">
+  <meta property="og:url" content="https://diyarceylan.github.io/dev-tools/json-to-csv-converter/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="JSON to CSV Converter — DevTools">
+  <meta name="twitter:description" content="Convert JSON arrays to CSV with nested object flattening.">
+
+  <meta property="og:title" content="DevTools — Free Online Developer Tools">
+  <meta property="og:description" content="Convert JSON arrays to CSV instantly in your browser. Supports nested objects, custom delimiters, copy, and download.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://diyarceylan.github.io/dev-tools/json-to-csv-converter/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="JSON to CSV Converter">
+  <meta name="twitter:description" content="Convert JSON arrays to CSV instantly in your browser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand-hue: 265;
+      --brand: oklch(0.55 0.24 var(--brand-hue));
+      --brand-hover: oklch(0.48 0.24 var(--brand-hue));
+      --brand-light: oklch(0.92 0.06 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.55 0.24 265), oklch(0.5 0.26 300));
+      --brand-glow: oklch(0.65 0.18 30);
+
+      --bg: oklch(0.985 0.002 280);
+      --bg-secondary: oklch(0.96 0.004 280);
+      --bg-card: oklch(0.99 0.002 280 / 0.6);
+      --text: oklch(0.15 0.02 280);
+      --text-secondary: oklch(0.4 0.02 280);
+      --text-muted: oklch(0.65 0.01 280);
+      --border: oklch(0.88 0.01 280 / 0.5);
+      --border-hover: oklch(0.8 0.04 280);
+
+      --success: oklch(0.55 0.2 145);
+      --success-bg: oklch(0.95 0.05 145 / 0.3);
+      --error: oklch(0.55 0.22 25);
+      --error-bg: oklch(0.95 0.05 25 / 0.3);
+
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+      --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+
+      --radius-sm: 8px;
+      --radius: 14px;
+      --radius-lg: 20px;
+
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+      --header-height: 68px;
+    }
+
+    [data-theme="dark"] {
+      --brand-hue: 260;
+      --brand: oklch(0.68 0.2 var(--brand-hue));
+      --brand-hover: oklch(0.73 0.18 var(--brand-hue));
+      --brand-light: oklch(0.25 0.08 var(--brand-hue));
+      --brand-gradient: linear-gradient(135deg, oklch(0.68 0.2 260), oklch(0.6 0.22 300));
+      --brand-glow: oklch(0.7 0.15 35);
+
+      --bg: oklch(0.12 0.02 270);
+      --bg-secondary: oklch(0.16 0.02 270);
+      --bg-card: oklch(0.18 0.02 270 / 0.6);
+      --text: oklch(0.95 0.01 280);
+      --text-secondary: oklch(0.7 0.02 280);
+      --text-muted: oklch(0.5 0.02 280);
+      --border: oklch(0.25 0.02 280 / 0.5);
+      --border-hover: oklch(0.4 0.04 280);
+
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+      --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.2);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.35), 0 4px 6px -4px rgb(0 0 0 / 0.2);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.2);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+      pointer-events: none;
+    }
+
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.12;
+      transition: opacity 0.5s;
+    }
+    [data-theme="dark"] .bg-orb { opacity: 0.08; }
+
+    .bg-orb--1 {
+      width: 600px;
+      height: 600px;
+      top: -200px;
+      right: -150px;
+      background: oklch(0.55 0.24 265 / 0.5);
+      animation: orbFloat 20s ease-in-out infinite;
+    }
+    .bg-orb--2 {
+      width: 400px;
+      height: 400px;
+      bottom: -100px;
+      left: -100px;
+      background: oklch(0.65 0.18 30 / 0.4);
+      animation: orbFloat 25s ease-in-out infinite reverse;
+    }
+    .bg-orb--3 {
+      width: 300px;
+      height: 300px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: oklch(0.55 0.2 300 / 0.3);
+      animation: orbFloat 30s ease-in-out infinite 5s;
+    }
+
+    .faq { max-width: 900px; margin: 0 auto; }
+    .faq h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; text-align: center; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; background: var(--bg-card); backdrop-filter: blur(8px); transition: border-color 0.2s; }
+    .faq-item:hover { border-color: var(--border-hover); }
+    .faq-q { width: 100%; padding: 16px 20px; background: none; border: none; font-family: var(--font); font-size: 0.95rem; font-weight: 600; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-align: left; gap: 12px; }
+    .faq-q:hover { background: var(--bg-secondary); }
+    .faq-q svg { transition: transform 0.25s ease; flex-shrink: 0; }
+    .faq-item.open .faq-q svg { transform: rotate(180deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.open .faq-a { max-height: 300px; }
+    .faq-a-inner { padding: 0 20px 16px; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+    .faq-a-inner code { font-family: var(--font-mono); font-size: 0.85em; background: var(--bg-secondary); padding: 1px 5px; border-radius: 4px; }
+    .related-wrap { max-width: 900px; margin: 0 auto; }
+    .related-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    @media (max-width: 640px) { .related-grid { grid-template-columns: 1fr; } }
+    .related-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none; color: inherit; box-shadow: var(--shadow-sm); backdrop-filter: blur(12px); transition: all 0.3s; display: flex; flex-direction: column; gap: 8px; }
+    .related-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: var(--brand); }
+    .related-card h3 { font-size: 0.95rem; font-weight: 700; }
+    .related-card .related-link { font-size: 0.8rem; font-weight: 600; color: var(--brand); }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 8px;
+      z-index: 1000;
+      background: var(--brand);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+    }
+    .skip-link:focus { top: 8px; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: color-mix(in oklch, var(--bg) 80%, transparent);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 1.15rem;
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      background: var(--brand-gradient);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      -webkit-text-fill-color: #fff;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-link {
+      display: none;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-link:hover {
+      color: var(--text);
+      background: var(--bg-secondary);
+    }
+    @media (min-width: 640px) {
+      .nav-link { display: inline-flex; }
+    }
+
+    .theme-toggle {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor: pointer;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    .theme-toggle:hover {
+      background: var(--brand-light);
+      border-color: var(--brand);
+      transform: scale(1.05);
+    }
+    .theme-toggle:active { transform: scale(0.92); }
+
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+      width: 100%;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 48px;
+      position: relative;
+      animation: fadeSlideUp 0.7s ease-out;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: var(--brand-light);
+      color: var(--brand);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 56px 0 48px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      max-width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      animation: fadeSlideUp 0.7s ease-out 0.15s both;
+    }
+
+    @media (max-width: 768px) {
+      .tool-grid { grid-template-columns: 1fr; }
+    }
+
+    .tool-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--border), transparent, var(--border));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-hover);
+    }
+    .tool-card:hover::before { opacity: 1; }
+
+    .tool-card h2 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tool-card h2 .badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      background: var(--brand-light);
+      color: var(--brand);
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 280px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      resize: vertical;
+      background: oklch(0 0 0 / 0.03);
+      color: var(--text);
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    [data-theme="dark"] textarea { background: oklch(1 0 0 / 0.05); }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 4px var(--brand-light), 0 0 30px oklch(0.55 0.24 265 / 0.08);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      min-height: 280px;
+      max-height: 500px;
+      background: oklch(0 0 0 / 0.02);
+    }
+    [data-theme="dark"] .table-wrap { background: oklch(1 0 0 / 0.03); }
+    .table-wrap:empty::before {
+      content: 'CSV output will appear here...';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 280px;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .table-wrap table {
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    .table-wrap th {
+      background: var(--bg-secondary);
+      font-weight: 600;
+      text-align: left;
+      padding: 11px 14px;
+      border-bottom: 2px solid var(--brand);
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      color: var(--text);
+    }
+
+    .table-wrap td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      max-width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .table-wrap tr:hover td {
+      background: var(--brand-light);
+    }
+
+    .table-wrap tr:nth-child(even) td {
+      background: oklch(0 0 0 / 0.02);
+    }
+    [data-theme="dark"] .table-wrap tr:nth-child(even) td {
+      background: oklch(1 0 0 / 0.03);
+    }
+    .table-wrap tr:nth-child(even):hover td {
+      background: var(--brand-light);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+      align-items: center;
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-group label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    select {
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2394a3b8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 32px;
+    }
+    select:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-light);
+    }
+
+    .btn {
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 20px;
+      border-radius: 10px;
+      font-family: var(--font);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:active { transform: scale(0.95); }
+
+    .btn-primary {
+      background: var(--brand-gradient);
+      color: #fff;
+      box-shadow: 0 2px 8px oklch(0.55 0.24 265 / 0.25);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 4px 16px oklch(0.55 0.24 265 / 0.35);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active { transform: scale(0.95) translateY(0); }
+
+    .btn-secondary {
+      background: var(--bg-secondary);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: var(--brand-light);
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .message {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      animation: fadeSlideUp 0.3s ease-out;
+    }
+    .message.show { display: flex; }
+    .message.error {
+      background: var(--error-bg);
+      color: var(--error);
+      border: 1px solid color-mix(in oklch, var(--error) 30%, transparent);
+    }
+    .message.success {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid color-mix(in oklch, var(--success) 30%, transparent);
+    }
+
+    .row-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .sample-data {
+      margin-top: 14px;
+    }
+    .sample-data summary {
+      font-size: 0.85rem;
+      color: var(--brand);
+      cursor: pointer;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+    .sample-data summary:hover { opacity: 0.8; }
+    .sample-data pre {
+      margin-top: 8px;
+      padding: 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      line-height: 1.5;
+    }
+
+    #features-heading {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 36px;
+      letter-spacing: -0.02em;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      animation: fadeSlideUp 0.7s ease-out 0.3s both;
+    }
+    .feature-item {
+      text-align: center;
+      padding: 36px 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .feature-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-hover);
+    }
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      background: var(--brand-light);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      transition: transform 0.3s;
+    }
+    .feature-item:hover .feature-icon { transform: scale(1.1) rotate(-5deg); }
+    .feature-item h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .feature-item p {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+      margin-top: 60px;
+    }
+      font-size: 1.6rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 28px;
+      letter-spacing: -0.02em;
+    }
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 10px;
+      overflow: hidden;
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: border-color 0.2s;
+    }
+      padding: 18px 22px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+      content: '+';
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      transition: transform 0.3s;
+    }
+      transform: rotate(45deg);
+    }
+      background: var(--bg-secondary);
+    }
+      padding: 0 22px 18px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .ad-placeholder {
+      margin: 40px 0;
+      padding: 60px 24px;
+      background: var(--bg-secondary);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+    }
+    .ad-placeholder:hover { border-color: var(--border-hover); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px 32px;
+      margin-top: 48px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      text-align: center;
+    }
+    @media (min-width: 640px) {
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        text-align: left;
+      }
+    }
+    .footer-brand {
+      font-weight: 700;
+      font-size: 1rem;
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+    }
+    .footer-tagline {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      justify-content: center;
+    }
+    @media (min-width: 640px) {
+      .footer-links { justify-content: flex-end; }
+    }
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--brand); }
+    .footer-bottom {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .tool-cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 28px; margin: 32px 0; text-align: center; backdrop-filter: blur(12px); }
+    .tool-cta p { margin-bottom: 14px; font-size: 1rem; }
+    .tool-cta .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--brand-gradient); color: var(--text-on-brand); border: none; border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.9rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
+    .tool-cta .btn:hover { box-shadow: 0 4px 16px oklch(0.55 0.24 265 / 0.35); transform: translateY(-1px); }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; }
+      html { scroll-behavior: auto; }
+      .bg-orb, .feature-icon, .tool-card, .feature-item { animation: none !important; }
+    }
+
+    @media print {
+      header, footer, .controls, .theme-toggle, .ad-placeholder, .section-divider, .bg-orb { display: none; }
+      .tool-card { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; background: #fff; }
+      .tool-card::before { display: none; }
+      .table-wrap { overflow: visible; max-height: none; }
+      .table-wrap th { position: static; }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text);
+      color: var(--bg);
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-xl);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 200;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="bg-orb bg-orb--1" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb--2" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb--3" aria-hidden="true"></div>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header role="banner">
+    <div class="header-inner">
+      <a href="../index.html" class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        DevTools
+      </a>
+      <div class="header-actions">
+        <a href="../index.html" class="nav-link">All Tools</a>
+        <a href="../blog/index.html" class="nav-link">Blog</a>
+        <a href="../about/index.html" class="nav-link">About</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Free &middot; Private &middot; Browser-Based
+      </div>
+      <h1>JSON to CSV Converter</h1>
+      <p>Paste your JSON array below and convert it to CSV instantly. No uploads, no servers &mdash; everything runs right here in your browser.</p>
+    </section>
+
+    <div class="section-divider" aria-hidden="true">Converter</div>
+
+    <div class="tool-grid">
+      <section class="tool-card" aria-labelledby="input-heading">
+        <h2 id="input-heading">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          JSON Input
+          <span class="badge">Paste & Convert</span>
+        </h2>
+        <textarea id="json-input" placeholder='[{"name":"John","age":30,"city":"New York"},{"name":"Jane","age":25,"city":"Los Angeles"}]' spellcheck="false" aria-label="JSON input"></textarea>
+        <details class="sample-data">
+          <summary>Load sample data</summary>
+          <pre>[
+  { "name": "Alice", "age": 28, "city": "London", "active": true },
+  { "name": "Bob", "age": 35, "city": "Berlin", "active": false },
+  { "name": "Charlie", "age": 22, "city": "Paris", "active": true }
+]</pre>
+        </details>
+        <div class="controls">
+          <div class="control-group">
+            <label for="delimiter">Delimiter:</label>
+            <select id="delimiter">
+              <option value=",">Comma (,)</option>
+              <option value=";">Semicolon (;)</option>
+              <option value="	">Tab</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" id="convert-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+            Convert
+          </button>
+          <button class="btn btn-secondary" id="clear-btn">Clear</button>
+        </div>
+        <div id="input-message" class="message" role="alert"></div>
+      </section>
+
+      <section class="tool-card" aria-labelledby="output-heading">
+        <h2 id="output-heading">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          CSV Output
+          <span class="badge">Result</span>
+        </h2>
+        <div class="table-wrap" id="csv-output" role="region" aria-label="CSV output"></div>
+        <div class="row-count" id="row-count"></div>
+        <div class="controls">
+          <button class="btn btn-secondary" id="copy-btn" aria-label="Copy btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy
+          </button>
+          <button class="btn btn-secondary" id="download-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download CSV
+          </button>
+        </div>
+        <div id="output-message" class="message" role="alert"></div>
+      </section>
+    </div>
+
+    <div class="ad-placeholder" aria-hidden="true">
+      AdSense &mdash; Responsive Display Ad
+    </div>
+
+    <div class="section-divider" aria-hidden="true">Why Use This Tool</div>
+
+    <section class="features" aria-labelledby="features-heading">
+      <h2 id="features-heading" style="display:none;">Why Use This Tool</h2>
+      <div class="feature-item">
+        <div class="feature-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>100% Private</h3>
+        <p>Your data never leaves your device. No servers, no logs, no hidden uploads &mdash; pure client-side processing.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <h3>Lightning Fast</h3>
+        <p>Converts thousands of rows in milliseconds. Built for developers who value their time and need results now.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
+        <h3>Copy &amp; Download</h3>
+        <p>One click to copy or download as CSV. Import directly into Excel, Google Sheets, or any data analysis tool.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 7 4 7 10 1 10"/><polyline points="17 20 23 20 23 14 17 14"/><path d="M7 4h4a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 1 2 2v4"/><path d="M17 14h-4a2 2 0 0 0-2 2"/></svg></div>
+        <h3>Flexible Delimiters</h3>
+        <p>Comma, semicolon, or tab &mdash; choose what works for your workflow. Flattens nested objects automatically.</p>
+      </div>
+    </section>
+
+
+    <div class="ad-placeholder" aria-hidden="true">
+      AdSense &mdash; In-Article Ad
+    </div>
+  </main>
+
+    <div class="tool-cta">
+      <p>Learn more in our detailed guide.</p>
+      <a href="../blog/json-to-csv-guide.html" class="btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        Read the Guide
+      </a>
+    </div>
+
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          DevTools
+        </div>
+        <div class="footer-tagline">Free developer tools that run in your browser.</div>
+      </div>
+      <div class="footer-links">
+        <a href="../blog/index.html">Blog</a>
+        <a href="../index.html">All Tools</a>
+        <a href="../privacy/index.html">Privacy</a>
+        <a href="../terms/index.html">Terms</a>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 DevTools. Built with care. Every tool runs 100% client-side.
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const jsonInput = document.getElementById('json-input');
+      const csvOutput = document.getElementById('csv-output');
+      const convertBtn = document.getElementById('convert-btn');
+      const clearBtn = document.getElementById('clear-btn');
+      const copyBtn = document.getElementById('copy-btn');
+      const downloadBtn = document.getElementById('download-btn');
+      const delimiterSelect = document.getElementById('delimiter');
+      const rowCount = document.getElementById('row-count');
+      const inputMsg = document.getElementById('input-message');
+      const outputMsg = document.getElementById('output-message');
+      const toast = document.getElementById('toast');
+    document.querySelectorAll('.faq-q').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = this.parentElement;
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); i.querySelector('.faq-q').setAttribute('aria-expanded', 'false'); });
+        if (!isOpen) { item.classList.add('open'); this.setAttribute('aria-expanded', 'true'); }
+      });
+    });
+
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+
+      let currentCsv = '';
+
+      function getTheme() {
+        return document.documentElement.getAttribute('data-theme') || 'light';
+      }
+
+      function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        themeIcon.innerHTML = theme === 'dark'
+          ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
+          : '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+        try { localStorage.setItem('theme', theme); } catch(e) {}
+      }
+
+      const savedTheme = (function() {
+        try { return localStorage.getItem('theme'); } catch(e) { return null; }
+      })();
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setTheme('dark');
+      }
+
+      themeToggle.addEventListener('click', function() {
+        setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+      });
+
+      function showMessage(el, type, text) {
+        el.className = 'message show ' + type;
+        el.textContent = text;
+      }
+
+      function hideMessage(el) {
+        el.className = 'message';
+        el.textContent = '';
+      }
+
+      function showToast(text) {
+        toast.textContent = text;
+        toast.classList.add('show');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(function() { toast.classList.remove('show'); }, 2500);
+      }
+
+      function escapeCsvValue(value) {
+        if (value === null || value === undefined) return '';
+        const str = String(value);
+        if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+          return '"' + str.replace(/"/g, '""') + '"';
+        }
+        return str;
+      }
+
+      function flattenKeys(obj, prefix) {
+        let keys = [];
+        for (const key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            const fullKey = prefix ? prefix + '.' + key : key;
+            if (obj[key] !== null && typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+              keys = keys.concat(flattenKeys(obj[key], fullKey));
+            } else {
+              keys.push(fullKey);
+            }
+          }
+        }
+        return keys;
+      }
+
+      function getRawValue(obj, keyPath) {
+        const parts = keyPath.split('.');
+        let val = obj;
+        for (const part of parts) {
+          if (val === null || val === undefined) return '';
+          val = val[part];
+        }
+        if (val === null || val === undefined) return '';
+        if (Array.isArray(val) || typeof val === 'object') {
+          return JSON.stringify(val);
+        }
+        return String(val);
+      }
+
+      function getCsvValue(obj, keyPath) {
+        const parts = keyPath.split('.');
+        let val = obj;
+        for (const part of parts) {
+          if (val === null || val === undefined) return '';
+          val = val[part];
+        }
+        if (val === null || val === undefined) return '';
+        if (Array.isArray(val)) return '"' + JSON.stringify(val).replace(/"/g, '""') + '"';
+        if (typeof val === 'object') return '"' + JSON.stringify(val).replace(/"/g, '""') + '"';
+        return escapeCsvValue(val);
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+      }
+
+      function buildTableHtml(headers, rows) {
+        let html = '<table style="min-width:100%"><thead><tr>';
+        for (let i = 0; i < headers.length; i++) {
+          html += '<th>' + escapeHtml(headers[i]) + '</th>';
+        }
+        html += '</tr></thead><tbody>';
+        for (let r = 0; r < rows.length; r++) {
+          html += '<tr>';
+          for (let c = 0; c < rows[r].length; c++) {
+            html += '<td>' + escapeHtml(rows[r][c]) + '</td>';
+          }
+          html += '</tr>';
+        }
+        html += '</tbody></table>';
+        return html;
+      }
+
+      function convert() {
+        hideMessage(inputMsg);
+        hideMessage(outputMsg);
+
+        const raw = jsonInput.value.trim();
+        if (!raw) {
+          showMessage(inputMsg, 'error', 'Please paste some JSON data first.');
+          csvOutput.innerHTML = '';
+          rowCount.textContent = '';
+          currentCsv = '';
+          return;
+        }
+
+        let data;
+        try {
+          data = JSON.parse(raw);
+        } catch (e) {
+          showMessage(inputMsg, 'error', 'Invalid JSON: ' + e.message);
+          csvOutput.innerHTML = '';
+          rowCount.textContent = '';
+          currentCsv = '';
+          return;
+        }
+
+        if (!Array.isArray(data)) {
+          showMessage(inputMsg, 'error', 'JSON must be an array of objects, e.g. [{"key": "value"}].');
+          csvOutput.innerHTML = '';
+          rowCount.textContent = '';
+          currentCsv = '';
+          return;
+        }
+
+        if (data.length === 0) {
+          showMessage(inputMsg, 'error', 'JSON array is empty.');
+          csvOutput.innerHTML = '';
+          rowCount.textContent = '';
+          currentCsv = '';
+          return;
+        }
+
+        const delimiter = delimiterSelect.value;
+        const allKeys = [];
+        for (const item of data) {
+          if (typeof item === 'object' && item !== null) {
+            const keys = flattenKeys(item, '');
+            for (const k of keys) {
+              if (allKeys.indexOf(k) === -1) allKeys.push(k);
+            }
+          }
+        }
+
+        const prefixSet = {};
+        for (let i = 0; i < allKeys.length; i++) {
+          for (let j = 0; j < allKeys.length; j++) {
+            if (i !== j && allKeys[j].startsWith(allKeys[i] + '.')) {
+              prefixSet[allKeys[i]] = true;
+            }
+          }
+        }
+        const filteredKeys = allKeys.filter(function(key) { return !prefixSet[key]; });
+        allKeys.length = 0;
+        allKeys.push.apply(allKeys, filteredKeys);
+
+        if (allKeys.length === 0) {
+          showMessage(inputMsg, 'error', 'No object keys found. Each array item should be an object.');
+          csvOutput.innerHTML = '';
+          rowCount.textContent = '';
+          currentCsv = '';
+          return;
+        }
+
+        const headerStr = allKeys.join(delimiter);
+        const result = data.reduce(function(acc, item) {
+          if (typeof item !== 'object' || item === null) return acc;
+          const rawRow = allKeys.map(function(key) { return getRawValue(item, key); });
+          const csvRow = allKeys.map(function(key) { return getCsvValue(item, key); }).join(delimiter);
+          acc.rows.push(rawRow);
+          acc.csvLines.push(csvRow);
+          return acc;
+        }, { rows: [], csvLines: [] });
+
+        currentCsv = headerStr + '\n' + result.csvLines.join('\n');
+        csvOutput.innerHTML = buildTableHtml(allKeys, result.rows);
+        rowCount.textContent = result.csvLines.length + ' rows, ' + allKeys.length + ' columns';
+
+        showMessage(outputMsg, 'success', 'Conversion successful!');
+      }
+
+      convertBtn.addEventListener('click', convert);
+
+      clearBtn.addEventListener('click', function() {
+        jsonInput.value = '';
+        csvOutput.innerHTML = '';
+        rowCount.textContent = '';
+        currentCsv = '';
+        hideMessage(inputMsg);
+        hideMessage(outputMsg);
+      });
+
+      copyBtn.addEventListener('click', function() {
+        if (!currentCsv) {
+          showToast('Nothing to copy. Convert some JSON first.');
+          return;
+        }
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(currentCsv).then(function() {
+            showToast('Copied to clipboard!');
+          }).catch(function() {
+            fallbackCopy();
+          });
+        } else {
+          fallbackCopy();
+        }
+      });
+
+      function fallbackCopy() {
+        const ta = document.createElement('textarea');
+        ta.value = currentCsv;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast('Copied to clipboard!');
+        } catch (e) {
+          showToast('Failed to copy');
+        }
+        document.body.removeChild(ta);
+      }
+
+      downloadBtn.addEventListener('click', function() {
+        if (!currentCsv) {
+          showToast('Nothing to download. Convert some JSON first.');
+          return;
+        }
+        const blob = new Blob([currentCsv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'converted.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('CSV file downloaded!');
+      });
+
+      document.querySelector('.sample-data summary').addEventListener('click', function(e) {
+        const pre = this.nextElementSibling;
+        if (pre) {
+          jsonInput.value = pre.textContent.trim();
+          showMessage(inputMsg, 'success', 'Sample data loaded. Click Convert!');
+        }
+      });
+
+      jsonInput.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          convert();
+        }
+      });
+    });
+
+  </script>
+</body>
+</html
+    <div class="section-divider" aria-hidden="true">FAQ</div>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a-0">
+          <span>How does nested JSON get converted to CSV?</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a" id="faq-a-0" role="region">
+          <div class="faq-a-inner">Nested objects are flattened using dot notation. For example, {"user": {"name": "Alice"}} becomes a column named user.name with value "Alice".</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a-1">
+          <span>What if my JSON has inconsistent keys?</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a" id="faq-a-1" role="region">
+          <div class="faq-a-inner">The converter scans all objects in the array and collects every unique key. Missing values are left empty.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a-2">
+          <span>Can I change the delimiter?</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a" id="faq-a-2" role="region">
+          <div class="faq-a-inner">Yes, the tool supports comma, semicolon, tab, and pipe delimiters. Choose the one that matches your target application.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="related-wrap">
+      <div class="section-divider" aria-hidden="true">Related Tools</div>
+      <div class="related-grid">
+        <a href="../json-formatter-validator/index.html" class="related-card">
+          <h3>JSON Formatter &amp; Validator</h3>
+          <span class="related-link">Use Tool &rarr;</span>
+        </a>
+        <a href="../text-diff-checker/index.html" class="related-card">
+          <h3>Text Diff Checker</h3>
+          <span class="related-link">Use Tool &rarr;</span>
+        </a>
+        <a href="../sql-formatter/index.html" class="related-card">
+          <h3>SQL Formatter</h3>
+          <span class="related-link">Use Tool &rarr;</span>
+        </a>
+      </div>
+    </div>
+>
