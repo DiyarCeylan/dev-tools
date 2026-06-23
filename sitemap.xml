@@ -1,167 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/404.html</loc>
-    <priority>0.1</priority>
-  </url>
-  <url>
-    <loc>https://diyarceylan.github.io/dev-tools/uuid-generator/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/uuid-generator/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/url-encoder-decoder/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/url-encoder-decoder/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/base64-encoder-decoder/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/base64-encoder-decoder/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/json-to-csv-converter/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/json-to-csv-converter/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/json-formatter-validator/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/json-formatter-validator/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/regex-tester/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/regex-tester/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/html-entity-encoder-decoder/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/html-entity-encoder-decoder/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/jwt-parser/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/jwt-parser/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/color-converter/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/color-converter/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/text-diff-checker/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/text-diff-checker/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/hex-to-hsl/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/hex-to-hsl/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/base64-image-converter/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/base64-image-converter/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/epoch-converter/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/epoch-converter/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/html-preview/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/html-preview/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/sql-formatter/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/sql-formatter/</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/url-encoder-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/url-encoder-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/base64-encoder-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/base64-encoder-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/uuid-generator-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/uuid-generator-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/json-to-csv-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/json-to-csv-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/json-formatter-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/json-formatter-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/regex-tester-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/regex-tester-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/html-entity-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/html-entity-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/jwt-parser-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/jwt-parser-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/color-converter-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/color-converter-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/text-diff-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/text-diff-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/hex-to-hsl-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/hex-to-hsl-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/base64-image-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/base64-image-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/epoch-converter-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/epoch-converter-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/html-preview-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/html-preview-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/blog/sql-formatter-guide.html</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/blog/sql-formatter-guide.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/hex-to-rgb/</loc>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://diyarceylan.github.io/dev-tools/rgb-to-hex/</loc>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://diyarceylan.github.io/dev-tools/image-to-base64/</loc>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://diyarceylan.github.io/dev-tools/base64-to-image/</loc>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://diyarceylan.github.io/dev-tools/about/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/about/</loc>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/contact/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/contact/</loc>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/privacy/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/privacy/</loc>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://diyarceylan.github.io/dev-tools/terms/</loc>
+    <loc>https://diyarceylan.github.io/WhetKit/terms/</loc>
     <priority>0.3</priority>
   </url>
 </urlset>

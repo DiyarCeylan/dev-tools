@@ -19,3 +19,15 @@ DevTools/
 # OS files
 Thumbs.db
 .DS_Store
+
+# Duplicate nested directory
+/WhetKit/
+
+# Unrelated projects
+/SonFrekans/
+/isik-golge/
+/link-kisaltici/
+/parapocket/
+/Opencode Kullanımı/
+test.html
+code-quality-report.md
