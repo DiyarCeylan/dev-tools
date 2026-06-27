@@ -1,0 +1,17 @@
+{
+  "name": "WhetKit",
+  "short_name": "WhetKit",
+  "description": "Free online developer tools — encode, format, convert, validate, and more. 100% client-side.",
+  "start_url": "/WhetKit/",
+  "scope": "/WhetKit/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "orientation": "any",
+  "categories": ["developer tools", "productivity", "utilities"],
+  "icons": [
+    { "src": "/WhetKit/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/WhetKit/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/WhetKit/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

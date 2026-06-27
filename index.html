@@ -6,9 +6,9 @@
 <title>WhetKit — developer tools.</title>
 <meta name="description" content="Free online developer tools. 100% private, no server uploads.">
 <meta name="theme-color" content="#09090b">
-<link rel="icon" href="WhetKit/favicon-48.png" sizes="48x48" type="image/png">
-<link rel="icon" href="WhetKit/favicon.svg" type="image/svg+xml">
-<link rel="manifest" href="WhetKit/manifest.json">
+<link rel="icon" href="favicon-48.png" sizes="48x48" type="image/png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.json">
 <link rel="canonical" href="https://whetkit.me/">
 <meta property="og:title" content="WhetKit — developer tools.">
 <meta property="og:description" content="Free online developer tools. 100% private, no server uploads.">
@@ -113,11 +113,11 @@ footer a:hover{color:var(--text)}
     <svg class="logo-svg" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 9L5 14L9 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 9L23 14L19 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </a>
   <nav>
-    <a href="WhetKit/about/index.html">about</a>
+    <a href="about/index.html">about</a>
     <span class="nav-sep"></span>
-    <a href="WhetKit/blog/index.html">blog</a>
+    <a href="blog/index.html">blog</a>
     <span class="nav-sep"></span>
-    <a href="WhetKit/contact/index.html">contact</a>
+    <a href="contact/index.html">contact</a>
   </nav>
   <div class="header-right">
     <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
@@ -128,7 +128,7 @@ footer a:hover{color:var(--text)}
 </header>
 
 <main>
-  <div class="badge-wrap"><div class="badge"><span class="badge-dot"></span><span class="badge-num">v2.1</span><span>—</span><span>16 tools</span></div></div>
+  <div class="badge-wrap"><div class="badge"><span class="badge-dot"></span><span class="badge-num">v2.1</span><span>—</span><span>15 tools</span></div></div>
 
   <h1 class="hero" aria-label="developer tools.">
     <div class="hero-line"><span class="hero-line-light">developer</span></div>
@@ -142,108 +142,103 @@ footer a:hover{color:var(--text)}
   </div>
 
   <div class="toolbar">
-    <span class="toolbar-count" id="tool-count">16 tools</span>
+    <span class="toolbar-count" id="tool-count">15 tools</span>
     <span class="toolbar-count" style="opacity:.3">·</span>
     <span class="toolbar-count" style="opacity:.4">client-side</span>
   </div>
 
   <div class="tools" id="tools">
-    <a class="tool" href="WhetKit/url-encoder-decoder/index.html" data-name="URL Encoder Decoder" style="--c:#3b82f6">
+    <a class="tool" href="url-encoder-decoder/index.html" data-name="URL Encoder Decoder" style="--c:#3b82f6">
       <span class="tool-num">01</span>
       <span class="tool-name">URL Encoder / Decoder</span>
       <span class="tool-cmd"><span>$</span> encode --url</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/base64-encoder-decoder/index.html" data-name="Base64 Encoder Decoder" style="--c:#f97316">
+    <a class="tool" href="base64-encoder-decoder/index.html" data-name="Base64 Encoder Decoder" style="--c:#f97316">
       <span class="tool-num">02</span>
       <span class="tool-name">Base64 Encoder / Decoder</span>
       <span class="tool-cmd"><span>$</span> encode --base64</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/uuid-generator/index.html" data-name="UUID Generator" style="--c:#8b5cf6">
+    <a class="tool" href="uuid-generator/index.html" data-name="UUID Generator" style="--c:#8b5cf6">
       <span class="tool-num">03</span>
       <span class="tool-name">UUID Generator</span>
       <span class="tool-cmd"><span>$</span> uuid --v4</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/json-to-csv-converter/index.html" data-name="JSON to CSV Converter" style="--c:#10b981">
+    <a class="tool" href="json-to-csv-converter/index.html" data-name="JSON to CSV Converter" style="--c:#10b981">
       <span class="tool-num">04</span>
       <span class="tool-name">JSON → CSV Converter</span>
       <span class="tool-cmd"><span>$</span> convert --json2csv</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/json-formatter-validator/index.html" data-name="JSON Formatter Validator" style="--c:#10b981">
+    <a class="tool" href="json-formatter-validator/index.html" data-name="JSON Formatter Validator" style="--c:#10b981">
       <span class="tool-num">05</span>
       <span class="tool-name">JSON Formatter / Validator</span>
       <span class="tool-cmd"><span>$</span> format --json</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/regex-tester/index.html" data-name="Regex Tester" style="--c:#ef4444">
+    <a class="tool" href="regex-tester/index.html" data-name="Regex Tester" style="--c:#ef4444">
       <span class="tool-num">06</span>
       <span class="tool-name">Regex Tester</span>
       <span class="tool-cmd"><span>$</span> test --regex</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/html-entity-encoder-decoder/index.html" data-name="HTML Entity Encoder Decoder" style="--c:#3b82f6">
+    <a class="tool" href="html-entity-encoder-decoder/index.html" data-name="HTML Entity Encoder Decoder" style="--c:#3b82f6">
       <span class="tool-num">07</span>
       <span class="tool-name">HTML Entity Encoder / Decoder</span>
       <span class="tool-cmd"><span>$</span> encode --html</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/jwt-parser/index.html" data-name="JWT Parser" style="--c:#8b5cf6">
+    <a class="tool" href="jwt-parser/index.html" data-name="JWT Parser" style="--c:#8b5cf6">
       <span class="tool-num">08</span>
       <span class="tool-name">JWT Parser</span>
       <span class="tool-cmd"><span>$</span> parse --jwt</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/color-converter/index.html" data-name="Color Converter" style="--c:#f97316">
+    <a class="tool" href="color-converter/index.html" data-name="Color Converter" style="--c:#f97316">
       <span class="tool-num">09</span>
       <span class="tool-name">Color Converter</span>
       <span class="tool-cmd"><span>$</span> convert --color</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/text-diff-checker/index.html" data-name="Text Diff Checker" style="--c:#10b981">
+    <a class="tool" href="text-diff-checker/index.html" data-name="Text Diff Checker" style="--c:#10b981">
       <span class="tool-num">10</span>
       <span class="tool-name">Text Diff Checker</span>
       <span class="tool-cmd"><span>$</span> diff --text</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/hex-to-hsl/index.html" data-name="HEX to HSL Converter" style="--c:#3b82f6">
+    <a class="tool" href="hex-to-hsl/index.html" data-name="HEX to HSL Converter" style="--c:#3b82f6">
       <span class="tool-num">11</span>
       <span class="tool-name">HEX → HSL Converter</span>
       <span class="tool-cmd"><span>$</span> convert --hex2hsl</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/base64-image-converter/index.html" data-name="Base64 Image Converter" style="--c:#f97316">
+    <a class="tool" href="base64-image-converter/index.html" data-name="Base64 Image Converter" style="--c:#f97316">
       <span class="tool-num">12</span>
       <span class="tool-name">Base64 Image Converter</span>
       <span class="tool-cmd"><span>$</span> convert --img2base64</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/epoch-converter/index.html" data-name="Epoch Converter" style="--c:#8b5cf6">
+    <a class="tool" href="epoch-converter/index.html" data-name="Epoch Converter" style="--c:#8b5cf6">
       <span class="tool-num">13</span>
       <span class="tool-name">Epoch Converter</span>
       <span class="tool-cmd"><span>$</span> convert --epoch</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/html-preview/index.html" data-name="HTML Preview" style="--c:#3b82f6">
+    <a class="tool" href="html-preview/index.html" data-name="HTML Preview" style="--c:#3b82f6">
       <span class="tool-num">14</span>
       <span class="tool-name">HTML Preview</span>
       <span class="tool-cmd"><span>$</span> preview --html</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="WhetKit/sql-formatter/index.html" data-name="SQL Formatter" style="--c:#ef4444">
+    <a class="tool" href="sql-formatter/index.html" data-name="SQL Formatter" style="--c:#ef4444">
       <span class="tool-num">15</span>
       <span class="tool-name">SQL Formatter</span>
       <span class="tool-cmd"><span>$</span> format --sql</span>
       <span class="tool-meta">Client-side only · Zero dependencies</span>
     </a>
-    <a class="tool" href="https://s.whetkit.me/" target="_blank" data-name="URL Shortener" style="--c:#a78bfa">
-      <span class="tool-num">16</span>
-      <span class="tool-name">URL Shortener</span>
-      <span class="tool-cmd"><span>$</span> shorten --url</span>
-      <span class="tool-meta">Server-side · Track clicks · QR codes</span>
-    </a><span id="no-results">No tools found matching your search.</span>
+    <span id="no-results">No tools found matching your search.</span>
   </div>
 
   <div class="cta-section">
@@ -261,7 +256,7 @@ footer a:hover{color:var(--text)}
         <span class="cta-title">Missing a tool?</span>
         <span class="cta-desc">Suggest a tool and I'll build it.</span>
       </div>
-      <a class="cta-btn" href="WhetKit/contact/index.html">Suggest</a>
+      <a class="cta-btn" href="contact/index.html">Suggest</a>
     </div>
   </div>
 
@@ -271,9 +266,9 @@ footer a:hover{color:var(--text)}
   <p>© 2026 WhetKit — Made with obsession over details</p>
   <span class="footer-mid">v2.1.0</span>
   <div class="footer-right">
-    <a href="WhetKit/privacy/index.html">privacy</a>
+    <a href="privacy/index.html">privacy</a>
     <span class="nav-sep"></span>
-    <a href="WhetKit/terms/index.html">terms</a>
+    <a href="terms/index.html">terms</a>
     <span class="nav-sep"></span>
     <span class="footer-mid" style="opacity:.4">client-side</span>
   </div>

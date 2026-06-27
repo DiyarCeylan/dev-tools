@@ -4,8 +4,7 @@
 
 A collection of **free, privacy-first, client-side developer tools** — all running entirely in your browser with zero server uploads.
 
-> **Live site:** [https://whetkit.me](https://whetkit.me/)
-> **URL Shortener:** [https://s.whetkit.me](https://s.whetkit.me/)
+> **Live site:** [diyarceylan.github.io/WhetKit](https://diyarceylan.github.io/WhetKit/)
 
 ## Quick Start
 
@@ -21,28 +20,26 @@ Open `http://localhost:3000`. Every tool is a single HTML file — no build step
 
 | # | Tool | Description |
 |---|------|-------------|
-| 1 | [URL Encoder / Decoder](https://whetkit.me/url-encoder-decoder/) | Encode and decode URL strings |
-| 2 | [Base64 Encoder / Decoder](https://whetkit.me/base64-encoder-decoder/) | Encode text/files to Base64 and decode back |
-| 3 | [UUID Generator](https://whetkit.me/uuid-generator/) | Generate UUID v1, v4, v7 in bulk |
-| 4 | [JSON to CSV Converter](https://whetkit.me/json-to-csv-converter/) | Convert JSON arrays to CSV with nested flattening |
-| 5 | [JSON Formatter & Validator](https://whetkit.me/json-formatter-validator/) | Format, validate, and minify JSON |
-| 6 | [Regex Tester](https://whetkit.me/regex-tester/) | Test regular expressions in real-time |
-| 7 | [HTML Entity Encoder / Decoder](https://whetkit.me/html-entity-encoder-decoder/) | Encode/decode HTML special characters |
-| 8 | [JWT Parser](https://whetkit.me/jwt-parser/) | Decode and inspect JWT tokens |
-| 9 | [Color Converter](https://whetkit.me/color-converter/) | Convert between HEX, RGB, HSL, OKLCH |
-| 10 | [Text Diff Checker](https://whetkit.me/text-diff-checker/) | Side-by-side text comparison |
-| 11 | [HEX to HSL](https://whetkit.me/hex-to-hsl/) | Convert hex colors to HSL |
-| 12 | [Base64 Image Converter](https://whetkit.me/base64-image-converter/) | Images to/from Base64 data URIs |
-| 13 | [Epoch Converter](https://whetkit.me/epoch-converter/) | Unix timestamp to human date and back |
-| 14 | [HTML Preview](https://whetkit.me/html-preview/) | Live HTML/CSS/JS sandbox |
-| 15 | [SQL Formatter](https://whetkit.me/sql-formatter/) | Format and beautify SQL queries |
-| 16 | [URL Shortener](https://s.whetkit.me/) | Shorten URLs, track clicks, QR codes |
+| 1 | [URL Encoder / Decoder](https://diyarceylan.github.io/WhetKit/url-encoder-decoder/) | Encode and decode URL strings |
+| 2 | [Base64 Encoder / Decoder](https://diyarceylan.github.io/WhetKit/base64-encoder-decoder/) | Encode text/files to Base64 and decode back |
+| 3 | [UUID Generator](https://diyarceylan.github.io/WhetKit/uuid-generator/) | Generate UUID v1, v4, v7 in bulk |
+| 4 | [JSON to CSV Converter](https://diyarceylan.github.io/WhetKit/json-to-csv-converter/) | Convert JSON arrays to CSV with nested flattening |
+| 5 | [JSON Formatter & Validator](https://diyarceylan.github.io/WhetKit/json-formatter-validator/) | Format, validate, and minify JSON |
+| 6 | [Regex Tester](https://diyarceylan.github.io/WhetKit/regex-tester/) | Test regular expressions in real-time |
+| 7 | [HTML Entity Encoder / Decoder](https://diyarceylan.github.io/WhetKit/html-entity-encoder-decoder/) | Encode/decode HTML special characters |
+| 8 | [JWT Parser](https://diyarceylan.github.io/WhetKit/jwt-parser/) | Decode and inspect JWT tokens |
+| 9 | [Color Converter](https://diyarceylan.github.io/WhetKit/color-converter/) | Convert between HEX, RGB, HSL, OKLCH |
+| 10 | [Text Diff Checker](https://diyarceylan.github.io/WhetKit/text-diff-checker/) | Side-by-side text comparison |
+| 11 | [HEX to HSL](https://diyarceylan.github.io/WhetKit/hex-to-hsl/) | Convert hex colors to HSL |
+| 12 | [Base64 Image Converter](https://diyarceylan.github.io/WhetKit/base64-image-converter/) | Images to/from Base64 data URIs |
+| 13 | [Epoch Converter](https://diyarceylan.github.io/WhetKit/epoch-converter/) | Unix timestamp to human date and back |
+| 14 | [HTML Preview](https://diyarceylan.github.io/WhetKit/html-preview/) | Live HTML/CSS/JS sandbox |
+| 15 | [SQL Formatter](https://diyarceylan.github.io/WhetKit/sql-formatter/) | Format and beautify SQL queries |
 
 ## Features
 
 - **100% client-side** — no data ever leaves your device
 - **Zero dependencies** — every tool is a single HTML file with vanilla JS
-- **URL Shortener** — hosted at `s.whetkit.me`, powered by Railway
 - **Dark / Light theme** — system-aware with manual toggle
 - **PWA ready** — installable, works offline
 - **Privacy-focused analytics** — GoatCounter, no cookies
@@ -85,4 +82,4 @@ Zero frameworks, zero build tools, zero package dependencies.
 
 ## Deployment
 
-Push to `main` — GitHub Pages serves from the root automatically. The URL shortener at `s.whetkit.me` deploys separately via Railway.
+Push to `main` — GitHub Pages serves from the root automatically.

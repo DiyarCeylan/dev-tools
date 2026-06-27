@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Entity Encoder &amp; Decoder Online - Free Developer Tool | WhetKit</title>
+  <meta name="description" content="Encode or decode HTML entities instantly in your browser. Free online HTML entity converter.">
+  <link rel="canonical" href="https://whetkit.me/html-entity-encoder-decoder/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="HTML Entity Encoder &amp; Decoder Online - Free Developer Tool | WhetKit">
+  <meta property="og:description" content="Encode or decode HTML entities instantly in your browser. Free online HTML entity converter.">
+  <meta property="og:url" content="https://whetkit.me/html-entity-encoder-decoder/">
+  <meta name="theme-color" content="#09090b">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --bg: #09090b; --fg: #fafafa; --text: #fafafa; --text-secondary: #a1a1aa; --muted: #a1a1aa; --border: #27272a; --accent: #a78bfa; --accent-hover: #c4b5fd; --card: #18181b; --card-hover: #1f1f23; --radius: 12px; --font: 'JetBrains Mono', monospace; --transition: 0.2s ease; }
+    .theme-cursor{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-left:8px;cursor:pointer;border:none;background:none;color:var(--text-secondary);transition:color 0.2s}.theme-cursor:hover{color:var(--text)}
+    [data-theme="light"] { --bg: #fafafa; --fg: #09090b; --text: #09090b; --text-secondary: #71717a; --muted: #71717a; --border: #e4e4e7; --accent: #7c3aed; --accent-hover: #6d28d9; --card: #ffffff; --card-hover: #f4f4f5; }
+    body { font-family: var(--font); background: var(--bg); color: var(--fg); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; transition: background var(--transition), color var(--transition); }
+    .noise { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.035; }
+    .noise svg { width: 100%; height: 100%; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; width: 100%; }
+    header { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); transition: background var(--transition), border-color var(--transition); }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .logo { font-size: 20px; font-weight: 700; color: var(--fg); text-decoration: none; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
+    .logo-sub { font-size: 13px; color: var(--muted); margin-left: 4px; }
+    
+    
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); padding: 12px 0 0; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb .sep { opacity: 0.4; }
+    h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin: 20px 0 8px; }
+    .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+    .tool-area { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+    @media (max-width: 768px) { .tool-area { grid-template-columns: 1fr; } }
+    .terminal-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: background var(--transition), border-color var(--transition); }
+    .terminal-wrap:hover { border-color: var(--accent); }
+    .terminal-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--card-hover); border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 600; color: var(--muted); }
+    .terminal-header .dots { display: flex; gap: 6px; }
+    .terminal-header .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #ef4444; } .dot.y { background: #eab308; } .dot.g { background: #22c55e; }
+    .terminal-body { padding: 16px; }
+    .input-group { display: flex; gap: 8px; margin-bottom: 12px; }
+    .input-group label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; min-width: 60px; padding-top: 10px; }
+    .input-group input, .input-group select, .input-group textarea { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-family: var(--font); font-size: 14px; color: var(--fg); outline: none; transition: border-color var(--transition); }
+    .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-color: var(--accent); }
+    .input-group input::placeholder, .input-group textarea::placeholder { color: var(--muted); opacity: 0.6; }
+    textarea { resize: vertical; }
+    .chars { font-size: 11px; color: var(--muted); text-align: right; margin-top: 4px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; transition: background var(--transition); }
+    .btn:hover { background: var(--accent-hover); }
+    .btn.sec { background: transparent; border: 1px solid var(--border); color: var(--fg); }
+    .btn.sec:hover { background: var(--card-hover); }
+    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+    .result-area { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px; font-size: 14px; word-break: break-all; min-height: 48px; max-height: 300px; overflow-y: auto; margin-top: 8px; }
+    .result-area .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .result-area .val { color: var(--accent); }
+    .result-hidden { display: none; }
+    .option-row { display: flex; gap: 16px; align-items: center; margin: 8px 0; }
+    .option-row label { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .option-row input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
+    .section-title { font-size: 15px; font-weight: 700; margin: 32px 0 16px; letter-spacing: -0.3px; }
+    .faq-wrap { margin: 40px 0; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; overflow: hidden; transition: border-color var(--transition); }
+    .faq-item:hover { border-color: var(--accent); }
+    .faq-q { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; font-weight: 600; font-size: 14px; user-select: none; }
+    .faq-q .ico { font-size: 16px; transition: transform var(--transition); }
+    .faq-q.open .ico { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; padding: 0 18px; font-size: 13px; color: var(--muted); }
+    .faq-a.open { max-height: 300px; padding: 0 18px 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0; }
+    @media (max-width: 640px) { .related-grid { grid-template-columns: 1fr; } }
+    .related-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: var(--fg); transition: background var(--transition), border-color var(--transition); }
+    .related-card:hover { background: var(--card-hover); border-color: var(--accent); }
+    .related-card .rc-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .related-card .rc-desc { font-size: 12px; color: var(--muted); }
+    footer { margin-top: auto; border-top: 1px solid var(--border); padding: 24px 0; font-size: 13px; color: var(--muted); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .footer-inner a { color: var(--muted); text-decoration: none; }
+    .footer-inner a:hover { color: var(--accent); }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--card); border: 1px solid var(--border); color: var(--fg); padding: 12px 24px; border-radius: var(--radius); font-size: 13px; opacity: 0; transition: all 0.3s ease; z-index: 9999; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"HTML Entity Encoder / Decoder","url":"https://whetkit.me/html-entity-encoder-decoder/","applicationCategory":"DeveloperApplication","operatingSystem":"All","browserRequirements":"JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Encode or decode HTML entities instantly in your browser. Free online HTML entity converter."}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://whetkit.me/"},{"@type":"ListItem","position":2,"name":"HTML Entity Encoder / Decoder"}]}</script>
+</head>
+<body>
+  <div class="noise"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)" opacity="0.4"/></svg></div>
+
+  <header>
+    <div class="container header-inner">
+      <div class="logo-area">
+        <a href="../index.html" class="logo"><span>&lt;/</span>&gt;<span class="logo-sub">WhetKit</span></a>
+      </div>
+      <button class="theme-cursor" id="theme-toggle" aria-label="toggle theme" title="toggle theme"><svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="breadcrumb">
+      <a href="../index.html">WhetKit</a>
+      <span class="sep">/</span>
+      <span>HTML Entity Encoder / Decoder</span>
+    </div>
+
+    <h1>$ html-entity-encoder-decoder</h1>
+    <p class="subtitle">Encode or decode HTML special characters like &amp;lt; &amp;gt; &amp;amp; &amp;quot;.</p>
+
+    <div class="tool-area">
+      <div class="terminal-wrap">
+        <div class="terminal-header">
+          <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+          <span>input</span>
+          <span></span>
+        </div>
+        <div class="terminal-body">
+          <textarea id="input" placeholder="Paste HTML or text here..." spellcheck="false" rows="6"></textarea>
+          <div class="chars"><span id="charCount">0</span> characters</div>
+          <div class="option-row">
+            <label><input type="checkbox" id="encodeAll"> Encode all non-ASCII characters</label>
+          </div>
+          <div class="btn-row">
+            <button class="btn" id="btnEncode">$ encode</button>
+            <button class="btn" id="btnDecode">$ decode</button>
+            <button class="btn sec" id="btnSwap">$ swap</button>
+            <button class="btn sec" id="btnClear">$ clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="terminal-wrap">
+        <div class="terminal-header">
+          <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+          <span>output</span>
+          <span></span>
+        </div>
+        <div class="terminal-body">
+          <div class="result-area" id="result">
+            <div class="label">Result</div>
+            <div class="val" id="resultVal">—</div>
+          </div>
+          <div class="btn-row" id="copyRow" style="display:none;">
+            <button class="btn sec" id="btnCopy">$ copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-wrap">
+      <div class="section-title">faq</div>
+      <div class="faq-item">
+        <div class="faq-q">What are HTML entities?<span class="ico">+</span></div>
+        <div class="faq-a">HTML entities are special codes that represent reserved characters. For example, &amp;lt; represents &lt;, &amp;amp; represents &amp;, and &amp;quot; represents &quot;.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">When should I encode HTML?<span class="ico">+</span></div>
+        <div class="faq-a">Always encode user-generated content before inserting it into HTML to prevent XSS attacks. Encode data in HTML attributes, text nodes, and inline scripts.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What is the difference between named and numeric entities?<span class="ico">+</span></div>
+        <div class="faq-a">Named entities like &amp;amp; are easier to read. Numeric entities like &amp;#38; or &amp;#x26; work for any Unicode character. Both render the same.</div>
+      </div>
+    </div>
+
+    <div class="section-title">related tools</div>
+    <div class="related-grid">
+      <a href="../base64-encoder-decoder/index.html" class="related-card"><div class="rc-title">$ base64-encoder-decoder</div><div class="rc-desc">Encode and decode Base64 strings</div></a>
+      <a href="../epoch-converter/index.html" class="related-card"><div class="rc-title">$ epoch-converter</div><div class="rc-desc">Convert between timestamps and dates</div></a>
+      <a href="../color-converter/index.html" class="related-card"><div class="rc-title">$ color-converter</div><div class="rc-desc">Convert between HEX, RGB, HSL, and more</div></a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>&copy; 2026 WhetKit</span>
+      <span><a href="../privacy/index.html">Privacy</a> / <a href="../terms/index.html">Terms</a></span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function toast(msg) { var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show')},2200); }
+
+    (function(){var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');function g(){return document.documentElement.getAttribute('data-theme')||'dark'}function s(m){document.documentElement.setAttribute('data-theme',m);i.innerHTML=m==='dark'?'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';try{localStorage.setItem('theme',m)}catch(e){}}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)s('light')}catch(e){}t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')})})();
+
+    var input = document.getElementById('input');
+    var resultVal = document.getElementById('resultVal');
+    var copyRow = document.getElementById('copyRow');
+    var btnEncode = document.getElementById('btnEncode');
+    var btnDecode = document.getElementById('btnDecode');
+    var btnSwap = document.getElementById('btnSwap');
+    var btnClear = document.getElementById('btnClear');
+    var btnCopy = document.getElementById('btnCopy');
+    var charCount = document.getElementById('charCount');
+    var encodeAll = document.getElementById('encodeAll');
+    var lastResult = '';
+
+    input.addEventListener('input', function() { charCount.textContent = this.value.length; });
+
+    var entityMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+
+    function showResult(text) {
+      lastResult = text;
+      resultVal.textContent = text || '\u2014';
+      copyRow.style.display = text ? 'flex' : 'none';
+    }
+
+    btnEncode.addEventListener('click', function() {
+      var val = input.value;
+      if (!val) { toast('Please enter text to encode'); return; }
+      try {
+        var r = val.replace(/[&<>"']/g, function(c) { return entityMap[c]; });
+        if (encodeAll.checked) {
+          r = r.replace(/[^\x00-\x7F]/g, function(c) { return '&#' + c.charCodeAt(0) + ';'; });
+        }
+        showResult(r);
+      } catch (e) { toast('Error: ' + e.message); }
+    });
+
+    btnDecode.addEventListener('click', function() {
+      var val = input.value;
+      if (!val) { toast('Please enter text to decode'); return; }
+      try {
+        var doc = new DOMParser().parseFromString(val, 'text/html');
+        showResult(doc.body.textContent || '');
+      } catch (e) { toast('Error: ' + e.message); }
+    });
+
+    btnSwap.addEventListener('click', function() {
+      var tmp = input.value;
+      input.value = lastResult || '';
+      showResult('');
+      charCount.textContent = input.value.length;
+    });
+
+    btnClear.addEventListener('click', function() {
+      input.value = '';
+      charCount.textContent = '0';
+      showResult('');
+      input.focus();
+    });
+
+    btnCopy.addEventListener('click', function() {
+      if (!lastResult) return;
+      navigator.clipboard.writeText(lastResult).then(function() { toast('Copied!'); }).catch(function() {});
+    });
+
+    // FAQ accordion
+    (function(){ var qs=document.querySelectorAll('.faq-q'); qs.forEach(function(q){ q.addEventListener('click',function(){ var a=this.nextElementSibling; var isOpen=a.classList.contains('open'); qs.forEach(function(o){ o.nextElementSibling.classList.remove('open'); o.nextElementSibling.style.maxHeight='0'; o.classList.remove('open'); }); if(!isOpen){ a.classList.add('open'); a.style.maxHeight=a.scrollHeight+'px'; this.classList.add('open'); } }); }); })();
+  </script>
+</body>
+</html>
