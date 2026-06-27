@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>WhetKit — developer tools.</title>
+<title>WhetKit â€” developer tools.</title>
 <meta name="description" content="Free online developer tools. 100% private, no server uploads.">
 <meta name="theme-color" content="#09090b">
 <link rel="icon" href="favicon-48.png" sizes="48x48" type="image/png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.json">
 <link rel="canonical" href="https://whetkit.me/">
-<meta property="og:title" content="WhetKit — developer tools.">
+<meta property="og:title" content="WhetKit â€” developer tools.">
 <meta property="og:description" content="Free online developer tools. 100% private, no server uploads.">
 <meta property="og:url" content="https://whetkit.me/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="WhetKit — developer tools.">
+<meta name="twitter:title" content="WhetKit â€” developer tools.">
 <meta name="twitter:description" content="Free online developer tools. 100% private, no server uploads.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,11 +35,8 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 header{position:relative;z-index:2;display:flex;align-items:center;padding:12px 24px;border-bottom:1px solid transparent;border-image:linear-gradient(90deg,transparent,var(--border-subtle) 20%,var(--border) 50%,var(--border-subtle) 80%,transparent) 1}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);font-family:var(--font-display);font-size:.9rem;font-weight:500;padding:4px 8px;border-radius:var(--radius-sm);transition:background .15s}
 .logo:hover{background:var(--surface)}
-.logo-icon{display:inline-flex;gap:1px;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
-.logo:hover .logo-icon{transform:rotate(90deg)}
-.logo-icon span{display:inline-block;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
-.logo:hover .logo-icon span:first-child{transform:translateX(-3px)}
-.logo:hover .logo-icon span:last-child{transform:translateX(3px)}
+.logo-svg{width:22px;height:22px;display:block;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.logo:hover .logo-svg{transform:rotate(90deg)}
 nav{display:flex;align-items:center;gap:8px;margin-left:24px;flex:1}
 .nav-sep{width:1px;height:12px;background:var(--border);opacity:.1}
 nav a{color:var(--text-secondary);text-decoration:none;font-size:.8rem;padding:4px 6px;border-radius:var(--radius-sm);transition:color .15s,background .15s}
@@ -113,7 +110,7 @@ footer a:hover{color:var(--text)}
 
 <header>
   <a href="index.html" class="logo">
-    <span class="logo-icon"><span>&lt;</span><span>/</span><span>&gt;</span></span>
+    <svg class="logo-svg" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 9L5 14L9 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 9L23 14L19 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </a>
   <nav>
     <a href="about/index.html">about</a>
@@ -131,12 +128,12 @@ footer a:hover{color:var(--text)}
 </header>
 
 <main>
-  <div class="badge-wrap"><div class="badge"><span class="badge-dot"></span><span class="badge-num">v2.1</span><span>—</span><span>15 tools</span></div></div>
+  <div class="badge-wrap"><div class="badge"><span class="badge-dot"></span><span class="badge-num">v2.1</span><span>â€”</span><span>15 tools</span></div></div>
 
   <h1 class="hero" aria-label="developer tools.">
     <div class="hero-line"><span class="hero-line-light">developer</span></div>
     <div class="hero-line"><span class="hero-line-bold">tools.</span></div>
-    <p class="hero-sub"><span>No servers</span><span>—</span><span>No uploads</span><span>—</span><span>No tracking</span></p>
+    <p class="hero-sub"><span>No servers</span><span>â€¢</span><span>No uploads</span><span>â€¢</span><span>No tracking</span></p>
   </h1>
 
   <div class="search-wrap">
@@ -146,7 +143,7 @@ footer a:hover{color:var(--text)}
 
   <div class="toolbar">
     <span class="toolbar-count" id="tool-count">15 tools</span>
-    <span class="toolbar-count" style="opacity:.3">—</span>
+    <span class="toolbar-count" style="opacity:.3">Â·</span>
     <span class="toolbar-count" style="opacity:.4">client-side</span>
   </div>
 
@@ -155,101 +152,101 @@ footer a:hover{color:var(--text)}
       <span class="tool-num">01</span>
       <span class="tool-name">URL Encoder / Decoder</span>
       <span class="tool-cmd"><span>$</span> encode --url</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="base64-encoder-decoder/index.html" data-name="Base64 Encoder Decoder" style="--c:#f97316">
       <span class="tool-num">02</span>
       <span class="tool-name">Base64 Encoder / Decoder</span>
       <span class="tool-cmd"><span>$</span> encode --base64</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="uuid-generator/index.html" data-name="UUID Generator" style="--c:#8b5cf6">
       <span class="tool-num">03</span>
       <span class="tool-name">UUID Generator</span>
       <span class="tool-cmd"><span>$</span> uuid --v4</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="json-to-csv-converter/index.html" data-name="JSON to CSV Converter" style="--c:#10b981">
       <span class="tool-num">04</span>
-      <span class="tool-name">JSON — CSV Converter</span>
+      <span class="tool-name">JSON â†’ CSV Converter</span>
       <span class="tool-cmd"><span>$</span> convert --json2csv</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="json-formatter-validator/index.html" data-name="JSON Formatter Validator" style="--c:#10b981">
       <span class="tool-num">05</span>
       <span class="tool-name">JSON Formatter / Validator</span>
       <span class="tool-cmd"><span>$</span> format --json</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="regex-tester/index.html" data-name="Regex Tester" style="--c:#ef4444">
       <span class="tool-num">06</span>
       <span class="tool-name">Regex Tester</span>
       <span class="tool-cmd"><span>$</span> test --regex</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="html-entity-encoder-decoder/index.html" data-name="HTML Entity Encoder Decoder" style="--c:#3b82f6">
       <span class="tool-num">07</span>
       <span class="tool-name">HTML Entity Encoder / Decoder</span>
       <span class="tool-cmd"><span>$</span> encode --html</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="jwt-parser/index.html" data-name="JWT Parser" style="--c:#8b5cf6">
       <span class="tool-num">08</span>
       <span class="tool-name">JWT Parser</span>
       <span class="tool-cmd"><span>$</span> parse --jwt</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="color-converter/index.html" data-name="Color Converter" style="--c:#f97316">
       <span class="tool-num">09</span>
       <span class="tool-name">Color Converter</span>
       <span class="tool-cmd"><span>$</span> convert --color</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="text-diff-checker/index.html" data-name="Text Diff Checker" style="--c:#10b981">
       <span class="tool-num">10</span>
       <span class="tool-name">Text Diff Checker</span>
       <span class="tool-cmd"><span>$</span> diff --text</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="hex-to-hsl/index.html" data-name="HEX to HSL Converter" style="--c:#3b82f6">
       <span class="tool-num">11</span>
-      <span class="tool-name">HEX — HSL Converter</span>
+      <span class="tool-name">HEX â†’ HSL Converter</span>
       <span class="tool-cmd"><span>$</span> convert --hex2hsl</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="base64-image-converter/index.html" data-name="Base64 Image Converter" style="--c:#f97316">
       <span class="tool-num">12</span>
       <span class="tool-name">Base64 Image Converter</span>
       <span class="tool-cmd"><span>$</span> convert --img2base64</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="epoch-converter/index.html" data-name="Epoch Converter" style="--c:#8b5cf6">
       <span class="tool-num">13</span>
       <span class="tool-name">Epoch Converter</span>
       <span class="tool-cmd"><span>$</span> convert --epoch</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="html-preview/index.html" data-name="HTML Preview" style="--c:#3b82f6">
       <span class="tool-num">14</span>
       <span class="tool-name">HTML Preview</span>
       <span class="tool-cmd"><span>$</span> preview --html</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <a class="tool" href="sql-formatter/index.html" data-name="SQL Formatter" style="--c:#ef4444">
       <span class="tool-num">15</span>
       <span class="tool-name">SQL Formatter</span>
       <span class="tool-cmd"><span>$</span> format --sql</span>
-      <span class="tool-meta">Client-side only — Zero dependencies</span>
+      <span class="tool-meta">Client-side only Â· Zero dependencies</span>
     </a>
     <span id="no-results">No tools found matching your search.</span>
   </div>
 
   <div class="cta-section">
     <div class="cta-card">
-      <span class="cta-icon">?</span>
+      <span class="cta-icon">â˜…</span>
       <div class="cta-text">
         <span class="cta-title">Like WhetKit?</span>
-        <span class="cta-desc">Star on GitHub — it helps others find it.</span>
+        <span class="cta-desc">Star on GitHub â€” it helps others find it.</span>
       </div>
       <a class="cta-btn" href="https://github.com/diyarceylan/WhetKit" target="_blank" rel="noopener">GitHub</a>
     </div>
@@ -266,7 +263,7 @@ footer a:hover{color:var(--text)}
 </main>
 
 <footer>
-  <p>— 2026 WhetKit — Made with obsession over details</p>
+  <p>Â© 2026 WhetKit â€” Made with obsession over details</p>
   <span class="footer-mid">v2.1.0</span>
   <div class="footer-right">
     <a href="privacy/index.html">privacy</a>
