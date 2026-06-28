@@ -26,11 +26,7 @@
     header { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); transition: background var(--transition), border-color var(--transition); }
     .header-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
     .logo-area { display: flex; align-items: center; gap: 12px; }
-    .logo { font-size: 20px; font-weight: 700; color: var(--fg); text-decoration: none; letter-spacing: -0.5px; }
-    .logo span { color: var(--accent); }
-    .logo-sub { font-size: 13px; color: var(--muted); margin-left: 4px; }
-    
-    
+    .logo { font-size: 20px; font-weight: 700; color: var(--fg); text-decoration: none; letter-spacing: -0.5px; }.logo svg{width:18px;height:18px;display:block;flex-shrink:0;vertical-align:middle;transition:transform .3s cubic-bezier(.34,1.56,.64,1);margin-right:6px}.logo:hover svg{transform:rotate(90deg)}
     .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); padding: 12px 0 0; }
     .breadcrumb a { color: var(--muted); text-decoration: none; }
     .breadcrumb a:hover { color: var(--accent); }
@@ -88,7 +84,7 @@
   <header>
     <div class="container header-inner">
       <div class="logo-area">
-        <a href="../index.html" class="logo"><span>&lt;/</span>&gt;<span class="logo-sub">WhetKit</span></a>
+        <a href="../index.html" class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>WhetKit</a>
       </div>
       <button class="theme-cursor" id="theme-toggle" aria-label="toggle theme" title="toggle theme"><svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
     </div>
