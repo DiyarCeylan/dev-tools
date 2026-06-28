@@ -43,7 +43,7 @@ Open `http://localhost:3000`. Every tool is a single HTML file — no build step
 - **Zero dependencies** — every tool is a single HTML file with vanilla JS
 - **Dark / Light theme** — system-aware with manual toggle
 - **PWA ready** — installable, works offline
-- **Privacy-focused analytics** — GoatCounter, no cookies
+- **No tracking, no cookies** — fully private
 - **SEO optimized** — JSON-LD structured data, sitemap, OG tags
 - **Mobile-first responsive design**
 
@@ -55,7 +55,7 @@ Open `http://localhost:3000`. Every tool is a single HTML file — no build step
 | **CSS3** (vanilla) | OKLCH color system, CSS Grid, Flexbox, design tokens |
 | **JavaScript** (vanilla ES6) | All tool logic, theme toggle, localStorage |
 | **JetBrains Mono / DM Mono** | Monospace typefaces (Google Fonts) |
-| **GoatCounter** | Privacy-first analytics |
+| **Google AdSense** | Privacy-friendly ad placements |
 | **Schema.org JSON-LD** | Structured data for SEO |
 
 Zero frameworks, zero build tools, zero package dependencies.
