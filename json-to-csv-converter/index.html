@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON to CSV Converter — Free, No Upload, Client-Side | WhetKit</title>
+  <meta name="description" content="Free online JSON to CSV converter. Convert JSON arrays to CSV with nested object flattening and custom delimiters. Privacy-first, no data uploaded.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://whetkit.me/json-to-csv-converter/">
+  <meta property="og:title" content="JSON to CSV Converter — Free, No Upload, Client-Side | WhetKit">
+  <meta property="og:description" content="Free online JSON to CSV converter. Convert JSON arrays to CSV with nested object flattening and custom delimiters. Privacy-first, no data uploaded.">
+  <meta property="og:url" content="https://whetkit.me/json-to-csv-converter/">
+  <meta property="og:image" content="https://whetkit.me/icon-512.svg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="JSON to CSV Converter — Free, No Upload, Client-Side | WhetKit">
+  <meta name="twitter:description" content="Free online JSON to CSV converter. Convert JSON arrays to CSV with nested object flattening and custom delimiters. Privacy-first, no data uploaded.">
+  <meta name="twitter:image" content="https://whetkit.me/icon-512.svg">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#09090b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSON to CSV Converter",
+    "url": "https://whetkit.me/json-to-csv-converter/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "description": "Free online JSON to CSV converter. Convert JSON arrays to CSV with nested object flattening, custom delimiters. 100% client-side."
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does nested JSON get converted to CSV?","acceptedAnswer":{"@type":"Answer","text":"Nested objects are flattened using dot notation. For example, {\"user\": {\"name\": \"Alice\"}} becomes a column named user.name with value \"Alice\"."}},{"@type":"Question","name":"What if my JSON has inconsistent keys?","acceptedAnswer":{"@type":"Answer","text":"The converter scans all objects in the array and collects every unique key. Missing values are left empty."}},{"@type":"Question","name":"Can I change the delimiter?","acceptedAnswer":{"@type":"Answer","text":"Yes, the tool supports comma, semicolon, and tab delimiters. Choose the one that matches your target application."}}]}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --bg-card: rgba(255,255,255,0.03);
+      --bg-elevated: rgba(255,255,255,0.06);
+      --text: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(255,255,255,0.12);
+      --accent: #a78bfa;
+      --green: #4ade80;
+      --blue: #60a5fa;
+      --font: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+      --header-h: 56px;
+    }
+    [data-theme="light"] {
+      --bg: #f5f5f0;
+      --bg-card: rgba(0,0,0,0.02);
+      --bg-elevated: rgba(0,0,0,0.04);
+      --text: #18181b;
+      --text-secondary: #52525b;
+      --text-muted: #a1a1aa;
+      --border: rgba(0,0,0,0.06);
+      --border-hover: rgba(0,0,0,0.12);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0.4;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;pointer-events:none;mix-blend-mode:overlay}
+    header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}.header-inner{max-width:900px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:var(--header-h)}header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:0.95rem;color:var(--text);letter-spacing:-0.02em;transition:gap 0.3s}.logo svg{transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s}.logo:hover svg{transform:translateX(-3px) scale(1.1)}.logo:hover{gap:14px}
+    .nav-links{display:flex;align-items:center;gap:0}.nav-links a{padding:6px 16px;font-size:0.8rem;color:var(--text-secondary);text-decoration:none;transition:color 0.2s;font-weight:400;letter-spacing:-0.01em}.nav-links a:hover{color:var(--text)}.nav-links span{width:1px;height:14px;background:rgba(255,255,255,0.08);display:inline-block;flex-shrink:0}[data-theme="light"] .nav-links span{background:rgba(0,0,0,0.08)}
+    .theme-cursor{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-left:8px;cursor:pointer;border:none;background:none;color:var(--text-secondary);transition:color 0.2s}.theme-cursor:hover{color:var(--text)}
+    main{flex:1;max-width:900px;margin:0 auto;padding:0 24px;width:100%}
+
+    .breadcrumb{font-size:0.7rem;color:var(--text-muted);padding:24px 0 0;letter-spacing:-0.01em}.breadcrumb a{color:var(--text-muted);text-decoration:none;transition:color 0.2s}.breadcrumb a:hover{color:var(--text-secondary)}.breadcrumb span{color:var(--text-muted);margin:0 6px}
+    .tool-header{padding:16px 0 32px;animation:fadeIn 0.5s ease-out}.tool-header h1{font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:6px}.tool-header h1 .thin{font-weight:300;color:var(--text-muted)}.tool-header h1 .bold{font-weight:700}.tool-header .cmd{font-size:0.75rem;color:var(--text-muted);margin-bottom:8px}.tool-header .cmd .prompt{color:var(--green)}.tool-header .cmd .arg{color:var(--blue)}.tool-header p{font-size:0.8rem;color:var(--text-secondary)}
+
+    .tool-area{display:grid;grid-template-columns:1fr 1fr;gap:20px;animation:fadeIn 0.5s ease-out 0.1s both}@media(max-width:700px){.tool-area{grid-template-columns:1fr}}
+    .panel{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:20px;transition:border-color 0.2s}.panel:hover{border-color:var(--border-hover)}
+    .panel .label{font-size:0.65rem;color:var(--text-muted);margin-bottom:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em}
+    .terminal-wrap{position:relative}.terminal-wrap .line-nums{position:absolute;left:0;top:0;bottom:0;width:32px;padding:10px 0;text-align:right;color:var(--text-muted);font-size:0.72rem;line-height:1.7;pointer-events:none;opacity:0.4;font-family:var(--font);user-select:none}.terminal-wrap textarea{width:100%;min-height:140px;padding:10px 10px 10px 38px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:0.78rem;line-height:1.7;resize:vertical;background:rgba(0,0,0,0.15);color:var(--text);outline:none;caret-color:var(--green);transition:border-color 0.2s}[data-theme="light"] .terminal-wrap textarea{background:rgba(255,255,255,0.5)}.terminal-wrap textarea:focus{border-color:var(--border-hover)}.terminal-wrap textarea[readonly]{cursor:default}
+    .char-count{font-size:0.65rem;color:var(--text-muted);text-align:right;margin-top:6px}
+    .options{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:12px 0}.options label{font-size:0.72rem;color:var(--text-secondary);display:flex;align-items:center;gap:5px;cursor:pointer}.options select{padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:var(--font);font-size:0.72rem;background:rgba(0,0,0,0.15);color:var(--text);outline:none;cursor:pointer}[data-theme="light"] .options select{background:rgba(255,255,255,0.5)}
+    .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.btn{padding:7px 16px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:0.72rem;color:var(--text);background:var(--bg-card);text-decoration:none;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}.btn:hover{background:var(--bg-elevated);border-color:var(--border-hover)}.btn:active{transform:scale(0.97)}.btn:disabled{opacity:0.4;cursor:not-allowed}
+    .message{display:none;margin-top:8px;padding:6px 10px;border-radius:4px;font-size:0.7rem}.message.show{display:flex}.message.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444}.message.success{background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);color:#4ade80}
+    .row-count{font-size:0.65rem;color:var(--text-muted);margin-top:8px}
+    .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:6px;min-height:100px}.table-wrap:empty::before{content:'CSV output will appear here...';display:flex;align-items:center;justify-content:center;height:100px;color:var(--text-muted);font-size:0.72rem}.table-wrap table{border-collapse:collapse;font-family:var(--font);font-size:0.72rem;line-height:1.5;min-width:100%}.table-wrap th{background:var(--bg-elevated);font-weight:600;text-align:left;padding:8px 10px;border-bottom:2px solid var(--accent);white-space:nowrap;position:sticky;top:0;z-index:1;color:var(--text);font-size:0.7rem}.table-wrap td{padding:6px 10px;border-bottom:1px solid var(--border);white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis}.table-wrap tr:hover td{background:var(--bg-elevated)}.sample-data label{font-size:0.72rem;color:var(--text-secondary);cursor:pointer;text-decoration:underline;text-underline-offset:2px}.sample-data pre{display:none;margin-top:6px;padding:10px;background:rgba(0,0,0,0.15);border:1px solid var(--border);border-radius:4px;font-size:0.72rem;overflow-x:auto;font-family:var(--font);line-height:1.5;color:var(--text-secondary)}[data-theme="light"] .sample-data pre{background:rgba(255,255,255,0.5)}
+
+    .section-div{display:flex;align-items:center;gap:12px;margin:48px 0 24px;font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em}.section-div::before,.section-div::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+    .faq{max-width:700px;margin:0 auto 48px}.faq-item{border:1px solid var(--border);border-radius:6px;margin-bottom:8px;overflow:hidden;transition:border-color 0.2s}.faq-item:hover{border-color:var(--border-hover)}.faq-q{width:100%;padding:12px 16px;background:none;border:none;font-family:var(--font);font-size:0.78rem;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;text-align:left;gap:12px;transition:background 0.2s}.faq-q:hover{background:var(--bg-elevated)}.faq-q svg{transition:transform 0.25s;flex-shrink:0}.faq-item.open .faq-q svg{transform:rotate(180deg)}.faq-a{max-height:0;overflow:hidden;transition:max-height 0.3s}.faq-item.open .faq-a{max-height:300px}.faq-a-inner{padding:0 16px 12px;font-size:0.75rem;color:var(--text-secondary);line-height:1.8}
+    .related{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:48px}@media(max-width:640px){.related{grid-template-columns:1fr}}.related a{padding:16px;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:inherit;transition:all 0.2s}.related a:hover{background:var(--bg-elevated);border-color:var(--border-hover)}.related a .name{font-size:0.78rem;font-weight:600;margin-bottom:4px;letter-spacing:-0.02em}.related a .hint{font-size:0.65rem;color:var(--text-muted)}
+
+    footer{border-top:1px solid var(--border);padding:20px 24px;margin-top:auto}.footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.footer-inner .left{font-size:0.7rem;color:var(--text-muted)}.footer-inner .left strong{color:var(--text-secondary);font-weight:600}.footer-inner .right{display:flex;align-items:center;gap:16px;font-size:0.7rem;color:var(--text-muted)}.footer-inner .right a{color:var(--text-secondary);text-decoration:none;transition:color 0.2s}.footer-inner .right a:hover{color:var(--text)}.footer-inner .version{font-size:0.65rem}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:6px;font-size:0.72rem;font-family:var(--font);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:999}.toast.show{opacity:1}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important}}
+    @media print{header,footer,.theme-cursor,.btn-row{display:none}}
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://whetkit.me/"},{"@type":"ListItem","position":2,"name":"JSON to CSV Converter"}]}
+  </script>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        WhetKit
+      </a>
+      <div style="display:flex;align-items:center">
+        <nav class="nav-links">
+          <a href="../index.html">all tools</a>
+          <span></span>
+          <a href="../blog/index.html">blog</a>
+          <span></span>
+          <a href="../about/index.html">about</a>
+          <span></span>
+          <a href="../contact/index.html">contact</a>
+        </nav>
+        <button class="theme-cursor" id="theme-toggle" aria-label="toggle theme" title="toggle theme"><svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="breadcrumb"><a href="../index.html">all tools</a><span>—</span>json to csv</div>
+    <div class="tool-header">
+      <div class="cmd"><span class="prompt">$</span> <span class="arg">json</span> <span style="color:var(--orange)">--csv</span></div>
+      <h1><span class="thin">json</span> to csv converter.</h1>
+      <p>Convert JSON arrays to CSV instantly. No uploads, no servers — everything runs here.</p>
+    </div>
+
+    <div class="tool-area">
+      <div class="panel">
+        <div class="label">input</div>
+        <div class="terminal-wrap">
+          <div class="line-nums" id="input-nums">1<br>2<br>3<br>4<br>5</div>
+          <textarea id="json-input" placeholder='[{"name":"John","age":30,"city":"New York"},{"name":"Jane","age":25,"city":"Los Angeles"}]' spellcheck="false" rows="8"></textarea>
+        </div>
+        <div class="char-count"><span id="char-count">0</span> / &infin; chars</div>
+        <div class="options">
+          <select id="delimiter">
+            <option value=",">Comma (,)</option>
+            <option value=";">Semicolon (;)</option>
+            <option value="	">Tab</option>
+          </select>
+          <label class="sample-data" style="cursor:pointer;text-decoration:underline;text-underline-offset:2px" onclick="var pre=this.nextElementSibling;if(pre.style.display==='block'){pre.style.display='none'}else{pre.style.display='block';if(this.getAttribute('data-loaded')!=='1'){document.getElementById('json-input').value=pre.textContent.trim();document.getElementById('char-count').textContent=document.getElementById('json-input').value.length;this.setAttribute('data-loaded','1');}}">load sample</label>
+          <pre style="display:none">[
+  { "name": "Alice", "age": 28, "city": "London", "active": true },
+  { "name": "Bob", "age": 35, "city": "Berlin", "active": false },
+  { "name": "Charlie", "age": 22, "city": "Paris", "active": true }
+]</pre>
+        </div>
+        <div class="btn-row">
+          <button class="btn" id="convert-btn"><span style="color:var(--green)">&gt;</span> convert</button>
+          <button class="btn" id="clear-btn">clear</button>
+        </div>
+        <div class="message" id="input-message" role="alert"></div>
+      </div>
+
+      <div class="panel">
+        <div class="label">output</div>
+        <div class="table-wrap" id="csv-output" role="region" aria-label="CSV output"></div>
+        <div class="row-count" id="row-count"></div>
+        <div class="btn-row">
+          <button class="btn" id="copy-btn"><span style="color:var(--green)">&#10003;</span> copy</button>
+          <button class="btn" id="download-btn">download</button>
+        </div>
+        <div class="message" id="output-message" role="alert"></div>
+      </div>
+    </div>
+
+    <div class="section-div" aria-hidden="true">FAQ</div>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>How does nested JSON get converted to CSV?</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Nested objects are flattened using dot notation. For example, {"user": {"name": "Alice"}} becomes a column named user.name with value "Alice".</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>What if my JSON has inconsistent keys?</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">The converter scans all objects in the array and collects every unique key. Missing values are left empty.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>Can I change the delimiter?</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Yes, the tool supports comma, semicolon, and tab delimiters. Choose the one that matches your target application.</div></div>
+      </div>
+    </div>
+
+    <div class="section-div" aria-hidden="true">related tools</div>
+    <div class="related">
+      <a href="../json-formatter-validator/index.html"><div class="name">&#8594; JSON Formatter</div><div class="hint">format & validate JSON</div></a>
+      <a href="../text-diff-checker/index.html"><div class="name">&#8594; Text Diff Checker</div><div class="hint">compare text differences</div></a>
+      <a href="../sql-formatter/index.html"><div class="name">&#8594; SQL Formatter</div><div class="hint">beautify SQL queries</div></a>
+    </div>
+
+    <div class="tool-cta" style="border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;margin-bottom:48px;background:var(--bg-card)">
+      <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px">learn more in our detailed guide.</p>
+      <a href="../blog/json-to-csv-guide.html" class="btn" style="padding:10px 24px">&#8594; read the guide</a>
+    </div>
+
+    <div class="tool-cta" style="border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;margin-bottom:48px;background:var(--bg-card)">
+      <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px">try these too</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="../json-formatter-validator/index.html" class="btn">JSON Formatter/Validator</a>
+        <a href="../sql-formatter/index.html" class="btn">SQL Formatter</a>
+        <a href="../text-diff-checker/index.html" class="btn">Text Diff Checker</a>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="footer-inner">
+      <div class="left">&copy; 2026 <strong>WhetKit</strong> &mdash; made with obsession over details</div>
+      <div class="right">
+        <a href="../privacy/index.html">privacy</a>
+        <a href="../terms/index.html">terms</a>
+        <span class="version">v2.1.0</span>
+      </div>
+    </div>
+  </footer>
+  <div class="toast" id="toast"></div>
+  <script>
+    (function(){var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');function g(){return document.documentElement.getAttribute('data-theme')||'dark'}function s(m){document.documentElement.setAttribute('data-theme',m);i.innerHTML=m==='dark'?'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';try{localStorage.setItem('theme',m)}catch(e){}}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)s('light')}catch(e){}t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')})})();
+
+    var jsonInput = document.getElementById('json-input');
+    var csvOutput = document.getElementById('csv-output');
+    var convertBtn = document.getElementById('convert-btn');
+    var clearBtn = document.getElementById('clear-btn');
+    var copyBtn = document.getElementById('copy-btn');
+    var downloadBtn = document.getElementById('download-btn');
+    var delimiterSelect = document.getElementById('delimiter');
+    var rowCount = document.getElementById('row-count');
+    var inputMsg = document.getElementById('input-message');
+    var outputMsg = document.getElementById('output-message');
+    var toast = document.getElementById('toast');
+    var cc = document.getElementById('char-count');
+    var currentCsv = '';
+
+    jsonInput.addEventListener('input', function() { cc.textContent = this.value.length; });
+
+    function showMessage(el, type, text) {
+      el.className = 'message show ' + type;
+      el.textContent = text;
+    }
+    function hideMessage(el) {
+      el.className = 'message';
+      el.textContent = '';
+    }
+    function showToast(text) {
+      toast.textContent = text;
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }
+
+    function escapeCsvValue(value) {
+      if (value === null || value === undefined) return '';
+      var str = String(value);
+      if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+        return '"' + str.replace(/"/g, '""') + '"';
+      }
+      return str;
+    }
+
+    function flattenKeys(obj, prefix) {
+      var keys = [];
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          var fullKey = prefix ? prefix + '.' + key : key;
+          if (obj[key] !== null && typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+            keys = keys.concat(flattenKeys(obj[key], fullKey));
+          } else {
+            keys.push(fullKey);
+          }
+        }
+      }
+      return keys;
+    }
+
+    function getRawValue(obj, keyPath) {
+      var parts = keyPath.split('.');
+      var val = obj;
+      for (var i = 0; i < parts.length; i++) {
+        if (val === null || val === undefined) return '';
+        val = val[parts[i]];
+      }
+      if (val === null || val === undefined) return '';
+      if (Array.isArray(val) || typeof val === 'object') {
+        return JSON.stringify(val);
+      }
+      return String(val);
+    }
+
+    function getCsvValue(obj, keyPath) {
+      var parts = keyPath.split('.');
+      var val = obj;
+      for (var i = 0; i < parts.length; i++) {
+        if (val === null || val === undefined) return '';
+        val = val[parts[i]];
+      }
+      if (val === null || val === undefined) return '';
+      if (Array.isArray(val)) return '"' + JSON.stringify(val).replace(/"/g, '""') + '"';
+      if (typeof val === 'object') return '"' + JSON.stringify(val).replace(/"/g, '""') + '"';
+      return escapeCsvValue(val);
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+
+    function buildTableHtml(headers, rows) {
+      var html = '<table><thead><tr>';
+      for (var i = 0; i < headers.length; i++) {
+        html += '<th>' + escapeHtml(headers[i]) + '</th>';
+      }
+      html += '</tr></thead><tbody>';
+      for (var r = 0; r < rows.length; r++) {
+        html += '<tr>';
+        for (var c = 0; c < rows[r].length; c++) {
+          html += '<td>' + escapeHtml(rows[r][c]) + '</td>';
+        }
+        html += '</tr>';
+      }
+      html += '</tbody></table>';
+      return html;
+    }
+
+    function convert() {
+      hideMessage(inputMsg);
+      hideMessage(outputMsg);
+
+      var raw = jsonInput.value.trim();
+      if (!raw) {
+        showMessage(inputMsg, 'error', 'Please paste some JSON data first.');
+        csvOutput.innerHTML = '';
+        rowCount.textContent = '';
+        currentCsv = '';
+        return;
+      }
+
+      var data;
+      try {
+        data = JSON.parse(raw);
+      } catch (e) {
+        showMessage(inputMsg, 'error', 'Invalid JSON: ' + e.message);
+        csvOutput.innerHTML = '';
+        rowCount.textContent = '';
+        currentCsv = '';
+        return;
+      }
+
+      if (!Array.isArray(data)) {
+        showMessage(inputMsg, 'error', 'JSON must be an array of objects, e.g. [{"key": "value"}].');
+        csvOutput.innerHTML = '';
+        rowCount.textContent = '';
+        currentCsv = '';
+        return;
+      }
+
+      if (data.length === 0) {
+        showMessage(inputMsg, 'error', 'JSON array is empty.');
+        csvOutput.innerHTML = '';
+        rowCount.textContent = '';
+        currentCsv = '';
+        return;
+      }
+
+      var delimiter = delimiterSelect.value;
+      var allKeys = [];
+      for (var i = 0; i < data.length; i++) {
+        var item = data[i];
+        if (typeof item === 'object' && item !== null) {
+          var keys = flattenKeys(item, '');
+          for (var k = 0; k < keys.length; k++) {
+            if (allKeys.indexOf(keys[k]) === -1) allKeys.push(keys[k]);
+          }
+        }
+      }
+
+      var prefixSet = {};
+      for (var i = 0; i < allKeys.length; i++) {
+        for (var j = 0; j < allKeys.length; j++) {
+          if (i !== j && allKeys[j].startsWith(allKeys[i] + '.')) {
+            prefixSet[allKeys[i]] = true;
+          }
+        }
+      }
+      var filteredKeys = allKeys.filter(function(key) { return !prefixSet[key]; });
+      allKeys.length = 0;
+      allKeys.push.apply(allKeys, filteredKeys);
+
+      if (allKeys.length === 0) {
+        showMessage(inputMsg, 'error', 'No object keys found. Each array item should be an object.');
+        csvOutput.innerHTML = '';
+        rowCount.textContent = '';
+        currentCsv = '';
+        return;
+      }
+
+      var headerStr = allKeys.join(delimiter);
+      var result = data.reduce(function(acc, item) {
+        if (typeof item !== 'object' || item === null) return acc;
+        var rawRow = allKeys.map(function(key) { return getRawValue(item, key); });
+        var csvRow = allKeys.map(function(key) { return getCsvValue(item, key); }).join(delimiter);
+        acc.rows.push(rawRow);
+        acc.csvLines.push(csvRow);
+        return acc;
+      }, { rows: [], csvLines: [] });
+
+      currentCsv = headerStr + '\n' + result.csvLines.join('\n');
+      csvOutput.innerHTML = buildTableHtml(allKeys, result.rows);
+      rowCount.textContent = result.csvLines.length + ' rows, ' + allKeys.length + ' columns';
+
+      showMessage(outputMsg, 'success', 'Conversion successful!');
+    }
+
+    convertBtn.addEventListener('click', convert);
+
+    clearBtn.addEventListener('click', function() {
+      jsonInput.value = '';
+      cc.textContent = '0';
+      csvOutput.innerHTML = '';
+      rowCount.textContent = '';
+      currentCsv = '';
+      hideMessage(inputMsg);
+      hideMessage(outputMsg);
+    });
+
+    copyBtn.addEventListener('click', function() {
+      if (!currentCsv) {
+        showToast('Nothing to copy. Convert some JSON first.');
+        return;
+      }
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(currentCsv).then(function() {
+          showToast('Copied!');
+        }).catch(function() {
+          fallbackCopy();
+        });
+      } else {
+        fallbackCopy();
+      }
+    });
+
+    function fallbackCopy() {
+      var ta = document.createElement('textarea');
+      ta.value = currentCsv;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast('Copied!');
+      } catch (e) {
+        showToast('Failed to copy');
+      }
+      document.body.removeChild(ta);
+    }
+
+    downloadBtn.addEventListener('click', function() {
+      if (!currentCsv) {
+        showToast('Nothing to download. Convert some JSON first.');
+        return;
+      }
+      var blob = new Blob([currentCsv], { type: 'text/csv;charset=utf-8;' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'converted.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('CSV file downloaded!');
+    });
+
+    jsonInput.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        convert();
+      }
+    });
+
+    document.querySelectorAll('.faq-q').forEach(function(b){b.addEventListener('click',function(){var i=this.parentElement,o=i.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(x){x.classList.remove('open');x.querySelector('.faq-q').setAttribute('aria-expanded','false')});if(!o){i.classList.add('open');this.setAttribute('aria-expanded','true')}})});
+  </script>
+</body>
+</html>

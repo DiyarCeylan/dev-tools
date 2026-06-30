@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Kısaltıcı: Uzun Linkleri Kısaltın, Tıklamaları Takip Edin | WhetKit</title>
+  <meta name="description" content="WhetKit URL Kısaltıcı ile uzun linkleri kısaltın, özel slug oluşturun, tıklama sayılarını takip edin ve QR kod üretin. Ücretsiz, kayıt gerektirmez.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://whetkit.me/blog/url-shortener-guide.html">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <meta property="og:title" content="URL Kısaltıcı: Uzun Linkleri Kısaltın, Tıklamaları Takip Edin">
+  <meta property="og:description" content="WhetKit URL Kısaltıcı ile uzun linkleri kısaltın, özel slug oluşturun, tıklama sayılarını takip edin ve QR kod üretin.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://whetkit.me/icon-512.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="URL Kısaltıcı: Uzun Linkleri Kısaltın, Tıklamaları Takip Edin">
+  <meta name="twitter:image" content="https://whetkit.me/icon-512.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "URL Kısaltıcı: Uzun Linkleri Kısaltın, Tıklamaları Takip Edin",
+    "description": "WhetKit URL Kısaltıcı ile uzun linkleri kısaltın, özel slug oluşturun, tıklama sayılarını takip edin ve QR kod üretin.",
+    "url": "https://whetkit.me/blog/url-shortener-guide",
+    "author": { "@type": "Organization", "name": "WhetKit" },
+    "publisher": { "@type": "Organization", "name": "WhetKit" },
+    "datePublished": "2026-06-28",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://whetkit.me/blog/url-shortener-guide" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://whetkit.me/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://whetkit.me/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "URL Kısaltıcı Rehberi" }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --bg-card: rgba(255,255,255,0.03);
+      --bg-elevated: rgba(255,255,255,0.06);
+      --text: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(255,255,255,0.12);
+      --accent: #a78bfa;
+      --accent-hover: #8b5cf6;
+      --green: #4ade80;
+      --font: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+      --header-h: 56px;
+    }
+    [data-theme="light"] {
+      --bg: #fafaf8;
+      --bg-card: rgba(0,0,0,0.02);
+      --bg-elevated: rgba(0,0,0,0.06);
+      --text: #18181b;
+      --text-secondary: #52525b;
+      --text-muted: #a1a1aa;
+      --border: rgba(0,0,0,0.08);
+      --border-hover: rgba(0,0,0,0.14);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+    header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(20px)}.header-inner{max-width:800px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:var(--header-h)}header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+    .logo{display:flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:0.9rem;color:var(--text);letter-spacing:-0.02em}.logo-sub{font-weight:300;color:var(--text-secondary);margin-left:2px}.logo svg{width:18px;height:18px;display:block;flex-shrink:0;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}.logo:hover svg{transform:rotate(90deg)}
+    .nav-links{display:flex;align-items:center;gap:0}.nav-links a{padding:6px 14px;font-size:0.78rem;color:var(--text-secondary);text-decoration:none;transition:color 0.2s}.nav-links a:hover{color:var(--text)}.nav-links span{width:1px;height:14px;background:var(--border);display:inline-block}
+    .theme-cursor{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-left:4px;cursor:pointer;border:none;background:none;color:var(--text-secondary);transition:color 0.2s}.theme-cursor:hover{color:var(--text)}
+    main{flex:1;max-width:800px;margin:0 auto;padding:0 24px;width:100%}
+    article{padding:32px 0 60px;animation:fadeIn 0.5s ease-out}
+    .breadcrumbs{font-size:0.72rem;color:var(--text-muted);margin-bottom:24px;display:flex;gap:8px}.breadcrumbs a{color:var(--text-secondary);text-decoration:none}.breadcrumbs a:hover{color:var(--accent)}
+    article header{margin-bottom:28px;position:static;background:none;backdrop-filter:none;padding:0}article header::after{display:none}
+    article h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:8px;line-height:1.3}
+    .article-meta{font-size:0.72rem;color:var(--text-muted);display:flex;gap:16px}
+    article h2{font-size:1.1rem;font-weight:700;margin:32px 0 12px;letter-spacing:-0.02em}
+    article h3{font-size:0.9rem;font-weight:600;margin:24px 0 8px;letter-spacing:-0.01em}
+    article p{margin-bottom:16px;font-size:0.82rem;color:var(--text-secondary)}
+    article ul,article ol{padding-left:24px;margin-bottom:16px}
+    article li{margin-bottom:4px;font-size:0.82rem;color:var(--text-secondary)}
+    article a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+    article a:hover{opacity:0.8}
+    pre{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:14px 18px;overflow-x:auto;font-family:var(--font);font-size:0.75rem;line-height:1.7;margin-bottom:16px}
+    code{font-family:var(--font);font-size:0.82em;background:var(--bg-card);padding:2px 6px;border-radius:4px}
+    pre code{background:none;padding:0}
+    .tip{border-left:3px solid var(--accent);padding:14px 18px;margin-bottom:16px;background:var(--bg-card);border-radius:0 6px 6px 0}
+    .tip p{margin-bottom:0;font-size:0.78rem}
+    .tip strong:first-child{color:var(--accent)}
+    .tool-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:24px 28px;margin:32px 0;text-align:center}
+    .tool-cta p{margin-bottom:14px;font-size:0.85rem;color:var(--text)}
+    .tool-cta .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:var(--font);font-size:0.78rem;font-weight:600;text-decoration:none;cursor:pointer;transition:background 0.2s}
+    .tool-cta .btn:hover{background:var(--accent-hover)}
+    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+    .feature-card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:16px}
+    .feature-card strong{display:block;font-size:0.82rem;margin-bottom:4px;color:var(--text)}
+    .feature-card span{font-size:0.75rem;color:var(--text-secondary)}
+    footer{border-top:1px solid var(--border);padding:20px 24px;margin-top:auto;text-align:center;font-size:0.7rem;color:var(--text-muted)}
+    footer .footer-links{display:flex;justify-content:center;gap:20px;margin-bottom:8px;flex-wrap:wrap}
+    footer a{color:var(--text-secondary);text-decoration:none;transition:color 0.2s}
+    footer a:hover{color:var(--text)}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important}}
+    @media print{header,footer,.theme-cursor,.tool-cta{display:none}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo-area">
+        <a href="../index.html" class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>WhetKit</a>
+      </div>
+      <div class="nav-links">
+        <a href="../about/index.html">about</a>
+        <a href="../blog/index.html">blog</a>
+        <span></span>
+        <button class="theme-cursor" id="theme-toggle" aria-label="toggle theme" title="toggle theme"><svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <article>
+      <div class="breadcrumbs">
+        <a href="../index.html">Home</a>
+        <span>/</span>
+        <a href="index.html">Blog</a>
+        <span>/</span>
+        <span>URL Kısaltıcı Rehberi</span>
+      </div>
+
+      <header>
+        <h1>URL Kısaltıcı: Uzun Linkleri Kısaltın, Tıklamaları Takip Edin</h1>
+        <div class="article-meta">
+          <span>June 28, 2026</span>
+          <span>6 min read</span>
+        </div>
+      </header>
+
+      <nav class="toc">
+        <h2>İçindekiler</h2>
+        <ul>
+          <li><a href="#what-is-url-shortener">URL Kısaltıcı Nedir?</a></li>
+          <li><a href="#why-use">Neden URL Kısaltıcı Kullanmalısınız?</a></li>
+          <li><a href="#features">WhetKit URL Kısaltıcı Özellikleri</a></li>
+          <li><a href="#how-to-use">Kullanım Kılavuzu</a></li>
+          <li><a href="#use-cases">Kullanım Alanları</a></li>
+          <li><a href="#tips">İpuçları ve En İyi Pratikler</a></li>
+        </ul>
+      </nav>
+
+      <section id="what-is-url-shortener">
+        <h2>URL Kısaltıcı Nedir?</h2>
+        <p>URL kısaltıcı, uzun ve karmaşık web adreslerini kısa, yönetilebilir linklere dönüştüren bir araçtır. Örneğin, <code>https://example.com/2024/12/15/urun-detay-12345?ref=kampanya&utm_source=twitter</code> gibi bir URL, <code>https://s.whetkit.me/abc123</code> gibi kısa bir link haline gelir.</p>
+        <p>Bir kullanıcı kısa linke tıkladığında, otomatik olarak orijinal uzun URL'ye yönlendirilir. Bu işlem genellikle 301 (kalıcı) veya 302 (geçici) HTTP yönlendirmesi ile yapılır ve çoğu durumda bir saniyeden kısa sürer.</p>
+        <p>WhetKit URL Kısaltıcı, <a href="https://s.whetkit.me/" target="_blank">s.whetkit.me</a> adresinde ücretsiz olarak hizmet verir. Hiçbir kayıt veya hesap oluşturma gerektirmez. Tek yapmanız gereken uzun URL'nizi yapıştırıp "Shorten" butonuna tıklamak.</p>
+
+        <div class="tip">
+          <p><strong>Nasıl çalışır:</strong> Her kısaltılmış URL, sunucuda benzersiz bir koda (ID) eşlenir. Sunucu bu kodu orijinal URL ile ilişkilendirir ve her tıklandığında yönlendirme yapar. WhetKit versiyonu ayrıca her tıklamayı kaydederek analiz sunar.</p>
+        </div>
+      </section>
+
+      <section id="why-use">
+        <h2>Neden URL Kısaltıcı Kullanmalısınız?</h2>
+        <p>Uzun linkleri kısaltmanın birçok pratik avantajı vardır:</p>
+        <ul>
+          <li><strong>Daha temiz paylaşım:</strong> Uzun linkler özellikle sosyal medyada kötü görünür. Kısa linkler daha profesyonel ve tıklanabilirdir.</li>
+          <li><strong>Karakter sınırı:</strong> Twitter (X) gibi platformlarda karakter sınırı vardır. Uzun bir URL onlarca karakterinizi yiyebilir.</li>
+          <li><strong>Link yönetimi:</strong> Kısa linklerle hangi içeriğin nereye gittiğini takip edebilir, gerektiğinde hedef URL'yi değiştirebilirsiniz.</li>
+          <li><strong>Analitik:</strong> Kaç kişinin tıkladığını, hangi cihazlardan ve referanslardan geldiğini görebilirsiniz.</li>
+          <li><strong>QR kod:</strong> Kısa linkler QR kodlarda daha az yoğunluklu görünür ve okunması daha kolaydır.</li>
+        </ul>
+      </section>
+
+      <section id="features">
+        <h2>WhetKit URL Kısaltıcı Özellikleri</h2>
+        <p>WhetKit URL Kısaltıcı, temel kısaltma işlevinin ötesinde bir dizi kullanışlı özellik sunar:</p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <strong>Özel Slug</strong>
+            <span>Kısaltılmış linkinizin son kısmını kendiniz belirleyin. Örn: s.whetkit.me/kampanya</span>
+          </div>
+          <div class="feature-card">
+            <strong>Süreli Link</strong>
+            <span>Linklerinize son kullanma tarihi ekleyin. Belirtilen tarihten sonra link otomatik olarak devre dışı kalır.</span>
+          </div>
+          <div class="feature-card">
+            <strong>Tıklama Takibi</strong>
+            <span>Son 30 gündeki tıklama sayılarını, cihaz dağılımını, tarayıcıları ve referansları görün.</span>
+          </div>
+          <div class="feature-card">
+            <strong>QR Kodu</strong>
+            <span>Her kısaltılmış link için anında QR kod oluşturun. İndirip baskıda, afişte veya dijitalde kullanın.</span>
+          </div>
+          <div class="feature-card">
+            <strong>Link Düzenleme</strong>
+            <span>Kısaltılmış linkin hedef URL'sini daha sonra değiştirebilirsiniz. Link kırılmaz, yeni adrese yönlenir.</span>
+          </div>
+          <div class="feature-card">
+            <strong>Zero Tracking</strong>
+            <span>WhetKit felsefesine uygun olarak, sizin verinizi toplamayız. Link istatistikleri size özeldir.</span>
+          </div>
+        </div>
+
+        <div class="tip">
+          <p><strong>Önemli:</strong> Tüm özellikler ücretsizdir. Hesap oluşturmanız veya kişisel bilgi vermeniz gerekmez. Linklerinizin yönetimi tamamen size aittir.</p>
+        </div>
+      </section>
+
+      <section id="how-to-use">
+        <h2>Kullanım Kılavuzu</h2>
+
+        <h3>Temel Kullanım</h3>
+        <p>URL kısaltıcıyı kullanmak son derece basittir:</p>
+        <ol>
+          <li><a href="https://s.whetkit.me/" target="_blank">s.whetkit.me</a> adresine gidin.</li>
+          <li>Uzun URL'nizi metin kutusuna yapıştırın.</li>
+          <li>"Shorten" butonuna tıklayın.</li>
+          <li>Kısaltılmış linkiniz otomatik olarak panoya kopyalanır.</li>
+        </ol>
+
+        <h3>Özel Slug Kullanma</h3>
+        <p>Standart rastgele kod yerine kendi slug'ınızı belirleyebilirsiniz:</p>
+        <ol>
+          <li>Linki kısalttıktan sonra "Customize link" bölümünü açın.</li>
+          <li>"Custom slug" alanına istediğiniz kelimeyi yazın. Örn: <code>yilbasi-kampanyasi</code></li>
+          <li>Linkiniz <code>s.whetkit.me/yilbasi-kampanyasi</code> şeklinde oluşur.</li>
+        </ol>
+
+        <h3>Link Düzenleme ve Silme</h3>
+        <p>Kısaltılmış bir linki daha sonra düzenlemek veya silmek için:</p>
+        <ol>
+          <li>Linkinizin sonundaki 6 haneli yönetim kodunu not edin. (Link oluşturulduktan sonra gösterilir.)</li>
+          <li>Yönetim sayfasında bu kodu girerek hedef URL'yi değiştirebilir veya linki silebilirsiniz.</li>
+        </ol>
+
+        <h3>Süreli Link Oluşturma</h3>
+        <p>Geçici kampanyalar veya belirli süre geçerli linkler için:</p>
+        <ol>
+          <li>"Customize link" bölümünü açın.</li>
+          <li>"Expires" alanından bir tarih seçin.</li>
+          <li>Belirtilen tarihten sonra link otomatik olarak devre dışı kalır.</li>
+        </ol>
+
+        <h3>QR Kod Alma</h3>
+        <p>Kısaltılmış her link için QR kod oluşturabilirsiniz:</p>
+        <ol>
+          <li>Link oluşturulduktan sonra "QR Code" butonuna tıklayın.</li>
+          <li>QR kod ekranda görünecektir.</li>
+          <li>"Download" ile PNG olarak indirebilirsiniz.</li>
+        </ol>
+      </section>
+
+      <section id="use-cases">
+        <h2>Kullanım Alanları</h2>
+        <p>URL kısaltıcı birçok farklı senaryoda işinize yarar:</p>
+
+        <h3>Sosyal Medya Paylaşımları</h3>
+        <p>Twitter (X), Instagram, LinkedIn gibi platformlarda uzun linkler hem karakter yer hem de estetik olarak hoş durmaz. Kısa linklerle paylaşımlarınızı daha temiz ve profesyonel hale getirebilirsiniz.</p>
+
+        <h3>Kampanya ve Pazarlama</h3>
+        <p>Özel slug kullanarak markanıza özel kampanya linkleri oluşturabilirsiniz. Örn: <code>s.whetkit.me/yaz-indirimi</code>. Ayrıca her kampanyanın kaç tıklama aldığını görebilirsiniz.</p>
+
+        <h3>E-posta ve Bültenler</h3>
+        <p>E-posta pazarlamasında uzun linkler bazen e-posta istemcileri tarafından bozulabilir. Kısa linkler daha güvenilirdir ve tıklama oranlarını artırır.</p>
+
+        <h3>Basılı Materyaller</h3>
+        <p>Kartvizit, broşür, afiş gibi basılı materyallerde kısa URL'ler hem az yer kaplar hem de kullanıcıların yazması daha kolaydır. QR kod ile birleştirildiğinde çok etkilidir.</p>
+
+        <h3>API Entegrasyonları</h3>
+        <p>Kendi uygulamanızda URL kısaltma özelliği sunmak isterseniz, kullanıcılarınızı <code>s.whetkit.me</code>'e yönlendirebilir veya doğrudan servisi kullanmalarını önerebilirsiniz.</p>
+      </section>
+
+      <section id="tips">
+        <h2>İpuçları ve En İyi Pratikler</h2>
+        <ul>
+          <li><strong>Anlamlı slug kullanın:</strong> Rastgele kodlar yerine kampanya veya içerikle ilgili kelimeler seçin. Bu hem akılda kalıcılığı artırır hem de güven verir.</li>
+          <li><strong>Süreli linkleri unutmayın:</strong> Zamanla sınırlı kampanyalar için mutlaka son kullanma tarihi ekleyin. Bu sayede eski kampanya linklerinin geçerliliğini otomatik olarak kaybetmesini sağlarsınız.</li>
+          <li><strong>Yönetim kodunu saklayın:</strong> Linki oluşturduktan sonra size verilen 6 haneli yönetim kodunu not edin. Bu kod olmadan linki düzenleyemez veya silemezsiniz.</li>
+          <li><strong>Analizleri takip edin:</strong> Linklerinizin performansını düzenli olarak kontrol edin. Hangi kampanyaların daha çok tıklandığını görmek size pazarlama stratejinizde yol gösterecektir.</li>
+        </ul>
+
+        <div class="tip">
+          <p><strong>Güvenlik notu:</strong> Herhangi bir kısaltılmış linke tıklamadan önce hedefini kontrol etmek isterseniz, linkin sonuna <code>+</code> işareti ekleyerek önizleme yapabilirsiniz. WhetKit URL Kısaltıcı bu özelliği destekler.</p>
+        </div>
+
+        <div class="tool-cta">
+          <p>Hemen ilk kısa linkinizi oluşturun. Kayıt gerekmez, tamamen ücretsiz.</p>
+          <a href="https://s.whetkit.me/" target="_blank" class="btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            WhetKit URL Kısaltıcı'ya Git
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer>
+    <div class="footer-links">
+      <a href="../index.html">all tools</a>
+      <a href="../about/index.html">about</a>
+      <a href="../blog/index.html">blog</a>
+      <a href="../contact/index.html">contact</a>
+      <a href="../privacy/index.html">privacy</a>
+      <a href="../terms/index.html">terms</a>
+    </div>
+    &copy; 2026 WhetKit &mdash; every tool runs 100% client-side.
+  </footer>
+  <script>
+    (function(){var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');function g(){return document.documentElement.getAttribute('data-theme')||'dark'}function s(m){document.documentElement.setAttribute('data-theme',m);i.innerHTML=m==='dark'?'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';try{localStorage.setItem('theme',m)}catch(e){}}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)s('light')}catch(e){}t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')})})();
+  </script>
+</body>
+</html>
