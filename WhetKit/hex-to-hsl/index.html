@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HEX to HSL Converter — Free, No Upload, Client-Side | WhetKit</title>
+  <meta name="description" content="Free online HEX to HSL converter. Convert hex color codes to HSL, RGB, and other formats instantly. Privacy-first, no data uploaded to any server.">
+  <link rel="canonical" href="https://whetkit.me/hex-to-hsl/">
+  <meta property="og:title" content="HEX to HSL Converter — Free, No Upload, Client-Side | WhetKit">
+  <meta property="og:description" content="Free online HEX to HSL converter. Convert hex color codes to HSL, RGB, and other formats instantly. Privacy-first, no data uploaded to any server.">
+  <meta property="og:image" content="https://whetkit.me/icon-512.svg">
+  <meta property="og:url" content="https://whetkit.me/hex-to-hsl/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HEX to HSL Converter — Free, No Upload, Client-Side | WhetKit">
+  <meta name="twitter:description" content="Free online HEX to HSL converter. Convert hex color codes to HSL, RGB, and other formats instantly. Privacy-first, no data uploaded to any server.">
+  <meta name="twitter:image" content="https://whetkit.me/icon-512.svg">
+  <meta name="theme-color" content="#09090b">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --bg: #09090b; --fg: #fafafa; --text: #fafafa; --text-secondary: #a1a1aa; --muted: #a1a1aa; --border: #27272a; --accent: #a78bfa; --accent-hover: #c4b5fd; --card: #18181b; --card-hover: #1f1f23; --radius: 12px; --font: 'JetBrains Mono', monospace; --transition: 0.2s ease; }
+    .theme-cursor{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-left:8px;cursor:pointer;border:none;background:none;color:var(--text-secondary);transition:color 0.2s}.theme-cursor:hover{color:var(--text)}
+    [data-theme="light"] { --bg: #fafafa; --fg: #09090b; --text: #09090b; --text-secondary: #71717a; --muted: #71717a; --border: #e4e4e7; --accent: #7c3aed; --accent-hover: #6d28d9; --card: #ffffff; --card-hover: #f4f4f5; }
+    body { font-family: var(--font); background: var(--bg); color: var(--fg); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; transition: background var(--transition), color var(--transition); }
+    .noise { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.035; }
+    .noise svg { width: 100%; height: 100%; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; width: 100%; }
+    header { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); transition: background var(--transition), border-color var(--transition); }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .logo { font-size: 20px; font-weight: 700; color: var(--fg); text-decoration: none; letter-spacing: -0.5px; }.logo svg{width:18px;height:18px;display:block;flex-shrink:0;vertical-align:middle;transition:transform .3s cubic-bezier(.34,1.56,.64,1);margin-right:6px}.logo:hover svg{transform:rotate(90deg)}
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); padding: 12px 0 0; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb .sep { opacity: 0.4; }
+    h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin: 20px 0 8px; }
+    .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+    .tool-area { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+    @media (max-width: 768px) { .tool-area { grid-template-columns: 1fr; } }
+    .terminal-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: background var(--transition), border-color var(--transition); }
+    .terminal-wrap:hover { border-color: var(--accent); }
+    .terminal-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--card-hover); border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 600; color: var(--muted); }
+    .terminal-header .dots { display: flex; gap: 6px; }
+    .terminal-header .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #ef4444; } .dot.y { background: #eab308; } .dot.g { background: #22c55e; }
+    .terminal-body { padding: 16px; }
+    .input-group { display: flex; gap: 8px; margin-bottom: 12px; }
+    .input-group label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; min-width: 60px; padding-top: 10px; }
+    .input-group input, .input-group select, .input-group textarea { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-family: var(--font); font-size: 14px; color: var(--fg); outline: none; transition: border-color var(--transition); }
+    .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-color: var(--accent); }
+    .input-group input::placeholder, .input-group textarea::placeholder { color: var(--muted); opacity: 0.6; }
+    textarea { resize: vertical; min-height: 80px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; transition: background var(--transition); }
+    .btn:hover { background: var(--accent-hover); }
+    .btn.sec { background: transparent; border: 1px solid var(--border); color: var(--fg); }
+    .btn.sec:hover { background: var(--card-hover); }
+    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .color-preview { width: 100%; height: 80px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 16px; transition: background 0.3s; }
+    .preset-group { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .preset-swatch { width: 32px; height: 32px; border-radius: 6px; border: 2px solid var(--border); cursor: pointer; transition: all 0.2s; }
+    .preset-swatch:hover { transform: scale(1.15); border-color: var(--accent); }
+    .color-picker-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .color-picker-wrap input[type="color"] { width: 40px; height: 40px; padding: 2px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: none; }
+    .result-grid { display: grid; gap: 8px; }
+    .result-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color var(--transition); }
+    .result-item:hover { border-color: var(--accent); }
+    .result-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; min-width: 70px; }
+    .result-value { font-size: 14px; color: var(--fg); word-break: break-all; text-align: right; flex: 1; margin-left: 12px; }
+    .section-title { font-size: 15px; font-weight: 700; margin: 32px 0 16px; letter-spacing: -0.3px; }
+    .faq-wrap { margin: 40px 0; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; overflow: hidden; transition: border-color var(--transition); }
+    .faq-item:hover { border-color: var(--accent); }
+    .faq-q { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; font-weight: 600; font-size: 14px; user-select: none; }
+    .faq-q .ico { font-size: 16px; transition: transform var(--transition); }
+    .faq-q.open .ico { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; padding: 0 18px; font-size: 13px; color: var(--muted); }
+    .faq-a.open { max-height: 300px; padding: 0 18px 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0; }
+    @media (max-width: 640px) { .related-grid { grid-template-columns: 1fr; } }
+    .related-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: var(--fg); transition: background var(--transition), border-color var(--transition); }
+    .related-card:hover { background: var(--card-hover); border-color: var(--accent); }
+    .related-card .rc-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .related-card .rc-desc { font-size: 12px; color: var(--muted); }
+    footer { margin-top: auto; border-top: 1px solid var(--border); padding: 24px 0; font-size: 13px; color: var(--muted); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .footer-inner a { color: var(--muted); text-decoration: none; }
+    .footer-inner a:hover { color: var(--accent); }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--card); border: 1px solid var(--border); color: var(--fg); padding: 12px 24px; border-radius: var(--radius); font-size: 13px; opacity: 0; transition: all 0.3s ease; z-index: 9999; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"HEX to HSL Converter","url":"https://whetkit.me/hex-to-hsl/","applicationCategory":"DeveloperApplication","operatingSystem":"Web Browser","browserRequirements":"JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free online HEX to HSL converter. Convert hex color codes to HSL, RGB, and other formats instantly. 100% client-side."}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://whetkit.me/"},{"@type":"ListItem","position":2,"name":"HEX to HSL Converter"}]}</script>
+</head>
+<body>
+  <div class="noise"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)" opacity="0.4"/></svg></div>
+
+  <header>
+    <div class="container header-inner">
+      <div class="logo-area">
+        <a href="../index.html" class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>WhetKit</a>
+      </div>
+      <button class="theme-cursor" id="theme-toggle" aria-label="toggle theme" title="toggle theme"><svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="breadcrumb">
+      <a href="../index.html">WhetKit</a>
+      <span class="sep">/</span>
+      <span>HEX to HSL</span>
+    </div>
+
+    <h1>$ hex-to-hsl</h1>
+    <p class="subtitle">Convert HEX color codes to HSL values instantly with live color preview.</p>
+
+    <div class="tool-area">
+      <div class="terminal-wrap">
+        <div class="terminal-header">
+          <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+          <span>hex color</span>
+          <span></span>
+        </div>
+        <div class="terminal-body">
+          <div class="color-preview" id="preview" style="background:#a78bfa;"></div>
+          <div class="color-picker-wrap">
+            <input type="text" id="hexInput" placeholder="#a78bfa" value="#a78bfa" spellcheck="false">
+            <input type="color" id="colorPicker" value="#a78bfa">
+          </div>
+          <div class="preset-group">
+            <button class="preset-swatch" style="background:#a78bfa" data-color="#a78bfa" aria-label="Violet"></button>
+            <button class="preset-swatch" style="background:#ff4500" data-color="#ff4500" aria-label="Orange red"></button>
+            <button class="preset-swatch" style="background:#2196f3" data-color="#2196f3" aria-label="Blue"></button>
+            <button class="preset-swatch" style="background:#e91e63" data-color="#e91e63" aria-label="Pink"></button>
+            <button class="preset-swatch" style="background:#4caf50" data-color="#4caf50" aria-label="Green"></button>
+            <button class="preset-swatch" style="background:#000" data-color="#000000" aria-label="Black"></button>
+            <button class="preset-swatch" style="background:#fff" data-color="#ffffff" aria-label="White"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="terminal-wrap">
+        <div class="terminal-header">
+          <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+          <span>hsl values</span>
+          <span></span>
+        </div>
+        <div class="terminal-body">
+          <div class="result-grid">
+            <div class="result-item" data-copy="hue">
+              <span class="result-label">Hue</span>
+              <span class="result-value" id="valHue">261°</span>
+            </div>
+            <div class="result-item" data-copy="saturation">
+              <span class="result-label">Sat</span>
+              <span class="result-value" id="valSat">71%</span>
+            </div>
+            <div class="result-item" data-copy="lightness">
+              <span class="result-label">Light</span>
+              <span class="result-value" id="valLight">49%</span>
+            </div>
+            <div class="result-item" data-copy="hsl">
+              <span class="result-label">HSL</span>
+              <span class="result-value" id="valHsl">hsl(261, 71%, 49%)</span>
+            </div>
+            <div class="result-item" data-copy="hsla">
+              <span class="result-label">HSLA</span>
+              <span class="result-value" id="valHsla">hsla(261, 71%, 49%, 1)</span>
+            </div>
+          </div>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted);">Click any value to copy.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-wrap">
+      <div class="section-title">faq</div>
+      <div class="faq-item">
+        <div class="faq-q">What is the difference between HEX and HSL?<span class="ico">+</span></div>
+        <div class="faq-a">HEX is a hexadecimal representation of RGB. HSL (Hue, Saturation, Lightness) is more intuitive — you can adjust lightness without changing the hue.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What is a valid hex color?<span class="ico">+</span></div>
+        <div class="faq-a">Valid formats: 3-digit (#fff), 6-digit (#ff6600), with or without # prefix. The tool automatically normalizes the input.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Why would I need HSL values?<span class="ico">+</span></div>
+        <div class="faq-a">HSL is great for programmatic color manipulation. You can create color variations by adjusting lightness (L) while keeping the same hue (H).</div>
+      </div>
+    </div>
+
+    <div class="section-title">related tools</div>
+    <div class="related-grid">
+      <a href="../color-converter/index.html" class="related-card"><div class="rc-title">$ color-converter</div><div class="rc-desc">Convert between HEX, RGB, HSL, and more</div></a>
+      <a href="../html-preview/index.html" class="related-card"><div class="rc-title">$ html-preview</div><div class="rc-desc">Live HTML/CSS/JS preview with sandboxed iframe</div></a>
+      <a href="../base64-image-converter/index.html" class="related-card"><div class="rc-title">$ base64-image-converter</div><div class="rc-desc">Convert images to Base64 and vice versa</div></a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>&copy; 2026 WhetKit</span>
+      <span><a href="../privacy/index.html">Privacy</a> / <a href="../terms/index.html">Terms</a></span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function toast(msg) { var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show')},2200); }
+
+    (function(){var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');function g(){return document.documentElement.getAttribute('data-theme')||'dark'}function s(m){document.documentElement.setAttribute('data-theme',m);i.innerHTML=m==='dark'?'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';try{localStorage.setItem('theme',m)}catch(e){}}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)s('light')}catch(e){}t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')})})();
+
+    var hexInput = document.getElementById('hexInput');
+    var colorPicker = document.getElementById('colorPicker');
+    var preview = document.getElementById('preview');
+
+    function hexToRgb(hex) {
+      var h = hex.replace('#', '');
+      if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+      if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+      return { r: parseInt(h.substr(0,2),16), g: parseInt(h.substr(2,2),16), b: parseInt(h.substr(4,2),16), hex: '#'+h.toLowerCase() };
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      var max = Math.max(r, g, b), min = Math.min(r, g, b);
+      var h, s, l = (max + min) / 2;
+      if (max === min) { h = s = 0; }
+      else {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+          case g: h = ((b - r) / d + 2) / 6; break;
+          case b: h = ((r - g) / d + 4) / 6; break;
+        }
+      }
+      return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+    }
+
+    function update(val) {
+      var rgb = hexToRgb(val);
+      if (!rgb) {
+        ['valHue','valSat','valLight','valHsl','valHsla'].forEach(function(id) {
+          document.getElementById(id).textContent = '\u2014';
+        });
+        preview.style.background = 'var(--card)';
+        return;
+      }
+      var hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+      document.getElementById('valHue').textContent = hsl.h + '\u00b0';
+      document.getElementById('valSat').textContent = hsl.s + '%';
+      document.getElementById('valLight').textContent = hsl.l + '%';
+      document.getElementById('valHsl').textContent = 'hsl('+hsl.h+', '+hsl.s+'%, '+hsl.l+'%)';
+      document.getElementById('valHsla').textContent = 'hsla('+hsl.h+', '+hsl.s+'%, '+hsl.l+'%, 1)';
+      preview.style.background = rgb.hex;
+      colorPicker.value = rgb.hex;
+    }
+
+    hexInput.addEventListener('input', function() { update(this.value); });
+    colorPicker.addEventListener('input', function() {
+      hexInput.value = this.value;
+      update(this.value);
+    });
+
+    document.querySelectorAll('.preset-swatch').forEach(function(swatch) {
+      swatch.addEventListener('click', function() {
+        var c = this.getAttribute('data-color');
+        hexInput.value = c;
+        update(c);
+      });
+    });
+
+    document.querySelectorAll('.result-item').forEach(function(row) {
+      row.addEventListener('click', function() {
+        var val = row.querySelector('.result-value');
+        if (!val || val.textContent === '\u2014') return;
+        navigator.clipboard.writeText(val.textContent).then(function() {
+          toast('Copied ' + val.textContent);
+        }).catch(function() {});
+      });
+    });
+
+    // FAQ accordion
+    (function(){ var qs=document.querySelectorAll('.faq-q'); qs.forEach(function(q){ q.addEventListener('click',function(){ var a=this.nextElementSibling; var isOpen=a.classList.contains('open'); qs.forEach(function(o){ o.nextElementSibling.classList.remove('open'); o.nextElementSibling.style.maxHeight='0'; o.classList.remove('open'); }); if(!isOpen){ a.classList.add('open'); a.style.maxHeight=a.scrollHeight+'px'; this.classList.add('open'); } }); }); })();
+  </script>
+</body>
+</html>

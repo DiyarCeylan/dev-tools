@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Diff Checker — Free, No Upload, Client-Side | WhetKit</title>
+  <meta name="description" content="Free online text diff checker. Compare two texts side by side with highlighted additions, deletions, and changes. Privacy-first, no server uploads.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://whetkit.me/text-diff-checker/">
+  <meta property="og:title" content="Text Diff Checker — Free, No Upload, Client-Side | WhetKit">
+  <meta property="og:description" content="Free online text diff checker. Compare two texts side by side with highlighted additions, deletions, and changes. Privacy-first, no server uploads.">
+  <meta property="og:url" content="https://whetkit.me/text-diff-checker/">
+  <meta property="og:image" content="https://whetkit.me/icon-512.svg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Text Diff Checker — Free, No Upload, Client-Side | WhetKit">
+  <meta name="twitter:description" content="Free online text diff checker. Compare two texts side by side with highlighted additions, deletions, and changes. Privacy-first, no server uploads.">
+  <meta name="twitter:image" content="https://whetkit.me/icon-512.svg">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#09090b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Text Diff Checker",
+    "url": "https://whetkit.me/text-diff-checker/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "description": "Free online text diff checker. Compare two texts with highlighted additions and deletions. 100% client-side."
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What diff algorithm does the tool use?","acceptedAnswer":{"@type":"Answer","text":"The tool implements a line-based LCS (Longest Common Subsequence) diff algorithm. It compares line by line and highlights additions in green and deletions in red."}},{"@type":"Question","name":"Can I ignore whitespace differences?","acceptedAnswer":{"@type":"Answer","text":"The tool currently compares lines as-is. For code review, ensure consistent formatting before comparing."}},{"@type":"Question","name":"What is the character limit?","acceptedAnswer":{"@type":"Answer","text":"Both text areas accept large inputs. Very large files may slow down the browser since all processing happens client-side."}}],"name":"Text Diff Checker FAQ"}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --bg-card: rgba(255,255,255,0.03);
+      --bg-elevated: rgba(255,255,255,0.06);
+      --text: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(255,255,255,0.12);
+      --accent: #a78bfa;
+      --green: #4ade80;
+      --red: #ef4444;
+      --diff-add: rgba(74,222,128,0.15);
+      --diff-add-border: rgba(74,222,128,0.3);
+      --diff-del: rgba(239,68,68,0.15);
+      --diff-del-border: rgba(239,68,68,0.3);
+      --font: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+      --header-h: 56px;
+    }
+    [data-theme="light"] {
+      --bg: #f5f5f0;
+      --bg-card: rgba(0,0,0,0.02);
+      --bg-elevated: rgba(0,0,0,0.04);
+      --text: #18181b;
+      --text-secondary: #52525b;
+      --text-muted: #a1a1aa;
+      --border: rgba(0,0,0,0.06);
+      --border-hover: rgba(0,0,0,0.12);
+      --diff-add: rgba(74,222,128,0.2);
+      --diff-add-border: rgba(74,222,128,0.4);
+      --diff-del: rgba(239,68,68,0.2);
+      --diff-del-border: rgba(239,68,68,0.4);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0.4;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;pointer-events:none;mix-blend-mode:overlay}
+    header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}.header-inner{max-width:900px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:var(--header-h)}header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:0.95rem;color:var(--text);letter-spacing:-0.02em;transition:gap 0.3s}.logo svg{transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s}.logo:hover svg{transform:translateX(-3px) scale(1.1)}.logo:hover{gap:14px}
+    .nav-links{display:flex;align-items:center;gap:0}.nav-links a{padding:6px 16px;font-size:0.8rem;color:var(--text-secondary);text-decoration:none;transition:color 0.2s;font-weight:400;letter-spacing:-0.01em}.nav-links a:hover{color:var(--text)}.nav-links span{width:1px;height:14px;background:rgba(255,255,255,0.08);display:inline-block;flex-shrink:0}[data-theme="light"] .nav-links span{background:rgba(0,0,0,0.08)}
+    .theme-cursor{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-left:8px;cursor:pointer;border:none;background:none;color:var(--text-secondary);transition:color 0.2s}.theme-cursor:hover{color:var(--text)}
+    main{flex:1;max-width:900px;margin:0 auto;padding:0 24px;width:100%}
+
+    .breadcrumb{font-size:0.7rem;color:var(--text-muted);padding:24px 0 0;letter-spacing:-0.01em}.breadcrumb a{color:var(--text-muted);text-decoration:none;transition:color 0.2s}.breadcrumb a:hover{color:var(--text-secondary)}.breadcrumb span{color:var(--text-muted);margin:0 6px}
+    .tool-header{padding:16px 0 32px;animation:fadeIn 0.5s ease-out}.tool-header h1{font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:6px}.tool-header h1 .thin{font-weight:300;color:var(--text-muted)}.tool-header h1 .bold{font-weight:700}.tool-header .cmd{font-size:0.75rem;color:var(--text-muted);margin-bottom:8px}.tool-header .cmd .prompt{color:var(--green)}.tool-header .cmd .arg{color:var(--blue)}.tool-header .cmd .flag{color:var(--orange)}.tool-header p{font-size:0.8rem;color:var(--text-secondary)}
+
+    .options{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px;justify-content:center}.options label{font-size:0.72rem;color:var(--text-secondary);display:flex;align-items:center;gap:5px;cursor:pointer}.options input[type="checkbox"]{accent-color:var(--accent);width:14px;height:14px;cursor:pointer}
+    .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;font-size:0.72rem}.stat{padding:3px 12px;border-radius:12px;font-weight:600}.stat-add{background:var(--diff-add);color:var(--green)}.stat-del{background:var(--diff-del);color:var(--red)}.stat-same{background:var(--bg-elevated);color:var(--text-muted)}
+
+    .tool-area{display:grid;grid-template-columns:1fr 1fr;gap:20px;animation:fadeIn 0.5s ease-out 0.1s both}@media(max-width:700px){.tool-area{grid-template-columns:1fr}}
+    .panel{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:20px;transition:border-color 0.2s}.panel:hover{border-color:var(--border-hover)}
+    .panel .label{font-size:0.65rem;color:var(--text-muted);margin-bottom:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em}
+    .terminal-wrap{position:relative}.terminal-wrap textarea{width:100%;min-height:200px;padding:10px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:0.78rem;line-height:1.7;resize:vertical;background:rgba(0,0,0,0.15);color:var(--text);outline:none;caret-color:var(--green);transition:border-color 0.2s}[data-theme="light"] .terminal-wrap textarea{background:rgba(255,255,255,0.5)}.terminal-wrap textarea:focus{border-color:var(--border-hover)}
+    .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;justify-content:center}.btn{padding:7px 16px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:0.72rem;color:var(--text);background:var(--bg-card);text-decoration:none;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}.btn:hover{background:var(--bg-elevated);border-color:var(--border-hover)}.btn:active{transform:scale(0.97)}.btn:disabled{opacity:0.4;cursor:not-allowed}
+    .diff-output{margin-top:24px;animation:fadeIn 0.5s ease-out}.diff-output .label{font-size:0.65rem;color:var(--text-muted);margin-bottom:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em}
+    .diff-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:6px;background:rgba(0,0,0,0.1);max-height:400px;overflow-y:auto}[data-theme="light"] .diff-scroll{background:rgba(255,255,255,0.3)}
+    .diff-table{width:100%;border-collapse:collapse;font-family:var(--font);font-size:0.7rem;line-height:1.5;min-width:400px}.diff-table td{padding:2px 8px;vertical-align:top;white-space:pre-wrap;word-break:break-all;border-bottom:1px solid var(--border)}
+    .diff-table .ln{width:36px;text-align:right;color:var(--text-muted);user-select:none;border-right:1px solid var(--border);font-size:0.65rem;padding-right:6px}
+    .diff-table .add{background:var(--diff-add)}.diff-table .add .ln{background:var(--diff-add-border);color:var(--green)}
+    .diff-table .del{background:var(--diff-del)}.diff-table .del .ln{background:var(--diff-del-border);color:var(--red)}
+
+    .section-div{display:flex;align-items:center;gap:12px;margin:48px 0 24px;font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em}.section-div::before,.section-div::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+    .faq{max-width:700px;margin:0 auto 48px}.faq-item{border:1px solid var(--border);border-radius:6px;margin-bottom:8px;overflow:hidden;transition:border-color 0.2s}.faq-item:hover{border-color:var(--border-hover)}.faq-q{width:100%;padding:12px 16px;background:none;border:none;font-family:var(--font);font-size:0.78rem;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;text-align:left;gap:12px;transition:background 0.2s}.faq-q:hover{background:var(--bg-elevated)}.faq-q svg{transition:transform 0.25s;flex-shrink:0}.faq-item.open .faq-q svg{transform:rotate(180deg)}.faq-a{max-height:0;overflow:hidden;transition:max-height 0.3s}.faq-item.open .faq-a{max-height:300px}.faq-a-inner{padding:0 16px 12px;font-size:0.75rem;color:var(--text-secondary);line-height:1.8}.faq-a-inner code{font-family:var(--font);font-size:0.75rem;background:var(--bg-elevated);padding:1px 5px;border-radius:3px}
+    .related{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:48px}@media(max-width:640px){.related{grid-template-columns:1fr}}.related a{padding:16px;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:inherit;transition:all 0.2s}.related a:hover{background:var(--bg-elevated);border-color:var(--border-hover)}.related a .name{font-size:0.78rem;font-weight:600;margin-bottom:4px;letter-spacing:-0.02em}.related a .hint{font-size:0.65rem;color:var(--text-muted)}
+    footer{border-top:1px solid var(--border);padding:20px 24px;margin-top:auto}.footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.footer-inner .left{font-size:0.7rem;color:var(--text-muted)}.footer-inner .left strong{color:var(--text-secondary);font-weight:600}.footer-inner .right{display:flex;align-items:center;gap:16px;font-size:0.7rem;color:var(--text-muted)}.footer-inner .right a{color:var(--text-secondary);text-decoration:none;transition:color 0.2s}.footer-inner .right a:hover{color:var(--text)}.footer-inner .version{font-size:0.65rem}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:6px;font-size:0.72rem;font-family:var(--font);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:999}.toast.show{opacity:1}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important}}
+    @media print{header,footer,.theme-cursor,.btn-row{display:none}}
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://whetkit.me/"},{"@type":"ListItem","position":2,"name":"Text Diff Checker"}]}
+  </script>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        WhetKit
+      </a>
+      <div style="display:flex;align-items:center">
+        <nav class="nav-links">
+          <a href="../index.html">all tools</a>
+          <span></span>
+          <a href="../blog/index.html">blog</a>
+          <span></span>
+          <a href="../about/index.html">about</a>
+          <span></span>
+          <a href="../contact/index.html">contact</a>
+        </nav>
+        <button class="theme-cursor" id="theme-toggle" aria-label="toggle theme" title="toggle theme"><svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="breadcrumb"><a href="../index.html">all tools</a><span>—</span>text diff checker</div>
+    <div class="tool-header">
+      <div class="cmd"><span class="prompt">$</span> <span class="flag">diff</span> <span style="color:var(--orange)">--check</span></div>
+      <h1><span class="thin">text</span> diff checker.</h1>
+      <p>Compare two texts side by side. Added lines in green, removed lines in red.</p>
+    </div>
+
+    <div class="options">
+      <label><input type="checkbox" id="opt-ignore-case"> ignore case</label>
+      <label><input type="checkbox" id="opt-ignore-whitespace"> ignore whitespace</label>
+    </div>
+
+    <div class="stats" id="stats" style="display:none;">
+      <span class="stat stat-add" id="stat-add">0 added</span>
+      <span class="stat stat-del" id="stat-del">0 removed</span>
+      <span class="stat stat-same" id="stat-same">0 unchanged</span>
+    </div>
+
+    <div class="tool-area">
+      <div class="panel">
+        <div class="label">original text</div>
+        <div class="terminal-wrap">
+          <textarea id="text-a" placeholder="Paste original text here..." spellcheck="false" rows="8"></textarea>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="label">modified text</div>
+        <div class="terminal-wrap">
+          <textarea id="text-b" placeholder="Paste modified text here..." spellcheck="false" rows="8"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="btn-diff"><span style="color:var(--green)">&gt;</span> compare</button>
+      <button class="btn" id="btn-swap">swap</button>
+      <button class="btn" id="btn-clear">clear</button>
+      <button class="btn" id="btn-copy-diff">copy diff</button>
+    </div>
+
+    <div class="diff-output" id="diff-output" style="display:none;">
+      <div class="label">diff result &mdash; side by side</div>
+      <div class="diff-scroll">
+        <table class="diff-table" id="diff-table"></table>
+      </div>
+    </div>
+
+    <div class="section-div" aria-hidden="true">FAQ</div>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>What diff algorithm does the tool use?</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">The tool implements a line-based LCS (Longest Common Subsequence) diff algorithm. It compares line by line and highlights additions in green and deletions in red.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>Can I ignore whitespace differences?</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">The tool currently compares lines as-is. For code review, ensure consistent formatting before comparing.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>What is the character limit?</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Both text areas accept large inputs. Very large files may slow down the browser since all processing happens client-side.</div></div>
+      </div>
+    </div>
+
+    <div class="section-div" aria-hidden="true">related tools</div>
+    <div class="related">
+      <a href="../json-formatter-validator/index.html"><div class="name">&#8594; JSON Formatter</div><div class="hint">format & validate JSON</div></a>
+      <a href="../regex-tester/index.html"><div class="name">&#8594; Regex Tester</div><div class="hint">test regular expressions</div></a>
+      <a href="../sql-formatter/index.html"><div class="name">&#8594; SQL Formatter</div><div class="hint">beautify SQL queries</div></a>
+    </div>
+
+    <div class="tool-cta" style="border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;margin-bottom:48px;background:var(--bg-card)">
+      <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px">learn more in our detailed guide.</p>
+      <a href="../blog/text-diff-guide.html" class="btn" style="padding:10px 24px">&#8594; read the guide</a>
+    </div>
+
+    <div class="tool-cta" style="border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;margin-bottom:48px;background:var(--bg-card)">
+      <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px">try these too</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="../json-to-csv-converter/index.html" class="btn">JSON to CSV Converter</a>
+        <a href="../regex-tester/index.html" class="btn">Regex Tester</a>
+        <a href="../sql-formatter/index.html" class="btn">SQL Formatter</a>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="footer-inner">
+      <div class="left">&copy; 2026 <strong>WhetKit</strong> &mdash; made with obsession over details</div>
+      <div class="right">
+        <a href="../privacy/index.html">privacy</a>
+        <a href="../terms/index.html">terms</a>
+        <span class="version">v2.1.0</span>
+      </div>
+    </div>
+  </footer>
+  <div class="toast" id="toast"></div>
+  <script>
+    (function(){var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');function g(){return document.documentElement.getAttribute('data-theme')||'dark'}function s(m){document.documentElement.setAttribute('data-theme',m);i.innerHTML=m==='dark'?'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';try{localStorage.setItem('theme',m)}catch(e){}}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)s('light')}catch(e){}t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')})})();
+
+    var textA = document.getElementById('text-a');
+    var textB = document.getElementById('text-b');
+    var btnDiff = document.getElementById('btn-diff');
+    var btnSwap = document.getElementById('btn-swap');
+    var btnClear = document.getElementById('btn-clear');
+    var btnCopyDiff = document.getElementById('btn-copy-diff');
+    var diffOutput = document.getElementById('diff-output');
+    var diffTable = document.getElementById('diff-table');
+    var stats = document.getElementById('stats');
+    var statAdd = document.getElementById('stat-add');
+    var statDel = document.getElementById('stat-del');
+    var statSame = document.getElementById('stat-same');
+    var optIgnoreCase = document.getElementById('opt-ignore-case');
+    var optIgnoreWhitespace = document.getElementById('opt-ignore-whitespace');
+    var toast = document.getElementById('toast');
+
+    function normalize(line) {
+      if (optIgnoreCase.checked) line = line.toLowerCase();
+      if (optIgnoreWhitespace.checked) line = line.replace(/\s+/g, ' ').trim();
+      return line;
+    }
+
+    function lcsDiff(a, b) {
+      var m = a.length, n = b.length;
+      var dp = new Array(m + 1);
+      for (var i = 0; i <= m; i++) {
+        dp[i] = new Array(n + 1);
+        for (var j = 0; j <= n; j++) {
+          if (i === 0 || j === 0) dp[i][j] = 0;
+          else if (normalize(a[i-1]) === normalize(b[j-1])) dp[i][j] = dp[i-1][j-1] + 1;
+          else dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+        }
+      }
+      var result = [];
+      i = m; j = n;
+      while (i > 0 || j > 0) {
+        if (i > 0 && j > 0 && normalize(a[i-1]) === normalize(b[j-1])) {
+          result.unshift({ type: 'unchanged', lineA: a[i-1], lineB: b[j-1], numA: i, numB: j });
+          i--; j--;
+        } else if (j > 0 && (i === 0 || dp[i][j-1] >= dp[i-1][j])) {
+          result.unshift({ type: 'add', lineA: null, lineB: b[j-1], numA: null, numB: j }); j--;
+        } else {
+          result.unshift({ type: 'del', lineA: a[i-1], lineB: null, numA: i, numB: null }); i--;
+        }
+      }
+      return result;
+    }
+
+    function runDiff() {
+      var a = textA.value.split('\n');
+      var b = textB.value.split('\n');
+      if (a.length === 1 && a[0] === '') a = [];
+      if (b.length === 1 && b[0] === '') b = [];
+      var diff = lcsDiff(a, b);
+      renderDiff(diff);
+    }
+
+    function renderDiff(diff) {
+      var html = '', added = 0, removed = 0, unchanged = 0;
+      for (var i = 0; i < diff.length; i++) {
+        var d = diff[i];
+        html += '<tr class="' + d.type + '">';
+        if (d.type === 'add') {
+          html += '<td class="ln"></td><td class="ln">' + d.numB + '</td><td></td><td>' + escapeHtml(d.lineB) + '</td>'; added++;
+        } else if (d.type === 'del') {
+          html += '<td class="ln">' + d.numA + '</td><td class="ln"></td><td>' + escapeHtml(d.lineA) + '</td><td></td>'; removed++;
+        } else {
+          html += '<td class="ln">' + d.numA + '</td><td class="ln">' + d.numB + '</td><td>' + escapeHtml(d.lineA) + '</td><td>' + escapeHtml(d.lineB) + '</td>'; unchanged++;
+        }
+        html += '</tr>';
+      }
+      diffTable.innerHTML = html;
+      diffOutput.style.display = 'block';
+      stats.style.display = 'flex';
+      statAdd.textContent = added + ' added';
+      statDel.textContent = removed + ' removed';
+      statSame.textContent = unchanged + ' unchanged';
+      if (added + removed + unchanged === 0) { diffOutput.style.display = 'none'; stats.style.display = 'none'; }
+    }
+
+    function escapeHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+    btnDiff.addEventListener('click', runDiff);
+    btnSwap.addEventListener('click', function() { var tmp = textA.value; textA.value = textB.value; textB.value = tmp; runDiff(); });
+    btnClear.addEventListener('click', function() { textA.value = ''; textB.value = ''; diffOutput.style.display = 'none'; stats.style.display = 'none'; textA.focus(); });
+    btnCopyDiff.addEventListener('click', function() {
+      var rows = diffTable.querySelectorAll('tr'), text = '';
+      rows.forEach(function(row) { var cells = row.querySelectorAll('td'), parts = []; for (var i = 0; i < cells.length; i++) parts.push(cells[i].textContent.trim()); text += parts.join('\t') + '\n'; });
+      if (navigator.clipboard) { navigator.clipboard.writeText(text).then(function() { showToast('Copied!'); }).catch(function() {}); }
+    });
+
+    var toastTimeout;
+    function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); clearTimeout(toastTimeout); toastTimeout = setTimeout(function() { toast.classList.remove('show'); }, 2000); }
+
+    document.querySelectorAll('.faq-q').forEach(function(b){b.addEventListener('click',function(){var i=this.parentElement,o=i.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(x){x.classList.remove('open');x.querySelector('.faq-q').setAttribute('aria-expanded','false')});if(!o){i.classList.add('open');this.setAttribute('aria-expanded','true')}})});
+  </script>
+</body>
+</html>
