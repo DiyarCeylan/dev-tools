@@ -1,3 +1,5 @@
+> **WhetKit** — Free online developer tools. 100% client-side, privacy-first, zero uploads.
+
 # WhetKit — Free Developer Tools
 
 [![MIT](https://img.shields.io/badge/license-MIT-teal)](LICENSE)
