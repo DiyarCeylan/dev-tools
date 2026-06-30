@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WhetKit — developer tools.</title>
+<meta name="description" content="Free online developer tools. 100% private, no server uploads.">
+<meta name="theme-color" content="#09090b">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icon-192.svg" sizes="192x192" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.svg" sizes="192x192">
+<link rel="manifest" href="manifest.json">
+<link rel="canonical" href="https://whetkit.me/">
+<meta property="og:title" content="WhetKit — developer tools.">
+<meta property="og:description" content="Free online developer tools. 100% private, no server uploads.">
+<meta property="og:url" content="https://whetkit.me/">
+<meta property="og:image" content="https://whetkit.me/icon-512.svg">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WhetKit — developer tools.">
+<meta name="twitter:description" content="Free online developer tools. 100% private, no server uploads.">
+<meta name="twitter:image" content="https://whetkit.me/icon-512.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;0,800;1,300&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "WhetKit",
+  "alternateName": "WhetKit developer tools",
+  "url": "https://whetkit.me/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "WhetKit",
+    "item": "https://whetkit.me/"
+  }]
+}
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+<style>
+:root{--bg:#09090b;--surface:#131316;--surface-hover:rgba(255,255,255,0.05);--border:#1f1f23;--border-subtle:rgba(255,255,255,0.06);--text:#fafafa;--text-secondary:#a1a1aa;--text-tertiary:#71717a;--accent:#a78bfa;--accent2:#818cf8;--green:#4ade80;--orange:#fb923c;--blue:#60a5fa;--pink:#e879f9;--teal:#2dd4bf;--radius:10px;--radius-sm:4px;--font-mono:'JetBrains Mono','DM Mono',monospace;--font-display:'DM Mono','JetBrains Mono',monospace}
+[data-theme="light"]{--bg:#fafafa;--surface:#f4f4f5;--surface-hover:#e4e4e7;--border:#d4d4d8;--border-subtle:rgba(0,0,0,0.06);--text:#09090b;--text-secondary:#52525b;--text-tertiary:#a1a1aa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font-mono);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 60% 50% at 50% 0%,#000,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 0%,#000,transparent 70%);animation:gridMove 8s linear infinite}
+[data-theme="light"] .bg-grid{background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px)}
+@keyframes gridMove{0%{background-position:0 0}100%{background-position:48px 48px}}
+
+header{position:relative;z-index:2;display:flex;align-items:center;padding:12px 24px;border-bottom:1px solid transparent;border-image:linear-gradient(90deg,transparent,var(--border-subtle) 20%,var(--border) 50%,var(--border-subtle) 80%,transparent) 1}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);font-family:var(--font-display);font-size:.9rem;font-weight:500;padding:4px 8px;border-radius:var(--radius-sm);transition:background .15s}
+.logo:hover{background:var(--surface)}
+.logo-svg{width:22px;height:22px;display:block;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.logo:hover .logo-svg{transform:rotate(90deg)}
+nav{display:flex;align-items:center;gap:8px;margin-left:24px;flex:1}
+.nav-sep{width:1px;height:12px;background:var(--border);opacity:.1}
+nav a{color:var(--text-secondary);text-decoration:none;font-size:.8rem;padding:4px 6px;border-radius:var(--radius-sm);transition:color .15s,background .15s}
+nav a:hover{color:var(--text);background:var(--surface)}
+.header-right{margin-left:auto}
+.theme-btn{background:0;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;color:var(--text-secondary);padding:5px;line-height:0;transition:color .15s,background .15s,border-color .15s}
+.theme-btn:hover{color:var(--text);background:var(--surface-hover);border-color:var(--accent)}
+.theme-btn svg{width:14px;height:14px;display:block}
+.theme-btn .sun{display:none}[data-theme="light"] .theme-btn .sun{display:block}[data-theme="light"] .theme-btn .moon{display:none}
+
+main{flex:1;position:relative;z-index:1;padding:48px 24px 64px;max-width:1100px;margin:0 auto;width:100%}
+.badge-wrap{display:flex;justify-content:center}.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--border-subtle);border-radius:100px;font-size:.7rem;color:var(--text-tertiary);margin-bottom:24px}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.badge-num{color:var(--text-secondary)}
+.hero{margin-bottom:48px;text-align:center}
+.hero-line{font-family:var(--font-display);font-size:clamp(2.2rem,6vw,4rem);line-height:1.1;letter-spacing:-.02em}
+.hero-line-light{font-weight:300;color:var(--text-tertiary)}
+.hero-line-bold{font-weight:800;color:var(--text)}
+.hero-sub{margin-top:12px;font-size:.82rem;color:var(--text-tertiary);letter-spacing:.01em;animation:fadeIn .6s ease-out .2s both}
+.hero-sub span{margin:0 8px;opacity:.3;font-size:1.1rem}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.search-wrap{position:relative;margin:24px auto 8px;max-width:480px}
+.search-wrap .prompt{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--green);font-size:.85rem;font-weight:700;pointer-events:none;z-index:1;opacity:.5}
+.search{width:100%;padding:12px 16px 12px 34px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:var(--font-mono);font-size:.85rem;outline:none;transition:border-color .2s,background .2s}
+.search:focus{border-color:var(--accent);background:var(--surface-hover)}
+.search::placeholder{color:var(--text-tertiary);font-weight:300;opacity:.4}
+
+.toolbar{display:flex;align-items:center;justify-content:center;margin-bottom:16px;padding:8px 0;gap:8px}
+.toolbar-count{font-size:.75rem;color:var(--text-tertiary)}
+#no-results{display:none;grid-column:1/-1;text-align:center;padding:48px 0;color:var(--text-tertiary);font-size:.82rem}
+.mark{background:rgba(167,139,250,0.2);color:var(--accent);border-radius:2px;padding:0 1px}
+
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:768px){.tools{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.tools{grid-template-columns:1fr}}
+.tools .tool{display:block;position:relative;padding:42px 36px 42px 24px;border:1px solid var(--border);border-left:2px solid transparent;border-radius:var(--radius);background:var(--surface);text-decoration:none;overflow:hidden;transform:perspective(800px) rotateX(0deg) rotateY(0deg);transform-style:preserve-3d;transition:transform .15s ease,background .2s,border-left-color .2s}
+.tools .tool:hover{background:var(--surface-hover);border-left-color:var(--c)}
+.tools .tool::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(400px circle at var(--mx,50%) var(--my,50%),rgba(167,139,250,0.06),transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none}
+.tools .tool:hover::before{opacity:1}
+.tool-num{position:absolute;bottom:16px;left:24px;font-size:1.3rem;font-weight:500;color:var(--text-tertiary);opacity:.25;line-height:1;pointer-events:none;font-family:var(--font-mono)}
+.tool-name{font-size:1.05rem;font-weight:500;color:var(--text);margin-bottom:10px;position:relative;z-index:1}
+.tool-cmd{font-size:.85rem;color:var(--text-tertiary);font-weight:300;margin-bottom:12px;position:relative;z-index:1}
+.tool-meta{font-size:.75rem;color:var(--text-tertiary);opacity:.4;position:relative;z-index:1}
+
+footer{position:relative;z-index:2;border-top:1px solid transparent;border-image:linear-gradient(90deg,transparent,var(--border-subtle) 20%,var(--border) 50%,var(--border-subtle) 80%,transparent) 1;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer p{font-size:.7rem;color:var(--text-tertiary)}
+footer a{color:var(--text-secondary);text-decoration:none;font-size:.7rem;transition:color .15s}
+footer a:hover{color:var(--text)}
+.footer-mid{font-size:.65rem;color:var(--text-tertiary);opacity:.4;font-weight:300}
+.footer-right{display:flex;align-items:center;gap:12px}
+
+.cta-section{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+@media(max-width:480px){.cta-section{grid-template-columns:1fr}}
+.cta-card{display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);transition:background .2s}
+.cta-card:hover{background:var(--surface-hover)}
+.cta-icon{font-size:1.2rem;opacity:.4;flex-shrink:0}
+.cta-text{flex:1;min-width:0}
+.cta-title{display:block;font-size:.8rem;font-weight:500;color:var(--text);margin-bottom:2px}
+.cta-desc{display:block;font-size:.72rem;color:var(--text-tertiary)}
+.cta-btn{flex-shrink:0;padding:7px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.75rem;color:var(--text-secondary);text-decoration:none;transition:color .15s,border-color .15s,background .15s;font-family:var(--font-mono)}
+.cta-btn:hover{color:var(--text);border-color:var(--accent);background:var(--surface-hover)}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+::selection{background:rgba(167,139,250,0.25);color:var(--text)}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<header>
+  <a href="/" class="logo">
+    <svg class="logo-svg" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 9L5 14L9 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 9L23 14L19 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>WhetKit
+  </a>
+  <nav>
+    <a href="/about/">about</a>
+    <span class="nav-sep"></span>
+    <a href="/blog/">blog</a>
+    <span class="nav-sep"></span>
+    <a href="/contact/">contact</a>
+  </nav>
+  <div class="header-right">
+    <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="badge-wrap"><div class="badge"><span class="badge-dot"></span><span class="badge-num">v2.1</span><span>—</span><span>16 tools</span></div></div>
+
+  <h1 class="hero" aria-label="developer tools.">
+    <div class="hero-line"><span class="hero-line-light">developer</span></div>
+    <div class="hero-line"><span class="hero-line-bold">tools.</span></div>
+    <p class="hero-sub"><span>No servers</span><span>·</span><span>No uploads</span><span>·</span><span>No analytics</span></p>
+  </h1>
+
+  <div class="search-wrap">
+    <span class="prompt">&gt;</span>
+    <input type="text" class="search" id="search" placeholder="search tools..." oninput="filterTools()" autocomplete="off" spellcheck="false">
+  </div>
+
+  <div class="toolbar">
+    <span class="toolbar-count" id="tool-count">16 tools</span>
+    <span class="toolbar-count" style="opacity:.3">·</span>
+    <span class="toolbar-count" style="opacity:.4">client-side</span>
+  </div>
+
+  <div class="tools" id="tools">
+    <a class="tool" href="url-encoder-decoder/index.html" data-name="URL Encoder Decoder" style="--c:#3b82f6">
+      <span class="tool-num">01</span>
+      <span class="tool-name">URL Encoder / Decoder</span>
+      <span class="tool-cmd"><span>$</span> encode --url</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="base64-encoder-decoder/index.html" data-name="Base64 Encoder Decoder" style="--c:#f97316">
+      <span class="tool-num">02</span>
+      <span class="tool-name">Base64 Encoder / Decoder</span>
+      <span class="tool-cmd"><span>$</span> encode --base64</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="uuid-generator/index.html" data-name="UUID Generator" style="--c:#8b5cf6">
+      <span class="tool-num">03</span>
+      <span class="tool-name">UUID Generator</span>
+      <span class="tool-cmd"><span>$</span> uuid --v4</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="json-to-csv-converter/index.html" data-name="JSON to CSV Converter" style="--c:#10b981">
+      <span class="tool-num">04</span>
+      <span class="tool-name">JSON → CSV Converter</span>
+      <span class="tool-cmd"><span>$</span> convert --json2csv</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="json-formatter-validator/index.html" data-name="JSON Formatter Validator" style="--c:#10b981">
+      <span class="tool-num">05</span>
+      <span class="tool-name">JSON Formatter / Validator</span>
+      <span class="tool-cmd"><span>$</span> format --json</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="regex-tester/index.html" data-name="Regex Tester" style="--c:#ef4444">
+      <span class="tool-num">06</span>
+      <span class="tool-name">Regex Tester</span>
+      <span class="tool-cmd"><span>$</span> test --regex</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="html-entity-encoder-decoder/index.html" data-name="HTML Entity Encoder Decoder" style="--c:#3b82f6">
+      <span class="tool-num">07</span>
+      <span class="tool-name">HTML Entity Encoder / Decoder</span>
+      <span class="tool-cmd"><span>$</span> encode --html</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="jwt-parser/index.html" data-name="JWT Parser" style="--c:#8b5cf6">
+      <span class="tool-num">08</span>
+      <span class="tool-name">JWT Parser</span>
+      <span class="tool-cmd"><span>$</span> parse --jwt</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="color-converter/index.html" data-name="Color Converter" style="--c:#f97316">
+      <span class="tool-num">09</span>
+      <span class="tool-name">Color Converter</span>
+      <span class="tool-cmd"><span>$</span> convert --color</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="text-diff-checker/index.html" data-name="Text Diff Checker" style="--c:#10b981">
+      <span class="tool-num">10</span>
+      <span class="tool-name">Text Diff Checker</span>
+      <span class="tool-cmd"><span>$</span> diff --text</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="hex-to-hsl/index.html" data-name="HEX to HSL Converter" style="--c:#3b82f6">
+      <span class="tool-num">11</span>
+      <span class="tool-name">HEX → HSL Converter</span>
+      <span class="tool-cmd"><span>$</span> convert --hex2hsl</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="base64-image-converter/index.html" data-name="Base64 Image Converter" style="--c:#f97316">
+      <span class="tool-num">12</span>
+      <span class="tool-name">Base64 Image Converter</span>
+      <span class="tool-cmd"><span>$</span> convert --img2base64</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="epoch-converter/index.html" data-name="Epoch Converter" style="--c:#8b5cf6">
+      <span class="tool-num">13</span>
+      <span class="tool-name">Epoch Converter</span>
+      <span class="tool-cmd"><span>$</span> convert --epoch</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="html-preview/index.html" data-name="HTML Preview" style="--c:#3b82f6">
+      <span class="tool-num">14</span>
+      <span class="tool-name">HTML Preview</span>
+      <span class="tool-cmd"><span>$</span> preview --html</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="sql-formatter/index.html" data-name="SQL Formatter" style="--c:#ef4444">
+      <span class="tool-num">15</span>
+      <span class="tool-name">SQL Formatter</span>
+      <span class="tool-cmd"><span>$</span> format --sql</span>
+      <span class="tool-meta">Client-side only · Zero dependencies</span>
+    </a>
+    <a class="tool" href="https://s.whetkit.me/" target="_blank" data-name="URL Shortener" style="--c:#a78bfa">
+      <span class="tool-num">16</span>
+      <span class="tool-name">URL Shortener</span>
+      <span class="tool-cmd"><span>$</span> shorten --url</span>
+      <span class="tool-meta">Server-side · Track clicks · QR codes</span>
+    </a><span id="no-results">No tools found matching your search.</span>
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-card">
+      <span class="cta-icon">★</span>
+      <div class="cta-text">
+        <span class="cta-title">Like WhetKit?</span>
+        <span class="cta-desc">Star on GitHub — it helps others find it.</span>
+      </div>
+      <a class="cta-btn" href="https://github.com/diyarceylan/WhetKit" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="cta-card">
+      <span class="cta-icon">+</span>
+      <div class="cta-text">
+        <span class="cta-title">Missing a tool?</span>
+        <span class="cta-desc">Suggest a tool and I'll build it.</span>
+      </div>
+      <a class="cta-btn" href="/contact/">Suggest</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2026 WhetKit — Made with obsession over details</p>
+  <span class="footer-mid">v2.1.0</span>
+  <div class="footer-right">
+    <a href="/privacy/">privacy</a>
+    <span class="nav-sep"></span>
+    <a href="/terms/">terms</a>
+    <span class="nav-sep"></span>
+    <span class="footer-mid" style="opacity:.4">client-side</span>
+  </div>
+</footer>
+
+<script>
+(function(){var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light')}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches&&!t){document.documentElement.setAttribute('data-theme','light')}}())
+function toggleTheme(){var e=document.documentElement;var t=e.getAttribute('data-theme');var n=t==='dark'?'light':'dark';e.setAttribute('data-theme',n);localStorage.setItem('theme',n)}
+
+function filterTools(){var q=document.getElementById('search').value;var cards=document.querySelectorAll('.tool');var v=0;cards.forEach(function(c){var n=c.getAttribute('data-name');var m=n.toLowerCase().includes(q.toLowerCase());c.style.display=m?'':'none';if(m){v++;var re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');c.querySelector('.tool-name').innerHTML=n.replace(re,'<span class="mark">$1</span>')}else{c.querySelector('.tool-name').innerHTML=n}});document.getElementById('no-results').style.display=v===0?'block':'none';document.getElementById('tool-count').textContent=v+' tool'+(v!==1?'s':'')}
+
+document.querySelectorAll('.tool').forEach(function(t){t.addEventListener('mousemove',function(e){var r=t.getBoundingClientRect();var x=((e.clientX-r.left)/r.width*100).toFixed(0);var y=((e.clientY-r.top)/r.height*100).toFixed(0);t.style.setProperty('--mx',x+'%');t.style.setProperty('--my',y+'%');var rx=((e.clientY-r.top)/r.height-.5)*6;var ry=((e.clientX-r.left)/r.width-.5)*-6;t.style.transform='perspective(800px) rotateX('+rx+'deg) rotateY('+ry+'deg)'});t.addEventListener('mouseleave',function(){t.style.transform='perspective(800px) rotateX(0deg) rotateY(0deg)'})})
+</script>
+</body>
+</html>

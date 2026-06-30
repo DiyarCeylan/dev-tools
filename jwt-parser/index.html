@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JWT Parser — Free, No Upload, Client-Side | WhetKit</title>
+  <meta name="description" content="Free online JWT parser. Decode and inspect JSON Web Tokens — view header, payload, signature, and validate expiration. 100% client-side, zero uploads.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://whetkit.me/jwt-parser/">
+  <meta property="og:title" content="JWT Parser — Free, No Upload, Client-Side | WhetKit">
+  <meta property="og:description" content="Free online JWT parser. Decode and inspect JSON Web Tokens — view header, payload, signature, and validate expiration. 100% client-side, zero uploads.">
+  <meta property="og:url" content="https://whetkit.me/jwt-parser/">
+  <meta property="og:image" content="https://whetkit.me/icon-512.svg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="JWT Parser — Free, No Upload, Client-Side | WhetKit">
+  <meta name="twitter:description" content="Free online JWT parser. Decode and inspect JSON Web Tokens — view header, payload, signature, and validate expiration. 100% client-side, zero uploads.">
+  <meta name="twitter:image" content="https://whetkit.me/icon-512.svg">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#09090b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script data-goatcounter="https://dev-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3392336799571098" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JWT Parser",
+    "url": "https://whetkit.me/jwt-parser/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "description": "Free online JWT parser. Decode and inspect JSON Web Tokens. View header, payload, and validate expiration. 100% client-side."
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a JWT?","acceptedAnswer":{"@type":"Answer","text":"JSON Web Token (JWT) is a compact, URL-safe token format used for authentication. It consists of three parts: header, payload, and signature, separated by dots."}},{"@type":"Question","name":"Can I see the signature?","acceptedAnswer":{"@type":"Answer","text":"The tool decodes the header and payload (which are Base64-encoded JSON). The signature is displayed but cannot be verified without the secret key."}},{"@type":"Question","name":"Is my token sent to a server?","acceptedAnswer":{"@type":"Answer","text":"No, everything runs client-side in your browser. The token never leaves your computer."}}],"name":"JWT Parser FAQ"}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --bg-card: rgba(255,255,255,0.03);
+      --bg-elevated: rgba(255,255,255,0.06);
+      --text: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(255,255,255,0.12);
+      --accent: #a78bfa;
+      --green: #4ade80;
+      --blue: #60a5fa;
+      --orange: #fb923c;
+      --red: #ef4444;
+      --font: 'JetBrains Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+      --header-h: 56px;
+    }
+    [data-theme="light"] {
+      --bg: #f5f5f0;
+      --bg-card: rgba(0,0,0,0.02);
+      --bg-elevated: rgba(0,0,0,0.04);
+      --text: #18181b;
+      --text-secondary: #52525b;
+      --text-muted: #a1a1aa;
+      --border: rgba(0,0,0,0.06);
+      --border-hover: rgba(0,0,0,0.12);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    body::before{content:'';position:fixed;inset:0;z-index:-1;opacity:0.4;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;pointer-events:none;mix-blend-mode:overlay}
+    header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}.header-inner{max-width:900px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:var(--header-h)}header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:0.95rem;color:var(--text);letter-spacing:-0.02em;transition:gap 0.3s}.logo svg{transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s}.logo:hover svg{transform:translateX(-3px) scale(1.1)}.logo:hover{gap:14px}
+    .nav-links{display:flex;align-items:center;gap:0}.nav-links a{padding:6px 16px;font-size:0.8rem;color:var(--text-secondary);text-decoration:none;transition:color 0.2s;font-weight:400;letter-spacing:-0.01em}.nav-links a:hover{color:var(--text)}.nav-links span{width:1px;height:14px;background:rgba(255,255,255,0.08);display:inline-block;flex-shrink:0}[data-theme="light"] .nav-links span{background:rgba(0,0,0,0.08)}
+    .theme-cursor{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-left:8px;cursor:pointer;border:none;background:none;color:var(--text-secondary);transition:color 0.2s}.theme-cursor:hover{color:var(--text)}
+    main{flex:1;max-width:900px;margin:0 auto;padding:0 24px;width:100%}
+
+    .breadcrumb{font-size:0.7rem;color:var(--text-muted);padding:24px 0 0;letter-spacing:-0.01em}.breadcrumb a{color:var(--text-muted);text-decoration:none;transition:color 0.2s}.breadcrumb a:hover{color:var(--text-secondary)}.breadcrumb span{color:var(--text-muted);margin:0 6px}
+    .tool-header{padding:16px 0 32px;animation:fadeIn 0.5s ease-out}.tool-header h1{font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:6px}.tool-header h1 .thin{font-weight:300;color:var(--text-muted)}.tool-header h1 .bold{font-weight:700}.tool-header .cmd{font-size:0.75rem;color:var(--text-muted);margin-bottom:8px}.tool-header .cmd .prompt{color:var(--green)}.tool-header .cmd .arg{color:var(--blue)}.tool-header .cmd .flag{color:var(--orange)}.tool-header p{font-size:0.8rem;color:var(--text-secondary)}
+
+    .tool-area{display:grid;grid-template-columns:1fr 1fr;gap:20px;animation:fadeIn 0.5s ease-out 0.1s both}@media(max-width:700px){.tool-area{grid-template-columns:1fr}}
+    .panel{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:20px;transition:border-color 0.2s}.panel:hover{border-color:var(--border-hover)}
+    .panel .label{font-size:0.65rem;color:var(--text-muted);margin-bottom:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em}
+    .terminal-wrap{position:relative}.terminal-wrap textarea{width:100%;min-height:120px;padding:10px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:0.78rem;line-height:1.7;resize:vertical;background:rgba(0,0,0,0.15);color:var(--text);outline:none;caret-color:var(--green);transition:border-color 0.2s}[data-theme="light"] .terminal-wrap textarea{background:rgba(255,255,255,0.5)}.terminal-wrap textarea:focus{border-color:var(--border-hover)}
+    .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.btn{padding:7px 16px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:0.72rem;color:var(--text);background:var(--bg-card);text-decoration:none;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}.btn:hover{background:var(--bg-elevated);border-color:var(--border-hover)}.btn:active{transform:scale(0.97)}.btn:disabled{opacity:0.4;cursor:not-allowed}
+
+    .output-stack{display:flex;flex-direction:column;gap:12px}
+    .section-card{background:rgba(0,0,0,0.1);border:1px solid var(--border);border-radius:6px;padding:14px 16px}[data-theme="light"] .section-card{background:rgba(255,255,255,0.4)}
+    .section-label{font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .section-label .chip{font-size:0.6rem;padding:1px 8px;border-radius:8px;font-weight:500;text-transform:none;letter-spacing:0;background:var(--bg-elevated);color:var(--text-secondary)}
+    .section-label .chip-blue{background:rgba(96,165,250,0.1);color:var(--blue)}
+    .section-label .chip-green{background:rgba(74,222,128,0.1);color:var(--green)}
+    .section-label .chip-red{background:rgba(239,68,68,0.1);color:var(--red)}
+    .section-code{font-family:var(--font);font-size:0.72rem;line-height:1.65;white-space:pre-wrap;word-break:break-all;color:var(--text-secondary)}
+    .section-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--border);font-size:0.72rem}.section-row:last-child{border-bottom:none}
+    .section-row .key{color:var(--text-secondary)}.section-row .key code{font-family:var(--font);font-size:0.72rem}.section-row .val{font-family:var(--font);font-size:0.7rem;color:var(--text);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+    .expired{color:var(--red);font-weight:600}.valid{color:var(--green);font-weight:600}
+
+    .message{display:none;margin-top:8px;padding:6px 10px;border-radius:4px;font-size:0.7rem}.message.show{display:flex}.message.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--red)}
+    .section-div{display:flex;align-items:center;gap:12px;margin:48px 0 24px;font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em}.section-div::before,.section-div::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+    .faq{max-width:700px;margin:0 auto 48px}.faq-item{border:1px solid var(--border);border-radius:6px;margin-bottom:8px;overflow:hidden;transition:border-color 0.2s}.faq-item:hover{border-color:var(--border-hover)}.faq-q{width:100%;padding:12px 16px;background:none;border:none;font-family:var(--font);font-size:0.78rem;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;text-align:left;gap:12px;transition:background 0.2s}.faq-q:hover{background:var(--bg-elevated)}.faq-q svg{transition:transform 0.25s;flex-shrink:0}.faq-item.open .faq-q svg{transform:rotate(180deg)}.faq-a{max-height:0;overflow:hidden;transition:max-height 0.3s}.faq-item.open .faq-a{max-height:300px}.faq-a-inner{padding:0 16px 12px;font-size:0.75rem;color:var(--text-secondary);line-height:1.8}.faq-a-inner code{font-family:var(--font);font-size:0.75rem;background:var(--bg-elevated);padding:1px 5px;border-radius:3px}
+    .related{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:48px}@media(max-width:640px){.related{grid-template-columns:1fr}}.related a{padding:16px;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:inherit;transition:all 0.2s}.related a:hover{background:var(--bg-elevated);border-color:var(--border-hover)}.related a .name{font-size:0.78rem;font-weight:600;margin-bottom:4px;letter-spacing:-0.02em}.related a .hint{font-size:0.65rem;color:var(--text-muted)}
+    .hidden{display:none!important}
+    footer{border-top:1px solid var(--border);padding:20px 24px;margin-top:auto}.footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.footer-inner .left{font-size:0.7rem;color:var(--text-muted)}.footer-inner .left strong{color:var(--text-secondary);font-weight:600}.footer-inner .right{display:flex;align-items:center;gap:16px;font-size:0.7rem;color:var(--text-muted)}.footer-inner .right a{color:var(--text-secondary);text-decoration:none;transition:color 0.2s}.footer-inner .right a:hover{color:var(--text)}.footer-inner .version{font-size:0.65rem}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:6px;font-size:0.72rem;font-family:var(--font);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:999}.toast.show{opacity:1}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important}}
+    @media print{header,footer,.theme-cursor,.btn-row{display:none}}
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://whetkit.me/"},{"@type":"ListItem","position":2,"name":"JWT Parser"}]}
+  </script>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        WhetKit
+      </a>
+      <div style="display:flex;align-items:center">
+        <nav class="nav-links">
+          <a href="../index.html">all tools</a>
+          <span></span>
+          <a href="../blog/index.html">blog</a>
+          <span></span>
+          <a href="../about/index.html">about</a>
+          <span></span>
+          <a href="../contact/index.html">contact</a>
+        </nav>
+        <button class="theme-cursor" id="theme-toggle" aria-label="toggle theme" title="toggle theme"><svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="breadcrumb"><a href="../index.html">all tools</a><span>—</span>jwt parser</div>
+    <div class="tool-header">
+      <div class="cmd"><span class="prompt">$</span> <span class="flag">jwt</span> <span style="color:var(--orange)">--decode</span></div>
+      <h1><span class="thin">jwt</span> parser.</h1>
+      <p>Decode and inspect JSON Web Tokens. View header, payload, and validate expiration.</p>
+    </div>
+
+    <div class="tool-area">
+      <div class="panel">
+        <div class="label">input token</div>
+        <div class="terminal-wrap">
+          <textarea id="jwt-input" rows="4" placeholder="Paste your JWT (eyJhbGciOi...)" spellcheck="false"></textarea>
+        </div>
+        <div class="btn-row">
+          <button class="btn" id="btn-parse"><span style="color:var(--green)">&gt;</span> parse</button>
+          <button class="btn" id="btn-example">load example</button>
+          <button class="btn" id="btn-clear">clear</button>
+        </div>
+        <div class="message" id="input-message" role="alert"></div>
+      </div>
+
+      <div class="panel">
+        <div class="label">decoded token</div>
+        <div id="output-empty" style="color:var(--text-muted);font-size:0.72rem;padding:18px 0;text-align:center;">Paste a JWT and click parse to inspect its contents.</div>
+        <div id="output-content" class="hidden">
+          <div class="output-stack">
+            <div class="section-card">
+              <div class="section-label">
+                <span>header</span>
+                <span class="chip chip-blue" id="header-alg">alg: HS256</span>
+              </div>
+              <div class="section-code" id="header-json"></div>
+            </div>
+            <div class="section-card">
+              <div class="section-label">
+                <span>payload</span>
+                <span class="chip" id="payload-info">0 claims</span>
+              </div>
+              <div class="section-code" id="payload-json"></div>
+              <div style="margin-top:10px;" id="claims-table"></div>
+            </div>
+            <div class="section-card">
+              <div class="section-label">
+                <span>signature</span>
+                <span class="chip" id="sig-len"></span>
+              </div>
+              <div class="section-code" id="signature-hex" style="font-size:0.68rem;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-div" aria-hidden="true">FAQ</div>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>What is a JWT?</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">JSON Web Token (JWT) is a compact, URL-safe token format used for authentication. It consists of three parts: header, payload, and signature, separated by dots.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>Can I see the signature?</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">The tool decodes the header and payload (which are Base64-encoded JSON). The signature is displayed but cannot be verified without the secret key.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>Is my token sent to a server?</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">No, everything runs client-side in your browser. The token never leaves your computer.</div></div>
+      </div>
+    </div>
+
+    <div class="section-div" aria-hidden="true">related tools</div>
+    <div class="related">
+      <a href="../json-formatter-validator/index.html"><div class="name">&#8594; JSON Formatter</div><div class="hint">format & validate JSON</div></a>
+      <a href="../base64-encoder-decoder/index.html"><div class="name">&#8594; Base64 Encoder</div><div class="hint">encode & decode base64</div></a>
+      <a href="../uuid-generator/index.html"><div class="name">&#8594; UUID Generator</div><div class="hint">generate unique IDs</div></a>
+    </div>
+
+    <div class="tool-cta" style="border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;margin-bottom:48px;background:var(--bg-card)">
+      <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px">learn more in our detailed guide.</p>
+      <a href="../blog/jwt-parser-guide.html" class="btn" style="padding:10px 24px">&#8594; read the guide</a>
+    </div>
+
+    <div class="tool-cta" style="border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;margin-bottom:48px;background:var(--bg-card)">
+      <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:12px">try these too</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="../uuid-generator/index.html" class="btn">UUID Generator</a>
+        <a href="../json-formatter-validator/index.html" class="btn">JSON Formatter/Validator</a>
+        <a href="../base64-encoder-decoder/index.html" class="btn">Base64 Encoder/Decoder</a>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="footer-inner">
+      <div class="left">&copy; 2026 <strong>WhetKit</strong> &mdash; made with obsession over details</div>
+      <div class="right">
+        <a href="../privacy/index.html">privacy</a>
+        <a href="../terms/index.html">terms</a>
+        <span class="version">v2.1.0</span>
+      </div>
+    </div>
+  </footer>
+  <div class="toast" id="toast"></div>
+  <script>
+    (function(){var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');function g(){return document.documentElement.getAttribute('data-theme')||'dark'}function s(m){document.documentElement.setAttribute('data-theme',m);i.innerHTML=m==='dark'?'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';try{localStorage.setItem('theme',m)}catch(e){}}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)s('light')}catch(e){}t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')})})();
+
+    var input = document.getElementById('jwt-input');
+    var btnParse = document.getElementById('btn-parse');
+    var btnExample = document.getElementById('btn-example');
+    var btnClear = document.getElementById('btn-clear');
+    var toast = document.getElementById('toast');
+    var outputEmpty = document.getElementById('output-empty');
+    var outputContent = document.getElementById('output-content');
+
+    var toastTimeout;
+    function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); clearTimeout(toastTimeout); toastTimeout = setTimeout(function() { toast.classList.remove('show'); }, 2000); }
+
+    btnClear.addEventListener('click', function() { input.value = ''; input.focus(); showResult(null); });
+
+    btnExample.addEventListener('click', function() {
+      var now = Math.floor(Date.now() / 1000);
+      var examplePayload = {
+        sub: '1234567890',
+        name: 'John Doe',
+        iat: now,
+        exp: now + 3600,
+        admin: true,
+        roles: ['user', 'editor'],
+        org: 'Acme Inc'
+      };
+      var header = { alg: 'HS256', typ: 'JWT' };
+      var b64 = function(o) { return btoa(JSON.stringify(o)).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_'); };
+      input.value = b64(header) + '.' + b64(examplePayload) + '.fake-signature-for-decoding-only';
+      parseJWT();
+    });
+
+    btnParse.addEventListener('click', parseJWT);
+
+    input.addEventListener('keydown', function(e) { if (e.key === 'Enter' && e.ctrlKey) parseJWT(); });
+
+    function parseJWT() {
+      var token = input.value.trim();
+      if (!token) return showToast('Please paste a JWT token');
+      var parts = token.split('.');
+      if (parts.length !== 3) return showToast('Invalid JWT: expected 3 dot-separated parts, got ' + parts.length);
+      try {
+        function b64(s) { return atob(s.replace(/-/g,'+').replace(/_/g,'/')); }
+        var header = JSON.parse(b64(parts[0]));
+        var payload = JSON.parse(b64(parts[1]));
+        var sig = parts[2];
+        renderOutput(header, payload, sig);
+      } catch (e) {
+        showToast('Failed to decode JWT: ' + e.message);
+      }
+    }
+
+    function renderOutput(header, payload, sig) {
+      var alg = header.alg || 'unknown';
+      var typ = header.typ || '';
+      document.getElementById('header-alg').textContent = 'alg: ' + alg + (typ ? ' | typ: ' + typ : '');
+      document.getElementById('header-json').textContent = JSON.stringify(header, null, 2);
+
+      var claimCount = Object.keys(payload).length;
+      document.getElementById('payload-info').textContent = claimCount + ' claim' + (claimCount !== 1 ? 's' : '');
+      document.getElementById('payload-json').textContent = JSON.stringify(payload, null, 2);
+
+      var claimsHtml = '';
+      var specialClaims = { exp: 'Expiration', iat: 'Issued At', nbf: 'Not Before' };
+      for (var key in specialClaims) {
+        if (payload[key] !== undefined) {
+          var val = payload[key];
+          var dateStr = new Date(val * 1000).toLocaleString();
+          var statusHtml = '';
+          if (key === 'exp') {
+            var expired = Date.now() > val * 1000;
+            statusHtml = '<span class="' + (expired ? 'expired' : 'valid') + '">' + (expired ? '\u2716 Expired' : '\u2713 Valid') + '</span>';
+          }
+          claimsHtml += '<div class="section-row"><span class="key">' + specialClaims[key] + ' (<code>' + key + '</code>)</span><span class="val">' + dateStr + ' ' + statusHtml + '</span></div>';
+        }
+      }
+      for (var key2 in payload) {
+        if (!specialClaims[key2]) {
+          var v = payload[key2];
+          if (typeof v === 'object') v = JSON.stringify(v);
+          claimsHtml += '<div class="section-row"><span class="key"><code>' + key2 + '</code></span><span class="val" style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + v + '</span></div>';
+        }
+      }
+      document.getElementById('claims-table').innerHTML = claimsHtml ? claimsHtml : '<div style="color:var(--text-muted);font-size:0.72rem;">No custom claims</div>';
+
+      var sigBytes;
+      try {
+        sigBytes = atob(sig.replace(/-/g, '+').replace(/_/g, '/'));
+      } catch(e) {
+        sigBytes = sig;
+      }
+      document.getElementById('sig-len').textContent = (typeof sigBytes === 'string' ? sigBytes.length : sig.length) + ' chars';
+      document.getElementById('signature-hex').textContent = typeof sigBytes === 'string' ? Array.prototype.map.call(sigBytes, function(c) { return ('0' + c.charCodeAt(0).toString(16)).slice(-2); }).join(' ') : sig;
+
+      showResult(true);
+    }
+
+    function showResult(show) {
+      if (show) {
+        outputEmpty.classList.add('hidden');
+        outputContent.classList.remove('hidden');
+      } else {
+        outputEmpty.classList.remove('hidden');
+        outputContent.classList.add('hidden');
+      }
+    }
+
+    document.querySelectorAll('.faq-q').forEach(function(b){b.addEventListener('click',function(){var i=this.parentElement,o=i.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(x){x.classList.remove('open');x.querySelector('.faq-q').setAttribute('aria-expanded','false')});if(!o){i.classList.add('open');this.setAttribute('aria-expanded','true')}})});
+  </script>
+</body>
+</html>

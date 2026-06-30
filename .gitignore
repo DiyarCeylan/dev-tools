@@ -1,4 +1,33 @@
-link-kisaltici/
-parapocket/
-whetkit/
-WhetKit/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Unrelated projects
+ES-Barber/
+michelin-restaurant/
+ai-tools-site/
+Hava Durumu Uygulaması/
+Hesap Makinesi/
+Yaren - PsikolojikYapayZeka/
+youtube-summarizer/
+DevTools/
+
+# OpenCode config
+.opencode/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Duplicate nested directory
+/WhetKit/
+
+# Unrelated projects
+/SonFrekans/
+/isik-golge/
+/link-kisaltici/
+/parapocket/
+/Opencode Kullanımı/
+test.html
+code-quality-report.md

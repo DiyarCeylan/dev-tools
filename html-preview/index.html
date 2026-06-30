@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Preview — Free, No Upload, Client-Side | WhetKit</title>
+  <meta name="description" content="Free online HTML preview tool. Write and test HTML code in real-time with live preview. Privacy-first, no code is sent to any server.">
+  <link rel="canonical" href="https://whetkit.me/html-preview/">
+  <meta property="og:title" content="HTML Preview — Free, No Upload, Client-Side | WhetKit">
+  <meta property="og:description" content="Free online HTML preview tool. Write and test HTML code in real-time with live preview. Privacy-first, no code is sent to any server.">
+  <meta property="og:image" content="https://whetkit.me/icon-512.svg">
+  <meta property="og:url" content="https://whetkit.me/html-preview/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HTML Preview — Free, No Upload, Client-Side | WhetKit">
+  <meta name="twitter:description" content="Free online HTML preview tool. Write and test HTML code in real-time with live preview. Privacy-first, no code is sent to any server.">
+  <meta name="twitter:image" content="https://whetkit.me/icon-512.svg">
+  <meta name="theme-color" content="#09090b">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --bg: #09090b; --fg: #fafafa; --text: #fafafa; --text-secondary: #a1a1aa; --muted: #a1a1aa; --border: #27272a; --accent: #a78bfa; --accent-hover: #c4b5fd; --card: #18181b; --card-hover: #1f1f23; --radius: 12px; --font: 'JetBrains Mono', monospace; --transition: 0.2s ease; }
+    .theme-cursor{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-left:8px;cursor:pointer;border:none;background:none;color:var(--text-secondary);transition:color 0.2s}.theme-cursor:hover{color:var(--text)}
+    [data-theme="light"] { --bg: #fafafa; --fg: #09090b; --text: #09090b; --text-secondary: #71717a; --muted: #71717a; --border: #e4e4e7; --accent: #7c3aed; --accent-hover: #6d28d9; --card: #ffffff; --card-hover: #f4f4f5; }
+    body { font-family: var(--font); background: var(--bg); color: var(--fg); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; transition: background var(--transition), color var(--transition); }
+    .noise { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.035; }
+    .noise svg { width: 100%; height: 100%; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; width: 100%; }
+    header { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); transition: background var(--transition), border-color var(--transition); }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .logo { font-size: 20px; font-weight: 700; color: var(--fg); text-decoration: none; letter-spacing: -0.5px; }.logo svg{width:18px;height:18px;display:block;flex-shrink:0;vertical-align:middle;transition:transform .3s cubic-bezier(.34,1.56,.64,1);margin-right:6px}.logo:hover svg{transform:rotate(90deg)}
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); padding: 12px 0 0; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb .sep { opacity: 0.4; }
+    h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin: 20px 0 8px; }
+    .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; transition: background var(--transition); }
+    .btn:hover { background: var(--accent-hover); }
+    .btn.sec { background: transparent; border: 1px solid var(--border); color: var(--fg); }
+    .btn.sec:hover { background: var(--card-hover); }
+    .preview-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+    @media (max-width: 900px) { .preview-layout { grid-template-columns: 1fr; } }
+    .terminal-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: background var(--transition), border-color var(--transition); }
+    .terminal-wrap:hover { border-color: var(--accent); }
+    .terminal-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--card-hover); border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 600; color: var(--muted); }
+    .terminal-header .dots { display: flex; gap: 6px; }
+    .terminal-header .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #ef4444; } .dot.y { background: #eab308; } .dot.g { background: #22c55e; }
+    .terminal-body { padding: 0; }
+    .terminal-body textarea { width: 100%; padding: 14px; border: none; resize: vertical; font-family: var(--font); font-size: 13px; line-height: 1.5; background: var(--bg); color: var(--fg); outline: none; tab-size: 2; min-height: 100px; }
+    .terminal-body textarea:focus { box-shadow: inset 0 0 0 1px var(--accent); }
+    .editor-group { display: flex; flex-direction: column; gap: 16px; }
+    .preview-wrap { display: flex; flex-direction: column; }
+    .preview-frame-wrap { flex: 1; background: #fff; min-height: 460px; position: relative; border: none; }
+    .preview-frame-wrap iframe { width: 100%; height: 100%; border: none; position: absolute; inset: 0; }
+    .section-title { font-size: 15px; font-weight: 700; margin: 32px 0 16px; letter-spacing: -0.3px; }
+    .faq-wrap { margin: 40px 0; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; overflow: hidden; transition: border-color var(--transition); }
+    .faq-item:hover { border-color: var(--accent); }
+    .faq-q { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; font-weight: 600; font-size: 14px; user-select: none; }
+    .faq-q .ico { font-size: 16px; transition: transform var(--transition); }
+    .faq-q.open .ico { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; padding: 0 18px; font-size: 13px; color: var(--muted); }
+    .faq-a.open { max-height: 300px; padding: 0 18px 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0; }
+    @media (max-width: 640px) { .related-grid { grid-template-columns: 1fr; } }
+    .related-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: var(--fg); transition: background var(--transition), border-color var(--transition); }
+    .related-card:hover { background: var(--card-hover); border-color: var(--accent); }
+    .related-card .rc-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .related-card .rc-desc { font-size: 12px; color: var(--muted); }
+    footer { margin-top: auto; border-top: 1px solid var(--border); padding: 24px 0; font-size: 13px; color: var(--muted); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .footer-inner a { color: var(--muted); text-decoration: none; }
+    .footer-inner a:hover { color: var(--accent); }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--card); border: 1px solid var(--border); color: var(--fg); padding: 12px 24px; border-radius: var(--radius); font-size: 13px; opacity: 0; transition: all 0.3s ease; z-index: 9999; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"HTML Preview","url":"https://whetkit.me/html-preview/","applicationCategory":"DeveloperApplication","operatingSystem":"Web Browser","browserRequirements":"JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free online HTML preview tool. Write and test HTML code in real-time with live preview. Privacy-first, no code is sent to any server."}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://whetkit.me/"},{"@type":"ListItem","position":2,"name":"HTML Preview"}]}</script>
+</head>
+<body>
+  <div class="noise"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)" opacity="0.4"/></svg></div>
+
+  <header>
+    <div class="container header-inner">
+      <div class="logo-area">
+        <a href="../index.html" class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>WhetKit</a>
+      </div>
+      <button class="theme-cursor" id="theme-toggle" aria-label="toggle theme" title="toggle theme"><svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="breadcrumb">
+      <a href="../index.html">WhetKit</a>
+      <span class="sep">/</span>
+      <span>HTML Preview</span>
+    </div>
+
+    <h1>$ html-preview</h1>
+    <p class="subtitle">Write HTML, CSS, and JavaScript code and see the rendered output in real-time.</p>
+
+    <div class="toolbar">
+      <button class="btn" id="runBtn">$ run</button>
+      <button class="btn sec" id="autoRunToggle">auto-run: ON</button>
+      <button class="btn sec" id="resetBtn">$ reset</button>
+    </div>
+
+    <div class="preview-layout">
+      <div class="editor-group">
+        <div class="terminal-wrap">
+          <div class="terminal-header">
+            <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+            <span>HTML</span>
+            <span></span>
+          </div>
+          <div class="terminal-body">
+            <textarea id="htmlInput" placeholder="<h1>Hello World</h1>" spellcheck="false" rows="4"><div style="padding:20px;font-family:sans-serif">
+  <h1>Hello World</h1>
+  <p id="demo">This is a live HTML preview.</p>
+  <button onclick="document.getElementById('demo').textContent = 'You clicked!'" style="padding:8px 16px;font-size:1rem">Click Me</button>
+</div></textarea>
+          </div>
+        </div>
+        <div class="terminal-wrap">
+          <div class="terminal-header">
+            <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+            <span>CSS</span>
+            <span></span>
+          </div>
+          <div class="terminal-body">
+            <textarea id="cssInput" placeholder="body { background: #f0f0f0; }" spellcheck="false" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="terminal-wrap">
+          <div class="terminal-header">
+            <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+            <span>JavaScript</span>
+            <span></span>
+          </div>
+          <div class="terminal-body">
+            <textarea id="jsInput" placeholder="console.log('hello');" spellcheck="false" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="preview-wrap">
+        <div class="terminal-wrap" style="height:100%;display:flex;flex-direction:column;">
+          <div class="terminal-header">
+            <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+            <span>preview</span>
+            <span></span>
+          </div>
+          <div class="preview-frame-wrap">
+            <iframe id="previewFrame" sandbox="allow-scripts allow-modals"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-wrap">
+      <div class="section-title">faq</div>
+      <div class="faq-item">
+        <div class="faq-q">Is my code executed in a sandbox?<span class="ico">+</span></div>
+        <div class="faq-a">Yes, the preview renders inside a sandboxed iframe with JavaScript enabled. The code runs in your browser and never reaches a server.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I include external libraries?<span class="ico">+</span></div>
+        <div class="faq-a">Add &lt;script&gt; or &lt;link&gt; tags with CDN URLs (like unpkg.com or cdnjs) in the HTML area to load external libraries.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Why is the preview blank?<span class="ico">+</span></div>
+        <div class="faq-a">Check the browser console for errors. Common issues: unclosed tags, incorrect script paths, or CORS restrictions on external resources.</div>
+      </div>
+    </div>
+
+    <div class="section-title">related tools</div>
+    <div class="related-grid">
+      <a href="../color-converter/index.html" class="related-card"><div class="rc-title">$ color-converter</div><div class="rc-desc">Convert between HEX, RGB, HSL, and more</div></a>
+      <a href="../hex-to-hsl/index.html" class="related-card"><div class="rc-title">$ hex-to-hsl</div><div class="rc-desc">Convert HEX color codes to HSL values</div></a>
+      <a href="../base64-encoder-decoder/index.html" class="related-card"><div class="rc-title">$ base64-encoder-decoder</div><div class="rc-desc">Encode and decode Base64 strings</div></a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>&copy; 2026 WhetKit</span>
+      <span><a href="../privacy/index.html">Privacy</a> / <a href="../terms/index.html">Terms</a></span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function toast(msg) { var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show')},2200); }
+
+    (function(){var t=document.getElementById('theme-toggle'),i=document.getElementById('theme-icon');function g(){return document.documentElement.getAttribute('data-theme')||'dark'}function s(m){document.documentElement.setAttribute('data-theme',m);i.innerHTML=m==='dark'?'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>':'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';try{localStorage.setItem('theme',m)}catch(e){}}try{var l=localStorage.getItem('theme');if(l)s(l);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:light)').matches)s('light')}catch(e){}t.addEventListener('click',function(){s(g()==='dark'?'light':'dark')})})();
+
+    var autoRun = true;
+    var runTimer = null;
+
+    function runPreview() {
+      var html = document.getElementById('htmlInput').value;
+      var css = document.getElementById('cssInput').value;
+      var js = document.getElementById('jsInput').value;
+      var doc = '<html><head><style>' + css + '</style></head><body>' + html + '<script>' + js + '<\/script></body></html>';
+      var frame = document.getElementById('previewFrame');
+      frame.srcdoc = doc;
+    }
+
+    function scheduleRun() {
+      if (!autoRun) return;
+      if (runTimer) clearTimeout(runTimer);
+      runTimer = setTimeout(runPreview, 300);
+    }
+
+    document.getElementById('runBtn').addEventListener('click', runPreview);
+
+    document.getElementById('autoRunToggle').addEventListener('click', function() {
+      autoRun = !autoRun;
+      this.textContent = 'auto-run: ' + (autoRun ? 'ON' : 'OFF');
+      if (autoRun) runPreview();
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', function() {
+      document.getElementById('htmlInput').value = '<div style="padding:20px;font-family:sans-serif">\n  <h1>Hello World</h1>\n  <p id="demo">This is a live HTML preview.</p>\n  <button onclick="document.getElementById(\'demo\').textContent = \'You clicked!\'" style="padding:8px 16px;font-size:1rem">Click Me</button>\n</div>';
+      document.getElementById('cssInput').value = '';
+      document.getElementById('jsInput').value = '';
+      runPreview();
+      toast('Reset to default');
+    });
+
+    document.querySelectorAll('.terminal-body textarea').forEach(function(el) {
+      el.addEventListener('input', scheduleRun);
+      el.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); runPreview(); }
+      });
+    });
+
+    runPreview();
+
+    // FAQ accordion
+    (function(){ var qs=document.querySelectorAll('.faq-q'); qs.forEach(function(q){ q.addEventListener('click',function(){ var a=this.nextElementSibling; var isOpen=a.classList.contains('open'); qs.forEach(function(o){ o.nextElementSibling.classList.remove('open'); o.nextElementSibling.style.maxHeight='0'; o.classList.remove('open'); }); if(!isOpen){ a.classList.add('open'); a.style.maxHeight=a.scrollHeight+'px'; this.classList.add('open'); } }); }); })();
+  </script>
+</body>
+</html>
